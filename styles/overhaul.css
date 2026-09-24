@@ -2243,3 +2243,138 @@ body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container
 body.litm-vo-scifi.litm-vo-sharp-cards .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .container-themebook-with-border {
   clip-path: none !important;
 }
+
+
+/* ==========================================================================
+   v0.4.4 — top breathing room, clean floating selection and visible burn icon
+   ========================================================================== */
+
+/* The official header used negative margins to compensate for a 10px parchment
+   border. Our Sci-Fi card has a thin border, so those negative margins glue
+   the title to the top edge. Give the header its own inset instead. */
+body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name {
+  height: 30px !important;
+  margin: 5px 5px 0 5px !important;
+  padding: 3px 30px 2px 14px !important;
+  line-height: 1.45em !important;
+  border-radius: 2px 2px 0 0;
+}
+
+/* Pull both utility icons inward so they are not sitting in the cut corner. */
+body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name .themebook-icon {
+  top: 7px !important;
+  right: 12px !important;
+  width: 12px !important;
+  height: 12px !important;
+}
+
+body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name .card-drag-handle {
+  position: relative;
+  top: 0 !important;
+  margin-right: 7px !important;
+}
+
+/* When edit controls replace the type icon, keep them inside the same safe
+   header inset instead of touching the edge. */
+body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name > a {
+  position: relative;
+  top: 0;
+  margin-left: 7px !important;
+}
+
+/* Floating Tags & Statuses: remove every legacy direct selection effect.
+   The only visible selection indicator should be the semantic ::before ring. */
+body.litm-vo-scifi .mist-engine .fts-input-name .fts-selectable.selected {
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor !important;
+  background: transparent !important;
+  outline: none !important;
+  outline-offset: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  text-shadow: none !important;
+}
+
+/* Explicit semantic ring colours. */
+body.litm-vo-scifi .mist-engine .fts-input-name.tag.positive .fts-selectable.selected::before {
+  border-color: #e2bb4a !important;
+  background: rgb(226 187 74 / 6%) !important;
+  box-shadow:
+    0 0 7px rgb(226 187 74 / 42%),
+    inset 0 0 7px rgb(226 187 74 / 10%) !important;
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-name.status.positive .fts-selectable.selected::before {
+  border-color: #53d699 !important;
+  background: rgb(83 214 153 / 6%) !important;
+  box-shadow:
+    0 0 7px rgb(83 214 153 / 42%),
+    inset 0 0 7px rgb(83 214 153 / 10%) !important;
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-name.tag.negative .fts-selectable.selected::before {
+  border-color: #f17e51 !important;
+  background: rgb(241 126 81 / 6%) !important;
+  box-shadow:
+    0 0 7px rgb(241 126 81 / 42%),
+    inset 0 0 7px rgb(241 126 81 / 10%) !important;
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-name.status.negative .fts-selectable.selected::before {
+  border-color: #e263a1 !important;
+  background: rgb(226 99 161 / 6%) !important;
+  box-shadow:
+    0 0 7px rgb(226 99 161 / 42%),
+    inset 0 0 7px rgb(226 99 161 / 10%) !important;
+}
+
+/* Scratch/Burn control: use upstream artwork as a mask so its visibility is
+   controlled by the Sci-Fi theme instead of the SVG's original dark colour. */
+body.litm-vo-scifi .mist-engine .burn-indicator {
+  flex-grow: 0.15;
+  align-self: center !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  opacity: .9;
+}
+
+body.litm-vo-scifi .mist-engine .burn-icon {
+  width: 1.05em !important;
+  height: 1.05em !important;
+  display: inline-block !important;
+  background-image: none !important;
+  background-color: #8edff1 !important;
+  -webkit-mask-image: url("/systems/mist-engine-fvtt/assets/icons/icon-burn-scratch-empty.svg");
+  mask-image: url("/systems/mist-engine-fvtt/assets/icons/icon-burn-scratch-empty.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  opacity: .72;
+  filter: drop-shadow(0 0 3px rgb(77 225 255 / 28%));
+  transition: opacity 120ms ease, filter 120ms ease, background-color 120ms ease;
+}
+
+body.litm-vo-scifi .mist-engine .burn-indicator:hover .burn-icon {
+  opacity: 1;
+  background-color: #d7f8ff !important;
+  filter:
+    drop-shadow(0 0 4px rgb(77 225 255 / 55%))
+    drop-shadow(0 0 7px rgb(77 225 255 / 25%));
+}
+
+body.litm-vo-scifi .mist-engine .burn-icon.to-burn {
+  background-image: none !important;
+  background-color: #ff7a55 !important;
+  -webkit-mask-image: url("/systems/mist-engine-fvtt/assets/icons/icon-burn-scratch-to-burn.svg");
+  mask-image: url("/systems/mist-engine-fvtt/assets/icons/icon-burn-scratch-to-burn.svg");
+  opacity: 1;
+  filter:
+    drop-shadow(0 0 4px rgb(255 122 85 / 62%))
+    drop-shadow(0 0 8px rgb(255 122 85 / 26%));
+}
