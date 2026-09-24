@@ -1,3 +1,5 @@
+import { translateRollCardMessage } from "./roll-card-ptbr.mjs";
+
 const MODULE_ID = "litm-visual-overhaul";
 const SYSTEM_ID = "mist-engine-fvtt";
 
@@ -8,7 +10,8 @@ const SETTINGS = {
   glow: "glowIntensity",
   sharpCards: "sharpCards",
   scanlines: "scanlines",
-  denseUi: "denseUi"
+  denseUi: "denseUi",
+  rollCardTranslation: "rollCardTranslation"
 };
 
 function registerSettings() {
@@ -92,6 +95,20 @@ function registerSettings() {
     default: false,
     requiresReload: false,
     onChange: applyTheme
+  });
+
+  game.settings.register(MODULE_ID, SETTINGS.rollCardTranslation, {
+    name: "LITMVO.Settings.RollCardTranslation.Name",
+    hint: "LITMVO.Settings.RollCardTranslation.Hint",
+    scope: "world",
+    config: true,
+    type: String,
+    choices: {
+      off: "LITMVO.Settings.RollCardTranslation.Off",
+      ptBR: "LITMVO.Settings.RollCardTranslation.PtBR"
+    },
+    default: "ptBR",
+    requiresReload: true
   });
 }
 
@@ -253,6 +270,17 @@ Hooks.on("renderActorSheet", (app, html) => {
 Hooks.on("renderApplicationV2", (app, html) => {
   syncCharacterEditModeClass(app, html);
   scheduleArtworkReinforcement(app, html);
+});
+
+Hooks.on("renderChatMessageHTML", (message, element) => {
+  if (game.system.id !== SYSTEM_ID) return;
+  if (getSetting(SETTINGS.rollCardTranslation, "ptBR") !== "ptBR") return;
+
+  try {
+    translateRollCardMessage(message, element);
+  } catch (error) {
+    console.error(`${MODULE_ID} | Failed to translate roll card.`, error);
+  }
 });
 
 
