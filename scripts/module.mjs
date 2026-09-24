@@ -132,7 +132,7 @@ export function applyTheme() {
   const secondary = normalizeHex(getSetting(SETTINGS.secondary, "#c45cff"), "#c45cff");
   const glow = Math.max(0, Math.min(100, Number(getSetting(SETTINGS.glow, 45)))) / 100;
   const sharpCards = Boolean(getSetting(SETTINGS.sharpCards, true));
-  const scanlines = Boolean(getSetting(SETTINGS.scanlines, true));
+  const scanlines = Boolean(getSetting(SETTINGS.scanlines, false));
   const denseUi = Boolean(getSetting(SETTINGS.denseUi, false));
 
   const a = hexToRgb(accent);
