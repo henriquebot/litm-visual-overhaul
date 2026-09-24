@@ -121,6 +121,45 @@ function hexToRgb(hex) {
   };
 }
 
+
+function elementFrom(candidate) {
+  if (!candidate) return null;
+  if (candidate instanceof HTMLElement) return candidate;
+  if (candidate?.[0] instanceof HTMLElement) return candidate[0];
+  return null;
+}
+
+function reinforceCharacterArtwork(app, html) {
+  if (game.system.id !== SYSTEM_ID) return;
+  if (!document.body.classList.contains("litm-vo-scifi")) return;
+
+  const actor = app?.actor ?? app?.document;
+  if (!actor || actor.documentName !== "Actor" || actor.type !== "character") return;
+
+  const rootCandidate = elementFrom(app?.element) ?? elementFrom(html);
+  if (!rootCandidate) return;
+
+  const sheet = rootCandidate.matches?.(".mist-engine.sheet.actor.litm-character")
+    ? rootCandidate
+    : rootCandidate.querySelector?.(".mist-engine.sheet.actor.litm-character");
+
+  if (!sheet || sheet.classList.contains("litm-compact")) return;
+
+  const content = sheet.querySelector?.(".window-content");
+  const background = actor.system?.customBackground;
+  if (!content || !background) return;
+
+  const cssUrl = `url(${JSON.stringify(String(background))})`;
+  content.style.setProperty("background-image", cssUrl, "important");
+  content.style.setProperty("background-size", "cover", "important");
+  content.style.setProperty("background-position", "left top", "important");
+  content.style.setProperty("background-repeat", "no-repeat", "important");
+}
+
+function scheduleArtworkReinforcement(app, html) {
+  requestAnimationFrame(() => reinforceCharacterArtwork(app, html));
+}
+
 export function applyTheme() {
   if (game.system.id !== SYSTEM_ID) return;
 
@@ -181,4 +220,13 @@ Hooks.once("ready", () => {
 Hooks.on("renderSettingsConfig", () => {
   if (game.system.id !== SYSTEM_ID) return;
   applyTheme();
+});
+
+
+Hooks.on("renderActorSheet", (app, html) => {
+  scheduleArtworkReinforcement(app, html);
+});
+
+Hooks.on("renderApplicationV2", (app, html) => {
+  scheduleArtworkReinforcement(app, html);
 });
