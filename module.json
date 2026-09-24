@@ -2,7 +2,7 @@
   "id": "litm-visual-overhaul",
   "title": "LiTM Visual Overhaul",
   "description": "Visual customization layer for the official Legend In The Mist FoundryVTT system. Adds optional Sci-Fi styling without modifying system data or compendiums.",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "authors": [
     {
       "name": "Henrique Andrade",
