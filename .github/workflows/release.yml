@@ -1,0 +1,73 @@
+name: Release Foundry Module
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'module.json'
+      - 'scripts/**'
+      - 'styles/**'
+      - 'lang/**'
+      - 'README.md'
+      - 'LICENSE'
+      - '.github/workflows/release.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate module
+        shell: bash
+        run: |
+          node -e "JSON.parse(require('fs').readFileSync('module.json', 'utf8'))"
+          find scripts -name '*.mjs' -print0 | xargs -0 -n1 node --check
+
+      - name: Read version
+        id: meta
+        shell: bash
+        run: |
+          VERSION="$(node -p "JSON.parse(require('fs').readFileSync('module.json','utf8')).version")"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Build Foundry module ZIP
+        shell: bash
+        run: |
+          zip -r litm-visual-overhaul.zip             module.json README.md LICENSE             scripts styles lang
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.meta.outputs.tag }}
+          VERSION: ${{ steps.meta.outputs.version }}
+        shell: bash
+        run: |
+          cat > release-notes.md <<EOF
+          LiTM Visual Overhaul $VERSION
+
+          Visual customization module for the official Legend In The Mist FoundryVTT system.
+
+          - Sci-Fi HUD theme
+          - Official / no-overhaul mode
+          - Custom primary and secondary accent colors
+          - Configurable neon glow
+          - Angular cards
+          - Optional scanlines
+          - Compact UI option
+          - Per-world activation
+          EOF
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" module.json litm-visual-overhaul.zip --clobber
+            gh release edit "$TAG"               --title "LiTM Visual Overhaul $VERSION"               --notes-file release-notes.md
+          else
+            gh release create "$TAG" module.json litm-visual-overhaul.zip               --target main               --title "LiTM Visual Overhaul $VERSION"               --notes-file release-notes.md
+          fi
