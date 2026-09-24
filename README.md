@@ -6,7 +6,7 @@ Módulo visual independente para o sistema oficial **Legend In The Mist** (`mist
 
 O LiTM Visual Overhaul altera somente a apresentação visual do sistema oficial. Ele não modifica regras, atores, itens, mundos ou compêndios e pode ser ativado apenas nos mundos desejados.
 
-## Recursos da versão 0.1.0
+## Recursos
 
 - Tema **Sci-Fi HUD**.
 - Opção **Oficial / Sem Alterações**.
@@ -58,4 +58,4 @@ MIT. Legend In The Mist e o sistema oficial pertencem aos seus respectivos deten
 
 ## Estado do projeto
 
-Primeira versão publicável: **0.1.0**.
+Versão atual do tema: **0.2.0** — reconstrução visual da ficha de personagem com grade limpa de cards e remoção dos elementos de pergaminho no modo Sci-Fi.
