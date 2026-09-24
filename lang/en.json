@@ -30,6 +30,12 @@
       "DenseUi": {
         "Name": "Compact Interface",
         "Hint": "Reduces spacing slightly to fit more information on screen."
+      },
+      "RollCardTranslation": {
+        "Name": "Roll Result Card Translation",
+        "Hint": "Translates only rendered roll-result cards in chat. Character sheets, menus, compendiums and roll dialogs are not translated.",
+        "Off": "Disabled",
+        "PtBR": "Português (Brasil)"
       }
     }
   }
