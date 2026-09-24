@@ -230,3 +230,43 @@ Hooks.on("renderActorSheet", (app, html) => {
 Hooks.on("renderApplicationV2", (app, html) => {
   scheduleArtworkReinforcement(app, html);
 });
+
+
+/**
+ * Development helper for rapid visual iteration.
+ * Fetches the latest stylesheet from GitHub main and injects it after the
+ * installed module CSS. This changes only the current browser session.
+ */
+async function reloadRemoteCss() {
+  const url = `https://raw.githubusercontent.com/henriquebot/litm-visual-overhaul/main/styles/overhaul.css?t=${Date.now()}`;
+  const response = await fetch(url, { cache: "no-store" });
+  if (!response.ok) throw new Error(`LiTM Visual Overhaul: CSS fetch failed (${response.status})`);
+
+  const css = await response.text();
+  let style = document.getElementById("litm-vo-live-css");
+  if (!style) {
+    style = document.createElement("style");
+    style.id = "litm-vo-live-css";
+    style.dataset.module = MODULE_ID;
+    document.head.append(style);
+  }
+
+  style.textContent = css;
+  applyTheme();
+  ui.notifications?.info?.("LiTM Visual Overhaul: CSS atualizado do GitHub.");
+  console.log(`${MODULE_ID} | Live CSS reloaded from GitHub.`);
+  return true;
+}
+
+function clearRemoteCss() {
+  document.getElementById("litm-vo-live-css")?.remove();
+  applyTheme();
+  ui.notifications?.info?.("LiTM Visual Overhaul: CSS ao vivo removido.");
+}
+
+globalThis.LiTMVO = Object.assign(globalThis.LiTMVO ?? {}, {
+  applyTheme,
+  reloadCSS: reloadRemoteCss,
+  clearLiveCSS: clearRemoteCss,
+  version: "dev"
+});
