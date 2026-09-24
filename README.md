@@ -54,3 +54,8 @@ O módulo é ativado em **Gerenciar Módulos** dentro de cada mundo. Se você n�
 ## Licença
 
 MIT. Legend In The Mist e o sistema oficial pertencem aos seus respectivos detentores.
+
+
+## Estado do projeto
+
+Primeira versão publicável: **0.1.0**.
