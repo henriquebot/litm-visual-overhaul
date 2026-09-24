@@ -1,0 +1,36 @@
+{
+  "LITMVO": {
+    "Settings": {
+      "Theme": {
+        "Name": "Visual Theme",
+        "Hint": "Choose whether LiTM Visual Overhaul leaves the official style untouched or applies the Sci-Fi overhaul.",
+        "Official": "Official / No Overhaul",
+        "Scifi": "Sci-Fi HUD"
+      },
+      "Accent": {
+        "Name": "Primary Accent Color",
+        "Hint": "Hex color used for highlights, active tabs and interface glow. Example: #4de1ff."
+      },
+      "Secondary": {
+        "Name": "Secondary Accent Color",
+        "Hint": "Hex color used for secondary neon details. Example: #c45cff."
+      },
+      "Glow": {
+        "Name": "Glow Intensity",
+        "Hint": "Controls the strength of neon shadows and highlights."
+      },
+      "SharpCards": {
+        "Name": "Angular Cards",
+        "Hint": "Gives cards and panels clipped technological corners."
+      },
+      "Scanlines": {
+        "Name": "Subtle Scanlines",
+        "Hint": "Adds a very light scanline overlay to system windows."
+      },
+      "DenseUi": {
+        "Name": "Compact Interface",
+        "Hint": "Reduces spacing slightly to fit more information on screen."
+      }
+    }
+  }
+}
