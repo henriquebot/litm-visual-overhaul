@@ -809,3 +809,578 @@ body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography mark.statu
     z-index: 5;
   }
 }
+
+
+/* ==========================================================================
+   v0.4.0 visual audit — rolls, chat results, notes and theme-card rhythm
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Theme-card spacing: keep official 186px geometry but stop cards touching.
+   -------------------------------------------------------------------------- */
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .grid-themebook-container {
+  column-gap: 8px !important;
+  row-gap: 8px !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebook-container {
+  padding-bottom: 0 !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .container-themebook-with-border {
+  outline: 1px solid rgb(0 0 0 / 28%);
+  outline-offset: -1px;
+}
+
+/* Give the second row a clear visual break from the first. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container {
+  align-content: start !important;
+}
+
+/* --------------------------------------------------------------------------
+   Notes / Biography — broad inherited colour fixes for ProseMirror content.
+   -------------------------------------------------------------------------- */
+
+body.litm-vo-scifi .mist-engine .tab-notes,
+body.litm-vo-scifi .mist-engine .tab-biography,
+body.litm-vo-scifi .mist-engine .tab-notes prose-mirror,
+body.litm-vo-scifi .mist-engine .tab-biography prose-mirror,
+body.litm-vo-scifi .mist-engine .tab-notes .editor-content,
+body.litm-vo-scifi .mist-engine .tab-biography .editor-content,
+body.litm-vo-scifi .mist-engine .tab-notes .ProseMirror,
+body.litm-vo-scifi .mist-engine .tab-biography .ProseMirror {
+  --color-text-primary: #e5f0f5;
+  --color-text-dark-primary: #e5f0f5;
+  --color-text-dark-secondary: #b8cbd4;
+  --color-text-light-primary: #f3fbff;
+  color: #e5f0f5 !important;
+}
+
+body.litm-vo-scifi .mist-engine .tab-notes :is(p, li, td, th, strong, b, em, i, span, div),
+body.litm-vo-scifi .mist-engine .tab-biography :is(p, li, td, th, strong, b, em, i, span, div) {
+  color: #e5f0f5 !important;
+}
+
+body.litm-vo-scifi .mist-engine .tab-notes :is(h1, h2, h3, h4, h5, h6),
+body.litm-vo-scifi .mist-engine .tab-biography :is(h1, h2, h3, h4, h5, h6) {
+  color: #bff4ff !important;
+  text-shadow: 0 0 10px rgb(var(--litm-vo-accent-rgb) / 22%) !important;
+}
+
+body.litm-vo-scifi .mist-engine .tab-notes .black-strong,
+body.litm-vo-scifi .mist-engine .tab-biography .black-strong {
+  color: #f6fcff !important;
+  -webkit-text-fill-color: #f6fcff !important;
+}
+
+body.litm-vo-scifi .mist-engine .tab-notes table,
+body.litm-vo-scifi .mist-engine .tab-biography table {
+  color: #e5f0f5 !important;
+  background: rgb(3 13 20 / 38%) !important;
+}
+
+body.litm-vo-scifi .mist-engine .tab-notes table td,
+body.litm-vo-scifi .mist-engine .tab-notes table th,
+body.litm-vo-scifi .mist-engine .tab-biography table td,
+body.litm-vo-scifi .mist-engine .tab-biography table th {
+  color: #e5f0f5 !important;
+  border-color: rgb(var(--litm-vo-accent-rgb) / 20%) !important;
+}
+
+body.litm-vo-scifi .mist-engine .tab-notes table tr:nth-child(even),
+body.litm-vo-scifi .mist-engine .tab-biography table tr:nth-child(even) {
+  background: rgb(var(--litm-vo-accent-rgb) / 3%) !important;
+}
+
+/* Restore purposeful chip colours after the broad rich-text colour pass. */
+body.litm-vo-scifi .mist-engine .tab-notes mark,
+body.litm-vo-scifi .mist-engine .tab-biography mark {
+  -webkit-text-fill-color: #071019 !important;
+  color: #071019 !important;
+  border-radius: 3px;
+}
+
+body.litm-vo-scifi .mist-engine .tab-notes mark.tag,
+body.litm-vo-scifi .mist-engine .tab-biography mark.tag {
+  background: #f2cf70 !important;
+}
+
+body.litm-vo-scifi .mist-engine .tab-notes mark.status,
+body.litm-vo-scifi .mist-engine .tab-notes mark.tag.green,
+body.litm-vo-scifi .mist-engine .tab-biography mark.status,
+body.litm-vo-scifi .mist-engine .tab-biography mark.tag.green {
+  background: #8fd3b0 !important;
+}
+
+body.litm-vo-scifi .mist-engine .tab-notes mark.weakness,
+body.litm-vo-scifi .mist-engine .tab-biography mark.weakness {
+  background: #ff93bc !important;
+}
+
+/* --------------------------------------------------------------------------
+   Every roll HUD that uses the official parchment shell.
+   -------------------------------------------------------------------------- */
+
+body.litm-vo-scifi #dice-roll-app > section.window-content,
+body.litm-vo-scifi .gm-roll-confirm-dialog > section.window-content,
+body.litm-vo-scifi .sacrifice-roll-dialog > section.window-content,
+body.litm-vo-scifi #group-action-app > section.window-content {
+  color: #e8f3f7 !important;
+  background:
+    linear-gradient(rgb(var(--litm-vo-accent-rgb) / 3%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--litm-vo-accent-rgb) / 3%) 1px, transparent 1px),
+    radial-gradient(circle at 20% 0%, rgb(var(--litm-vo-accent-rgb) / 10%), transparent 38%),
+    linear-gradient(155deg, #0c1924, #050b11 72%) !important;
+  background-size: 24px 24px, 24px 24px, auto, auto !important;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 38%) !important;
+  border-top: 2px solid rgb(var(--litm-vo-accent-rgb) / 68%) !important;
+  border-radius: 4px;
+  -moz-border-image: none !important;
+  -webkit-border-image: none !important;
+  -o-border-image: none !important;
+  border-image: none !important;
+  box-shadow:
+    inset 0 0 30px rgb(var(--litm-vo-accent-rgb) / 3%),
+    0 10px 28px rgb(0 0 0 / 38%);
+}
+
+body.litm-vo-scifi #dice-roll-app .roll-dialog-container,
+body.litm-vo-scifi .gm-roll-confirm-dialog .roll-dialog-container,
+body.litm-vo-scifi .sacrifice-roll-dialog,
+body.litm-vo-scifi #group-action-app {
+  color: #e8f3f7 !important;
+}
+
+/* Section labels in roll HUDs. */
+body.litm-vo-scifi #dice-roll-app .resource-label,
+body.litm-vo-scifi .gm-roll-confirm-dialog .resource-label,
+body.litm-vo-scifi .sacrifice-roll-dialog .resource-label,
+body.litm-vo-scifi #group-action-app .resource-label {
+  color: #bdeeff !important;
+  font-weight: 750;
+  letter-spacing: .025em;
+  text-shadow: 0 0 8px rgb(var(--litm-vo-accent-rgb) / 18%);
+}
+
+body.litm-vo-scifi #dice-roll-app .selected-tags-container {
+  margin: 7px 0 !important;
+  gap: 4px !important;
+}
+
+/* Selected tags in the roll dialog become compact HUD rows instead of parchment
+   highlighter strips. */
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag,
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .status,
+body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .tag,
+body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .status {
+  min-height: 26px;
+  box-sizing: border-box;
+  padding: 4px 8px !important;
+  color: #f0f9fc !important;
+  background: rgb(var(--litm-vo-accent-rgb) / 9%) !important;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 28%);
+  border-left: 3px solid var(--litm-vo-accent);
+  border-radius: 3px !important;
+  font-family: inherit !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+  text-align: left !important;
+}
+
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag.negative,
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .status.negative,
+body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .tag.negative,
+body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .status.negative {
+  color: #ffdce9 !important;
+  background: rgb(255 103 157 / 8%) !important;
+  border-color: rgb(255 103 157 / 30%);
+  border-left-color: #ff679d;
+}
+
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag.unapplied-preview {
+  opacity: .48 !important;
+  filter: saturate(.5);
+}
+
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag.inverted-tag,
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag.inverted-challenge {
+  outline: 1px dashed var(--litm-vo-secondary) !important;
+  outline-offset: -3px !important;
+}
+
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag-icon,
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .deselect-icon {
+  color: #c8f3ff !important;
+}
+
+/* Modifier controls: give +/- real buttons and center the number field. */
+body.litm-vo-scifi #dice-roll-app .form-group {
+  gap: 6px;
+  margin: 8px 0;
+}
+
+body.litm-vo-scifi #dice-roll-app .form-group > .flexrow {
+  align-items: center;
+  gap: 8px;
+}
+
+body.litm-vo-scifi #dice-roll-app #positiveInput,
+body.litm-vo-scifi #dice-roll-app #negativeInput {
+  flex: 1 1 auto;
+  height: 32px;
+  color: #f4fbff !important;
+  background: #07131c !important;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 35%) !important;
+  border-radius: 3px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+body.litm-vo-scifi #dice-roll-app #button-positive-minus,
+body.litm-vo-scifi #dice-roll-app #button-positive-plus,
+body.litm-vo-scifi #dice-roll-app #button-negative-minus,
+body.litm-vo-scifi #dice-roll-app #button-negative-plus {
+  display: grid;
+  place-items: center;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 32px;
+  color: #d8f5ff !important;
+  background: rgb(var(--litm-vo-accent-rgb) / 8%);
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 30%);
+  border-radius: 3px;
+}
+
+body.litm-vo-scifi #dice-roll-app #button-positive-minus:hover,
+body.litm-vo-scifi #dice-roll-app #button-positive-plus:hover,
+body.litm-vo-scifi #dice-roll-app #button-negative-minus:hover,
+body.litm-vo-scifi #dice-roll-app #button-negative-plus:hover {
+  color: #fff !important;
+  background: rgb(var(--litm-vo-accent-rgb) / 18%);
+  border-color: var(--litm-vo-accent);
+  box-shadow: 0 0 9px rgb(var(--litm-vo-accent-rgb) / 28%);
+}
+
+/* Might scale as an actual segmented control. */
+body.litm-vo-scifi #dice-roll-app .scene-app-might-modifier {
+  margin: 10px 0 6px;
+  padding: 8px 10px;
+  background: rgb(var(--litm-vo-accent-rgb) / 4%);
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 18%);
+  border-radius: 4px;
+}
+
+body.litm-vo-scifi #dice-roll-app .scene-app-might-modifier .npc-subtitle-container-c {
+  margin-bottom: 7px;
+  color: #bdeeff !important;
+  background: transparent !important;
+  border-bottom: 1px solid rgb(var(--litm-vo-accent-rgb) / 20%);
+}
+
+body.litm-vo-scifi #dice-roll-app .might-scale-entry {
+  color: #adbfca !important;
+  font-weight: 700;
+}
+
+body.litm-vo-scifi #dice-roll-app .might-scale-radio {
+  accent-color: var(--litm-vo-accent);
+  filter: drop-shadow(0 0 4px rgb(var(--litm-vo-accent-rgb) / 28%));
+}
+
+body.litm-vo-scifi #dice-roll-app .might-scale-radio:checked {
+  filter:
+    drop-shadow(0 0 4px rgb(var(--litm-vo-accent-rgb) / 75%))
+    drop-shadow(0 0 9px rgb(var(--litm-vo-accent-rgb) / 35%));
+}
+
+body.litm-vo-scifi #dice-roll-app .power-label,
+body.litm-vo-scifi #group-action-app .power-label {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 8px 10px;
+  color: #f0fbff !important;
+  background:
+    linear-gradient(90deg,
+      transparent,
+      rgb(var(--litm-vo-accent-rgb) / 11%),
+      transparent);
+  border-top: 1px solid rgb(var(--litm-vo-accent-rgb) / 18%);
+  border-bottom: 1px solid rgb(var(--litm-vo-accent-rgb) / 18%);
+  font-size: 1.08rem !important;
+  text-align: center;
+  text-shadow: 0 0 9px rgb(var(--litm-vo-accent-rgb) / 28%);
+}
+
+body.litm-vo-scifi #dice-roll-app .dialog-footer {
+  gap: 6px;
+  margin-top: 8px;
+}
+
+body.litm-vo-scifi #dice-roll-app .dialog-footer .roll-button,
+body.litm-vo-scifi #group-action-app .dialog-footer button,
+body.litm-vo-scifi .sacrifice-roll-dialog button,
+body.litm-vo-scifi .gm-roll-confirm-dialog button {
+  min-height: 34px;
+  color: #f3fbff !important;
+  background:
+    linear-gradient(180deg,
+      rgb(var(--litm-vo-accent-rgb) / 18%),
+      rgb(4 16 24 / 96%)) !important;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 45%) !important;
+  border-radius: 3px;
+  box-shadow: inset 0 0 10px rgb(var(--litm-vo-accent-rgb) / 3%);
+}
+
+body.litm-vo-scifi #dice-roll-app .dialog-footer .roll-button:hover,
+body.litm-vo-scifi #group-action-app .dialog-footer button:hover,
+body.litm-vo-scifi .sacrifice-roll-dialog button:hover,
+body.litm-vo-scifi .gm-roll-confirm-dialog button:hover {
+  border-color: var(--litm-vo-accent) !important;
+  box-shadow:
+    0 0 12px rgb(var(--litm-vo-accent-rgb) / 28%),
+    inset 0 0 12px rgb(var(--litm-vo-accent-rgb) / 5%);
+}
+
+body.litm-vo-scifi #dice-roll-app .request-help-button {
+  border-color: rgb(var(--litm-vo-secondary-rgb) / 55%) !important;
+  background:
+    linear-gradient(180deg,
+      rgb(var(--litm-vo-secondary-rgb) / 17%),
+      rgb(8 13 25 / 96%)) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Chat roll cards: Quick, Detailed, Reaction, Sacrifice and Group.
+   -------------------------------------------------------------------------- */
+
+body.litm-vo-scifi .chat-message:has(.roll-card) {
+  color: #dcebf1 !important;
+  background:
+    linear-gradient(145deg, #0a1721, #050b11) !important;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 24%) !important;
+  box-shadow:
+    inset 0 0 24px rgb(var(--litm-vo-accent-rgb) / 2%),
+    0 5px 16px rgb(0 0 0 / 25%);
+}
+
+body.litm-vo-scifi .chat-message:has(.roll-card) .message-header,
+body.litm-vo-scifi .chat-message:has(.roll-card) .message-header *,
+body.litm-vo-scifi .chat-message:has(.roll-card) .message-content {
+  color: #cfe0e8 !important;
+}
+
+body.litm-vo-scifi .chat-message .roll-card {
+  margin: 0;
+  padding: 4px;
+  color: #e3eff4 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .card-title {
+  margin: 0 0 7px;
+  padding: 5px 7px;
+  color: #e9f9ff !important;
+  background: rgb(var(--litm-vo-accent-rgb) / 8%);
+  border-left: 3px solid var(--litm-vo-accent);
+  border-bottom: 1px solid rgb(var(--litm-vo-accent-rgb) / 22%);
+  font-weight: 800;
+  letter-spacing: .025em;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .selected-tags {
+  gap: 4px !important;
+  margin: 5px 0 !important;
+  color: #cbdde5 !important;
+  font-family: inherit !important;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .selected-tags .resource-label {
+  color: #91adba !important;
+  font-size: .78rem;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: .045em;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .selected-tags .tag {
+  padding: 4px 6px !important;
+  color: #eaf6fa !important;
+  background: rgb(var(--litm-vo-accent-rgb) / 9%) !important;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 23%);
+  border-left: 3px solid var(--litm-vo-accent);
+  border-radius: 3px !important;
+  text-align: left !important;
+  font-weight: 600;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .selected-tags .tag.negative,
+body.litm-vo-scifi .chat-message .roll-card .selected-tags .tag.weakness {
+  color: #ffdbe9 !important;
+  background: rgb(255 100 157 / 7%) !important;
+  border-color: rgb(255 100 157 / 24%);
+  border-left-color: #ff649d;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .selected-tags .tag.inverted-tag,
+body.litm-vo-scifi .chat-message .roll-card .selected-tags .tag.inverted-challenge {
+  outline: 1px dashed var(--litm-vo-secondary) !important;
+  outline-offset: -3px !important;
+}
+
+/* Foundry dice formula/total. */
+body.litm-vo-scifi .chat-message .roll-card .roll-result {
+  margin: 7px 0;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .dice-roll .dice-formula,
+body.litm-vo-scifi .chat-message .roll-card .dice-roll .dice-total {
+  color: #edf9fc !important;
+  background: #07131c !important;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 28%) !important;
+  box-shadow: inset 0 0 10px rgb(var(--litm-vo-accent-rgb) / 3%) !important;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .dice-roll .dice-total {
+  border-top-color: rgb(var(--litm-vo-accent-rgb) / 46%) !important;
+  font-size: 1.35rem;
+}
+
+/* Remove all parchment outcome images. */
+body.litm-vo-scifi .chat-message .roll-card .consequence-result-negative,
+body.litm-vo-scifi .chat-message .roll-card .consequence-result-neutral,
+body.litm-vo-scifi .chat-message .roll-card .consequence-result-positive {
+  position: relative;
+  margin-top: 8px;
+  padding: 10px 11px !important;
+  color: #e6f0f4 !important;
+  background-image: none !important;
+  background-color: #08151f !important;
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: 3px;
+  box-shadow: inset 0 0 20px rgb(0 0 0 / 20%);
+}
+
+body.litm-vo-scifi .chat-message .roll-card .consequence-result-negative {
+  border-left: 4px solid #ff648f;
+  background:
+    linear-gradient(90deg, rgb(255 100 143 / 10%), transparent 58%),
+    #08151f !important;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .consequence-result-neutral {
+  border-left: 4px solid #ffbf61;
+  background:
+    linear-gradient(90deg, rgb(255 191 97 / 9%), transparent 58%),
+    #08151f !important;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .consequence-result-positive {
+  border-left: 4px solid #69e3b0;
+  background:
+    linear-gradient(90deg, rgb(105 227 176 / 10%), transparent 58%),
+    #08151f !important;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .consequence-container,
+body.litm-vo-scifi .chat-message .roll-card .consequence-container p,
+body.litm-vo-scifi .chat-message .roll-card .consequence-container li,
+body.litm-vo-scifi .chat-message .roll-card .consequence-container strong,
+body.litm-vo-scifi .chat-message .roll-card .consequence-container em {
+  color: #e6f0f4 !important;
+  font-family: inherit !important;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .consequence-container .heading {
+  color: #f2fbff !important;
+  font-size: 1.55rem !important;
+  text-shadow: 0 0 8px rgb(255 255 255 / 12%);
+}
+
+body.litm-vo-scifi .chat-message .roll-card .consequence-container .power-counter {
+  margin-top: 8px;
+  padding-top: 6px;
+  color: #bff4ff !important;
+  border-top: 1px solid rgb(var(--litm-vo-accent-rgb) / 18%) !important;
+  font-weight: 800;
+}
+
+/* Detailed roll Power spending. */
+body.litm-vo-scifi .chat-message .roll-card .detailed-spend {
+  margin-top: 9px;
+  padding-top: 8px;
+  border-top: 1px solid rgb(var(--litm-vo-accent-rgb) / 20%) !important;
+  color: #dcebf1 !important;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .detailed-spend-header {
+  color: #bff3ff !important;
+  letter-spacing: .035em;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .detailed-spend-remaining {
+  color: var(--litm-vo-accent) !important;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .detailed-spend-options {
+  gap: 5px !important;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .detailed-spend-btn {
+  min-height: 34px;
+  color: #edf9fc !important;
+  background:
+    linear-gradient(180deg,
+      rgb(var(--litm-vo-accent-rgb) / 13%),
+      #07131c) !important;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 30%) !important;
+  border-radius: 3px !important;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .detailed-spend-btn:hover:not(:disabled) {
+  border-color: var(--litm-vo-accent) !important;
+  background:
+    linear-gradient(180deg,
+      rgb(var(--litm-vo-accent-rgb) / 22%),
+      #07131c) !important;
+  box-shadow: 0 0 9px rgb(var(--litm-vo-accent-rgb) / 24%) !important;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .detailed-spend-list {
+  color: #cbdde5 !important;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .detailed-spend-undo {
+  color: #ff76a9 !important;
+}
+
+/* Group-action footnote and critical/fumble content stay readable too. */
+body.litm-vo-scifi .chat-message .roll-card .group-affects-all,
+body.litm-vo-scifi .chat-message .roll-card .critical-fumble,
+body.litm-vo-scifi .chat-message .roll-card .critical-fumble * {
+  color: #cfe0e8 !important;
+}
+
+/* --------------------------------------------------------------------------
+   Group-action roll HUD
+   -------------------------------------------------------------------------- */
+
+body.litm-vo-scifi #group-action-app .group-contributions,
+body.litm-vo-scifi #group-action-app .form-group {
+  color: #e4f0f5 !important;
+}
+
+body.litm-vo-scifi #group-action-app .tag {
+  color: #edf9fc !important;
+  background: rgb(var(--litm-vo-accent-rgb) / 9%) !important;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 25%);
+  border-radius: 3px;
+}
+
+body.litm-vo-scifi #group-action-app .icon-hover {
+  color: #c9f3ff !important;
+}
