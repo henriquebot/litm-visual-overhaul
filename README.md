@@ -59,3 +59,10 @@ MIT. Legend In The Mist e o sistema oficial pertencem aos seus respectivos deten
 ## Estado do projeto
 
 Versão atual do tema: **0.2.0** — reconstrução visual da ficha de personagem com grade limpa de cards e remoção dos elementos de pergaminho no modo Sci-Fi.
+
+
+## Roadmap
+
+O planejamento de estabilização, cobertura do sistema e 1.0 está em [ROADMAP.md](ROADMAP.md) e nas Issues do repositório.
+
+A partir da série 0.5.x, a regra do projeto é preservar a geometria oficial do Mist Engine e alterar prioritariamente skin, contraste, cores e efeitos.
