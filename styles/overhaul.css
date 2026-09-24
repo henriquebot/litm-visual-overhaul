@@ -1,7 +1,16 @@
 /* ==========================================================================
    LiTM Visual Overhaul
-   v0.3 layout philosophy:
-   keep the official Legend In The Mist sheet geometry; reskin only.
+   Clean stylesheet — 0.5.x
+   --------------------------------------------------------------------------
+   Design rule:
+   - keep official Mist Engine geometry unless a deliberate visual spacing
+     adjustment is documented here;
+   - change skin, contrast, semantic colours and decorative treatment;
+   - edit mode is isolated by the JS class .litm-vo-edit-mode.
+   ========================================================================== */
+
+/* ==========================================================================
+   1. DESIGN TOKENS
    ========================================================================== */
 
 :root {
@@ -11,11 +20,21 @@
   --litm-vo-secondary-rgb: 196 92 255;
   --litm-vo-glow: .45;
   --litm-vo-card-radius: 3px;
-  --litm-vo-panel: rgb(5 15 23 / 84%);
-  --litm-vo-panel-soft: rgb(9 23 34 / 76%);
+
+  --litm-vo-bg-0: #050b11;
+  --litm-vo-bg-1: #07131c;
+  --litm-vo-bg-2: #0b1924;
+  --litm-vo-panel: rgb(5 15 23 / 88%);
+  --litm-vo-panel-soft: rgb(9 23 34 / 78%);
   --litm-vo-text: #e5f0f5;
-  --litm-vo-muted: #9bb1bd;
+  --litm-vo-muted: #9eb5c0;
   --litm-vo-line: rgb(var(--litm-vo-accent-rgb) / 28%);
+
+  --litm-vo-tag-pos: #e2bb4a;
+  --litm-vo-status-pos: #53d699;
+  --litm-vo-tag-neg: #f17e51;
+  --litm-vo-status-neg: #e263a1;
+  --litm-vo-weakness: #ff548b;
 }
 
 body.litm-vo-official {
@@ -24,115 +43,220 @@ body.litm-vo-official {
 
 body.litm-vo-scifi {
   color-scheme: dark;
+
+  --litm-color-bg: var(--litm-vo-bg-1);
+  --litm-color: var(--litm-vo-text);
+  --litm-color-alt-bg: var(--litm-vo-bg-2);
+  --litm-color-dark-bg: var(--litm-vo-bg-0);
+  --litm-color-accent-bg: rgb(var(--litm-vo-accent-rgb) / 16%);
   --litm-color-accent: var(--litm-vo-accent);
   --litm-color-accent-2: var(--litm-vo-accent);
   --litm-color-accent-3: var(--litm-vo-secondary);
-  --litm-color: var(--litm-vo-text);
+  --litm-color-primary-bg: #102231;
+  --litm-color-primary: #e2f6fb;
+  --litm-color-row-odd: rgb(var(--litm-vo-accent-rgb) / 5%);
   --litm-color-weakness: #ff78ad;
+  --litm-color-weakness-bg: rgb(255 84 139 / 15%);
+  --litm-color-muted-bg: rgb(160 190 205 / 10%);
+  --litm-color-tag-bg: rgb(var(--litm-vo-accent-rgb) / 14%);
+  --litm-color-status-bg: rgb(83 214 153 / 16%);
+  --litm-color-limit-bg: rgb(var(--litm-vo-secondary-rgb) / 18%);
   --litm-tab-text-color: #d6edf5;
 }
 
 /* ==========================================================================
-   Character sheet: preserve official composition and custom background art
+   2. GENERIC MIST ENGINE CHROME
    ========================================================================== */
 
+body.litm-vo-scifi .application.mist-engine,
+body.litm-vo-scifi .mist-engine.application,
+body.litm-vo-scifi .mist-engine.sheet,
+body.litm-vo-scifi #scene-data-app,
+body.litm-vo-scifi #how-to-play-app,
+body.litm-vo-scifi #camping-app,
+body.litm-vo-scifi #group-action-app,
+body.litm-vo-scifi #dice-roll-app,
+body.litm-vo-scifi #themekit-selection-app,
+body.litm-vo-scifi #themekit-character-app {
+  --color-text-primary: #e5f0f5;
+  --color-text-dark-primary: #e5f0f5;
+  --color-text-dark-secondary: #b6cad3;
+  --color-text-light-primary: #f5fcff;
+  --color-border-light-1: rgb(var(--litm-vo-accent-rgb) / 38%);
+  --color-border-highlight: var(--litm-vo-accent);
+}
+
+body.litm-vo-scifi .application.mist-engine .window-header,
+body.litm-vo-scifi .mist-engine.application .window-header,
+body.litm-vo-scifi #scene-data-app .window-header,
+body.litm-vo-scifi #how-to-play-app .window-header,
+body.litm-vo-scifi #camping-app .window-header,
+body.litm-vo-scifi #group-action-app .window-header,
+body.litm-vo-scifi #dice-roll-app .window-header,
+body.litm-vo-scifi #themekit-selection-app .window-header,
+body.litm-vo-scifi #themekit-character-app .window-header {
+  background:
+    linear-gradient(
+      90deg,
+      rgb(var(--litm-vo-accent-rgb) / 14%),
+      rgb(3 13 20 / 94%) 48%,
+      rgb(var(--litm-vo-secondary-rgb) / 7%)
+    );
+  border-bottom: 1px solid rgb(var(--litm-vo-accent-rgb) / 34%);
+}
+
+body.litm-vo-scifi .application.mist-engine .window-title,
+body.litm-vo-scifi .mist-engine.application .window-title {
+  color: #ebf9fd;
+  letter-spacing: .035em;
+}
+
+body.litm-vo-scifi .mist-engine input:not([type="checkbox"]):not([type="radio"]),
+body.litm-vo-scifi .mist-engine textarea,
+body.litm-vo-scifi .mist-engine select {
+  color: #e2eef4;
+  background: rgb(3 12 18 / 82%);
+  border-color: rgb(var(--litm-vo-accent-rgb) / 27%);
+  border-radius: 3px;
+}
+
+body.litm-vo-scifi .mist-engine input:focus,
+body.litm-vo-scifi .mist-engine textarea:focus,
+body.litm-vo-scifi .mist-engine select:focus {
+  border-color: rgb(var(--litm-vo-accent-rgb) / 72%);
+  box-shadow:
+    0 0 calc(9px * var(--litm-vo-glow))
+    rgb(var(--litm-vo-accent-rgb) / 24%);
+}
+
+body.litm-vo-scifi .mist-engine button,
+body.litm-vo-scifi #scene-data-app button,
+body.litm-vo-scifi #how-to-play-app button,
+body.litm-vo-scifi #camping-app button,
+body.litm-vo-scifi #group-action-app button,
+body.litm-vo-scifi #dice-roll-app button,
+body.litm-vo-scifi #themekit-selection-app button,
+body.litm-vo-scifi #themekit-character-app button {
+  color: #eaf8fc;
+  background:
+    linear-gradient(
+      180deg,
+      rgb(var(--litm-vo-accent-rgb) / 14%),
+      rgb(4 16 24 / 92%)
+    );
+  border-color: rgb(var(--litm-vo-accent-rgb) / 38%);
+  border-radius: 3px;
+  box-shadow: none;
+}
+
+body.litm-vo-scifi .mist-engine button:hover,
+body.litm-vo-scifi #scene-data-app button:hover,
+body.litm-vo-scifi #dice-roll-app button:hover {
+  color: #fff;
+  border-color: var(--litm-vo-accent);
+  box-shadow:
+    0 0 calc(12px * var(--litm-vo-glow))
+    rgb(var(--litm-vo-accent-rgb) / 24%);
+}
+
+body.litm-vo-scifi .mist-engine .container-paper-background-with-border,
+body.litm-vo-scifi .mist-engine .container-card-with-border,
+body.litm-vo-scifi .mist-engine .text-container-300,
+body.litm-vo-scifi .mist-engine .text-container-500,
+body.litm-vo-scifi .mist-engine .text-container-large-paper-background,
+body.litm-vo-scifi .mist-engine .text-container-long-paper-background {
+  color: var(--litm-vo-text);
+  background: var(--litm-vo-panel-soft);
+  border: 1px solid var(--litm-vo-line);
+  -moz-border-image: none;
+  -webkit-border-image: none;
+  -o-border-image: none;
+  border-image: none;
+}
+
+/* ==========================================================================
+   3. CHARACTER SHEET — NORMAL VIEW
+   ========================================================================== */
+
+/* Preserve the custom actor artwork injected by Mist Engine. */
 body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .window-content {
   color: var(--litm-vo-text);
-  /* Important: do not set background-image here.
-     The official system paints the actor custom background inline. */
   background-color: #061019;
+  background-size: cover;
+  background-position: left top;
+  background-repeat: no-repeat;
   box-shadow:
-    inset 0 0 0 9999px rgb(2 8 13 / 13%),
-    inset 0 0 80px rgb(0 0 0 / 32%);
+    inset 0 0 0 9999px rgb(2 8 13 / 8%),
+    inset 0 0 70px rgb(0 0 0 / 22%);
 }
 
-/* Keep official header geometry: 300px artwork/name column, rolls, status panel. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header {
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-vo-edit-mode) .sheet-header {
   margin-bottom: 10px;
-  background: transparent !important;
+  background: transparent;
 }
 
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header .header-fields {
-  display: flex !important;
-  flex-direction: row !important;
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-vo-edit-mode) .sheet-header .header-fields {
+  display: flex;
+  flex-direction: row;
   width: 100%;
   gap: .5rem;
   align-items: stretch;
 }
 
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header .col-character-name {
-  min-width: var(--litm-premium-left-margin) !important;
-  max-width: var(--litm-premium-left-margin) !important;
-  width: var(--litm-premium-left-margin) !important;
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-vo-edit-mode):not(.litm-compact) .sheet-header .col-character-name {
+  min-width: var(--litm-premium-left-margin);
+  max-width: var(--litm-premium-left-margin);
+  width: var(--litm-premium-left-margin);
 }
 
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header .col-main {
-  min-width: 150px !important;
-  width: auto !important;
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-vo-edit-mode) .sheet-header .col-main {
+  min-width: 150px;
 }
 
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header .col-status {
-  flex: .75 1 auto !important;
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-vo-edit-mode) .sheet-header .col-status {
+  flex-grow: .75;
   min-width: 0;
 }
 
-/* Put identity back over the artwork where the official sheet expects it. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .character-name-container {
-  position: absolute !important;
-  top: 32rem !important;
-  width: var(--litm-premium-left-margin) !important;
-  max-width: var(--litm-premium-left-margin) !important;
-  padding: 0 14px;
-  background: transparent !important;
-  border: 0 !important;
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-vo-edit-mode):not(.litm-compact) .character-name-container {
+  position: absolute;
+  top: 32rem;
+  left: 0;
+  box-sizing: border-box;
+  width: var(--litm-premium-left-margin);
+  max-width: var(--litm-premium-left-margin);
+  padding: 0 18px;
 }
 
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character h1.charname {
-  margin: 0;
-  color: #f4fbff !important;
-  font-size: 36px;
-  line-height: 1.05;
-  text-align: center !important;
-  letter-spacing: .015em;
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-vo-edit-mode) h1.charname {
+  color: #f4fbff;
   text-shadow:
-    0 2px 2px rgb(0 0 0 / 90%),
-    0 0 calc(10px * var(--litm-vo-glow)) rgb(var(--litm-vo-accent-rgb) / 50%);
+    0 2px 3px rgb(0 0 0 / 92%),
+    0 0 calc(10px * var(--litm-vo-glow))
+    rgb(var(--litm-vo-accent-rgb) / 48%);
 }
 
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .short-description {
-  color: #a9efff !important;
-  text-align: center !important;
-  text-transform: uppercase;
-  font-size: 13px;
-  line-height: 1.25;
-  text-shadow: 0 1px 2px rgb(0 0 0 / 95%);
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-vo-edit-mode) .short-description {
+  color: #a9efff;
+  text-shadow: 0 2px 3px rgb(0 0 0 / 92%);
 }
 
-/* ==========================================================================
-   Roll buttons
-   ========================================================================== */
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .col-main .flexcol {
-  gap: 5px;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .roll-button {
-  min-height: 29px;
-  margin: 0;
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-vo-edit-mode) .roll-button {
   color: #f0fbff;
   background:
-    linear-gradient(90deg,
-      rgb(var(--litm-vo-accent-rgb) / 22%),
-      rgb(5 22 31 / 90%));
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 55%);
+    linear-gradient(
+      90deg,
+      rgb(var(--litm-vo-accent-rgb) / 20%),
+      rgb(5 22 31 / 90%)
+    );
+  border-color: rgb(var(--litm-vo-accent-rgb) / 52%);
   border-left: 3px solid var(--litm-vo-accent);
-  border-radius: 3px;
   box-shadow:
     inset 0 0 12px rgb(var(--litm-vo-accent-rgb) / 4%);
   font-weight: 650;
 }
 
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .roll-button:hover {
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-vo-edit-mode) .roll-button:hover {
   color: #fff;
   border-color: var(--litm-vo-accent);
   box-shadow:
@@ -140,76 +264,28 @@ body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .roll-button:hover {
     rgb(var(--litm-vo-accent-rgb) / 32%);
 }
 
-/* ==========================================================================
-   Tags & Statuses: replace parchment but keep original size/location
-   ========================================================================== */
-
-body.litm-vo-scifi .mist-engine .floating-status-container-character {
-  height: 100%;
-  padding: 8px 10px !important;
-  color: var(--litm-vo-text) !important;
-  background:
-    linear-gradient(135deg,
-      rgb(var(--litm-vo-accent-rgb) / 7%),
-      transparent 48%),
-    var(--litm-vo-panel) !important;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 38%) !important;
-  border-top: 2px solid rgb(var(--litm-vo-accent-rgb) / 68%) !important;
-  border-radius: 4px;
-  -moz-border-image: none !important;
-  -webkit-border-image: none !important;
-  -o-border-image: none !important;
-  border-image: none !important;
-  box-shadow:
-    inset 0 0 22px rgb(var(--litm-vo-accent-rgb) / 3%),
-    0 6px 18px rgb(0 0 0 / 22%);
+/* Normal full sheet keeps the official 300px artwork lane. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-vo-edit-mode):not(.litm-compact) .character-sheet-divider .right-side {
+  margin-left: var(--litm-premium-left-margin);
+  min-width: 0;
 }
 
-body.litm-vo-scifi .mist-engine .floating-status-container-character .npc-subtitle-container-c {
-  margin: -4px 0 7px;
-  padding: 3px 6px 5px;
-  color: #dff8ff !important;
-  background: transparent !important;
-  border-bottom: 1px solid rgb(var(--litm-vo-accent-rgb) / 28%);
-  text-transform: uppercase;
-  letter-spacing: .055em;
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-vo-edit-mode):not(.litm-compact) .litm-character-sheet-tabs {
+  margin-left: var(--litm-premium-left-margin);
 }
 
-body.litm-vo-scifi .mist-engine .floating-tags-and-status-entries {
-  gap: 5px;
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .litm-character-sheet-tabs {
+  background: rgb(2 9 14 / 72%);
+  border-color: rgb(var(--litm-vo-accent-rgb) / 18%);
+  border-bottom-color: rgb(var(--litm-vo-accent-rgb) / 28%);
+  box-shadow: 0 3px 10px rgb(0 0 0 / 16%);
 }
 
-body.litm-vo-scifi .mist-engine .fts-input-name.tag,
-body.litm-vo-scifi .mist-engine .fts-input-name.status {
-  min-height: 25px;
-  padding: 3px 6px;
-  color: #effaff !important;
-  background: rgb(var(--litm-vo-accent-rgb) / 10%) !important;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 25%);
-  border-radius: 3px;
-}
-
-body.litm-vo-scifi .mist-engine .fts-input-name.status {
-  background: rgb(76 218 160 / 10%) !important;
-  border-color: rgb(76 218 160 / 28%);
-}
-
-/* ==========================================================================
-   Tabs: preserve official left offset
-   ========================================================================== */
-
-body.litm-vo-scifi .mist-engine .litm-character-sheet-tabs {
-  margin-left: var(--litm-premium-left-margin) !important;
-  background: rgb(2 9 14 / 72%) !important;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 18%);
-}
-
-body.litm-vo-scifi .mist-engine .litm-character-sheet-tabs [data-tab] {
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .litm-character-sheet-tabs [data-tab] {
   color: #b4c7d0;
-  transition: color 120ms ease, background 120ms ease, box-shadow 120ms ease;
 }
 
-body.litm-vo-scifi .mist-engine .litm-character-sheet-tabs [data-tab].active {
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .litm-character-sheet-tabs [data-tab].active {
   color: #f0fbff;
   background: rgb(var(--litm-vo-accent-rgb) / 10%);
   box-shadow: inset 0 -2px 0 var(--litm-vo-accent);
@@ -218,78 +294,68 @@ body.litm-vo-scifi .mist-engine .litm-character-sheet-tabs [data-tab].active {
     rgb(var(--litm-vo-accent-rgb) / 42%);
 }
 
-/* ==========================================================================
-   Card area: keep official one-row 186px grid
-   ========================================================================== */
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .character-sheet-divider {
-  align-items: start !important;
+/* Deliberate normal-view spacing improvement: 10px between Theme Cards. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-vo-edit-mode) .themebooks-container,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-vo-edit-mode) .grid-themebook-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 186px);
+  column-gap: 10px;
+  row-gap: 10px;
+  justify-content: center;
+  align-items: stretch;
+  align-content: start;
 }
 
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .character-sheet-divider .right-side {
-  margin-left: var(--litm-premium-left-margin) !important;
-  min-width: 0;
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-vo-edit-mode) .litm-character-themebooks-container {
+  padding: 0 5px 6px;
 }
 
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .litm-character-themebooks-container {
-  margin: 5px !important;
-  overflow-y: clip !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container {
-  display: grid !important;
-  margin-top: 0 !important;
-  margin-bottom: 5px !important;
-  min-width: 233px !important;
-  width: 100% !important;
-  height: 100% !important;
-  grid-template-columns: repeat(auto-fit, 186px) !important;
-  gap: 2px !important;
-  justify-content: center !important;
-  align-items: stretch !important;
-}
-
-/* We remove the medieval decorations, but not the official grid geometry.
-   Do NOT position themebook-container; otherwise official top/left decoration
-   values become active and push cards around. */
-body.litm-vo-scifi .mist-engine .themebook-container {
-  position: static !important;
-  flex-grow: .25;
-  padding-bottom: 8px !important;
+/* Remove official scrapbook offsets and medieval decorations. */
+body.litm-vo-scifi .mist-engine .themebooks-container-stylized > *,
+body.litm-vo-scifi .mist-engine .backpack-stylized,
+body.litm-vo-scifi .mist-engine .fellowship-themebook-stylized {
+  top: auto;
+  left: auto;
+  right: auto;
+  rotate: 0deg;
+  transform: none;
 }
 
 body.litm-vo-scifi .mist-engine .themebooks-container-stylized > :nth-child(2)::before,
 body.litm-vo-scifi .mist-engine .themebooks-container-stylized > :nth-child(3)::before,
 body.litm-vo-scifi .mist-engine .backpack-stylized::before,
 body.litm-vo-scifi .mist-engine .fellowship-themebook-stylized::before {
-  content: none !important;
-  display: none !important;
+  content: none;
+  display: none;
+  background-image: none;
 }
 
 /* ==========================================================================
-   Sci-Fi card skin
+   4. THEME CARDS — SHARED SKIN
    ========================================================================== */
 
 body.litm-vo-scifi .mist-engine .container-themebook-with-border {
-  color: var(--litm-vo-text) !important;
+  color: var(--litm-vo-text);
   background:
-    linear-gradient(160deg,
-      rgb(var(--litm-vo-accent-rgb) / 8%),
-      transparent 38%),
-    rgb(5 14 22 / 90%) !important;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 24%) !important;
-  border-top: 2px solid rgb(var(--litm-vo-accent-rgb) / 55%) !important;
+    linear-gradient(
+      160deg,
+      rgb(var(--litm-vo-accent-rgb) / 7%),
+      transparent 38%
+    ),
+    rgb(5 14 22 / 92%);
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 24%);
+  border-top: 2px solid rgb(var(--litm-vo-accent-rgb) / 55%);
   border-radius: var(--litm-vo-card-radius);
-  -moz-border-image: none !important;
-  -webkit-border-image: none !important;
-  -o-border-image: none !important;
-  border-image: none !important;
+  -moz-border-image: none;
+  -webkit-border-image: none;
+  -o-border-image: none;
+  border-image: none;
   box-shadow:
     inset 0 0 20px rgb(var(--litm-vo-accent-rgb) / 2%),
     0 5px 14px rgb(0 0 0 / 22%);
 }
 
-body.litm-vo-scifi.litm-vo-sharp-cards .mist-engine .container-themebook-with-border {
+body.litm-vo-scifi.litm-vo-sharp-cards .mist-engine.sheet.actor.litm-character:not(.litm-vo-edit-mode) .container-themebook-with-border {
   clip-path: polygon(
     0 7px,
     7px 0,
@@ -302,20 +368,29 @@ body.litm-vo-scifi.litm-vo-sharp-cards .mist-engine .container-themebook-with-bo
 
 body.litm-vo-scifi .mist-engine .themebook-style {
   height: 100%;
-  color: var(--litm-vo-text) !important;
-  background: transparent !important;
-  background-image: none !important;
+  color: var(--litm-vo-text);
+  background: transparent;
+  background-image: none;
 }
 
-body.litm-vo-scifi .mist-engine .themebook-style h2,
-body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name {
-  color: #effbff !important;
+/* Normal card header has deliberate breathing room from the top edge. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-vo-edit-mode) .themebook-style h2.theme-name {
+  position: relative;
+  box-sizing: border-box;
+  height: 30px;
+  margin: 5px 5px 0;
+  padding: 3px 30px 2px 14px;
+  line-height: 1.45em;
+  color: #effbff;
   background:
-    linear-gradient(90deg,
+    linear-gradient(
+      90deg,
       rgb(var(--litm-vo-accent-rgb) / 20%),
-      rgb(4 16 24 / 82%)) !important;
-  background-image: none !important;
+      rgb(4 16 24 / 82%)
+    );
+  background-image: none;
   border-bottom: 1px solid rgb(var(--litm-vo-accent-rgb) / 24%);
+  border-radius: 2px 2px 0 0;
   text-shadow:
     0 0 calc(7px * var(--litm-vo-glow))
     rgb(var(--litm-vo-accent-rgb) / 40%);
@@ -345,21 +420,41 @@ body.litm-vo-scifi .mist-engine .themebook-style.litm-rote h2 {
   box-shadow: inset 3px 0 0 var(--litm-vo-secondary);
 }
 
-body.litm-vo-scifi .mist-engine .themebook-icon {
-  filter:
-    brightness(1.8)
-    saturate(.6)
-    drop-shadow(0 0 3px rgb(var(--litm-vo-accent-rgb) / 35%));
+body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name .card-drag-handle {
+  color: #baf4ff;
+  opacity: .9;
+  margin-right: 7px;
+  font-size: .9em;
+  text-shadow: 0 0 6px rgb(var(--litm-vo-accent-rgb) / 30%);
 }
 
-/* ==========================================================================
-   Card text contrast
-   ========================================================================== */
+body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name .card-drag-handle:hover {
+  color: #fff;
+  opacity: 1;
+  text-shadow:
+    0 0 5px rgb(var(--litm-vo-accent-rgb) / 80%),
+    0 0 10px rgb(var(--litm-vo-accent-rgb) / 42%);
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-vo-edit-mode) .themebook-style h2.theme-name .themebook-icon {
+  position: absolute;
+  top: 7px;
+  right: 12px;
+  float: none;
+  width: 12px;
+  height: 12px;
+  margin: 0;
+  opacity: .9;
+  filter:
+    brightness(2)
+    saturate(.45)
+    drop-shadow(0 0 4px rgb(var(--litm-vo-accent-rgb) / 36%));
+}
 
 body.litm-vo-scifi .mist-engine .item-powertag-line,
 body.litm-vo-scifi .mist-engine .item-storytag-line {
-  color: #dce9ef !important;
-  border-bottom-color: rgb(var(--litm-vo-accent-rgb) / 10%) !important;
+  color: #dce9ef;
+  border-bottom-color: rgb(var(--litm-vo-accent-rgb) / 10%);
 }
 
 body.litm-vo-scifi .mist-engine .litm-pc-powertag,
@@ -367,186 +462,1110 @@ body.litm-vo-scifi .mist-engine .litm-pc-powertag.empty,
 body.litm-vo-scifi .mist-engine .litm-pc-storytag,
 body.litm-vo-scifi .mist-engine .storytag-name,
 body.litm-vo-scifi .mist-engine .storytag-name.empty {
-  color: #e0edf3 !important;
-  opacity: 1 !important;
+  color: #e0edf3;
+  opacity: 1;
 }
 
 body.litm-vo-scifi .mist-engine .litm-pc-powertag.first,
 body.litm-vo-scifi .mist-engine .litm-pc-storytag.first {
-  color: #ffffff !important;
+  color: #fff;
   font-weight: 700;
 }
 
 body.litm-vo-scifi .mist-engine .item-weakness-line,
 body.litm-vo-scifi .mist-engine .litm-pc-weakness {
-  color: #ff86b8 !important;
-  text-shadow: none !important;
+  color: #ff86b8;
+  text-shadow: none;
 }
 
 body.litm-vo-scifi .mist-engine .weakness-indicator {
-  color: #ff5f9d !important;
+  color: #ff5f9d;
 }
 
 body.litm-vo-scifi .mist-engine .quest-container h3 {
-  color: #baf4ff !important;
-  background: rgb(var(--litm-vo-accent-rgb) / 8%) !important;
+  color: #baf4ff;
+  background: rgb(var(--litm-vo-accent-rgb) / 8%);
   border: 0;
 }
 
 body.litm-vo-scifi .mist-engine .quest-container .quest-text {
-  color: #c4d5dd !important;
-  font-family: inherit !important;
-  text-shadow: none !important;
+  color: #c4d5dd;
+  font-family: inherit;
+  text-shadow: none;
 }
 
 body.litm-vo-scifi .mist-engine .development-partial-container,
 body.litm-vo-scifi .mist-engine .fellowship-promises-container {
-  color: #9eb3bd !important;
-  font-family: inherit !important;
+  color: #9eb3bd;
+  font-family: inherit;
 }
 
 body.litm-vo-scifi .mist-engine .development-partial-container .marker,
 body.litm-vo-scifi .mist-engine .fellowship-promises-container .marker {
-  color: #708a96 !important;
+  color: #708a96;
 }
 
 body.litm-vo-scifi .mist-engine .development-partial-container .marker.checked,
 body.litm-vo-scifi .mist-engine .fellowship-promises-container .marker.checked {
-  color: var(--litm-vo-accent) !important;
+  color: var(--litm-vo-accent);
 }
 
 /* ==========================================================================
-   Other parchment containers inside system apps
+   5. POWER / STORY / WEAKNESS SELECTION + SCRATCH/BURN
    ========================================================================== */
 
-body.litm-vo-scifi .mist-engine .container-paper-background-with-border,
-body.litm-vo-scifi .mist-engine .container-card-with-border,
-body.litm-vo-scifi .mist-engine .text-container-300,
-body.litm-vo-scifi .mist-engine .text-container-500,
-body.litm-vo-scifi .mist-engine .text-container-large-paper-background,
-body.litm-vo-scifi .mist-engine .text-container-long-paper-background {
-  color: var(--litm-vo-text) !important;
-  background: var(--litm-vo-panel-soft) !important;
-  border: 1px solid var(--litm-vo-line) !important;
-  -moz-border-image: none !important;
-  -webkit-border-image: none !important;
-  -o-border-image: none !important;
-  border-image: none !important;
+body.litm-vo-scifi .mist-engine .litm-pc-powertag.selected,
+body.litm-vo-scifi .mist-engine .litm-pc-storytag.selected {
+  position: relative;
+  z-index: 2;
+  color: #f4fdff;
+  text-shadow:
+    0 0 5px rgb(var(--litm-vo-accent-rgb) / 88%),
+    0 0 11px rgb(var(--litm-vo-accent-rgb) / 42%);
 }
 
-/* ==========================================================================
-   Inputs and buttons
-   ========================================================================== */
-
-body.litm-vo-scifi .mist-engine input:not([type="checkbox"]):not([type="radio"]),
-body.litm-vo-scifi .mist-engine textarea,
-body.litm-vo-scifi .mist-engine select {
-  color: #e2eef4;
-  background: rgb(3 12 18 / 82%);
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 27%);
-  border-radius: 3px;
-}
-
-body.litm-vo-scifi .mist-engine input:focus,
-body.litm-vo-scifi .mist-engine textarea:focus,
-body.litm-vo-scifi .mist-engine select:focus {
-  border-color: rgb(var(--litm-vo-accent-rgb) / 72%);
+body.litm-vo-scifi .mist-engine .litm-pc-powertag.selected::before,
+body.litm-vo-scifi .mist-engine .litm-pc-storytag.selected::before {
+  content: "";
+  position: absolute;
+  inset: -4px -10px;
+  border: 2px solid var(--litm-vo-accent);
+  border-radius: 999px;
+  background: rgb(var(--litm-vo-accent-rgb) / 7%);
+  background-image: none;
   box-shadow:
-    0 0 calc(9px * var(--litm-vo-glow))
-    rgb(var(--litm-vo-accent-rgb) / 24%);
+    0 0 8px rgb(var(--litm-vo-accent-rgb) / 42%),
+    inset 0 0 8px rgb(var(--litm-vo-accent-rgb) / 12%);
+  pointer-events: none;
 }
 
-body.litm-vo-scifi .mist-engine button,
-body.litm-vo-scifi #scene-data-app button,
-body.litm-vo-scifi #how-to-play-app button,
-body.litm-vo-scifi #camping-app button,
-body.litm-vo-scifi #group-action-app button,
-body.litm-vo-scifi #dice-roll-app button,
-body.litm-vo-scifi #themekit-selection-app button,
-body.litm-vo-scifi #themekit-character-app button {
-  color: #eaf8fc;
+body.litm-vo-scifi .mist-engine .litm-pc-weakness.selected {
+  position: relative;
+  z-index: 2;
+  color: #ff8db8;
+  text-shadow:
+    0 0 5px rgb(255 84 139 / 88%),
+    0 0 11px rgb(255 84 139 / 42%);
+}
+
+body.litm-vo-scifi .mist-engine .litm-pc-weakness.selected::before {
+  content: "";
+  position: absolute;
+  inset: -4px -10px;
+  border: 2px solid var(--litm-vo-weakness);
+  border-radius: 999px;
+  background: rgb(255 84 139 / 8%);
+  background-image: none;
+  box-shadow:
+    0 0 8px rgb(255 84 139 / 46%),
+    inset 0 0 8px rgb(255 84 139 / 13%);
+  pointer-events: none;
+}
+
+body.litm-vo-scifi .mist-engine .litm-pc-fellowship-relationship.selected {
+  position: relative;
+  z-index: 2;
+  color: #e8c9ff;
+  text-shadow:
+    0 0 7px rgb(var(--litm-vo-secondary-rgb) / 58%);
+}
+
+body.litm-vo-scifi .mist-engine .litm-pc-fellowship-relationship.selected::before {
+  content: "";
+  position: absolute;
+  inset: -4px -10px;
+  border: 2px solid var(--litm-vo-secondary);
+  border-radius: 999px;
+  background: rgb(var(--litm-vo-secondary-rgb) / 7%);
+  background-image: none;
+  box-shadow:
+    0 0 8px rgb(var(--litm-vo-secondary-rgb) / 42%);
+  pointer-events: none;
+}
+
+body.litm-vo-scifi .mist-engine .burn-indicator {
+  flex-grow: .15;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  opacity: .9;
+}
+
+body.litm-vo-scifi .mist-engine .burn-icon {
+  display: inline-block;
+  width: 1.05em;
+  height: 1.05em;
+  background-image: none;
+  background-color: #8edff1;
+  -webkit-mask-image: url("/systems/mist-engine-fvtt/assets/icons/icon-burn-scratch-empty.svg");
+  mask-image: url("/systems/mist-engine-fvtt/assets/icons/icon-burn-scratch-empty.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  opacity: .72;
+  filter: drop-shadow(0 0 3px rgb(77 225 255 / 28%));
+}
+
+body.litm-vo-scifi .mist-engine .burn-indicator:hover .burn-icon {
+  opacity: 1;
+  background-color: #d7f8ff;
+  filter:
+    drop-shadow(0 0 4px rgb(77 225 255 / 55%))
+    drop-shadow(0 0 7px rgb(77 225 255 / 25%));
+}
+
+body.litm-vo-scifi .mist-engine .burn-icon.to-burn {
+  background-image: none;
+  background-color: #ff7a55;
+  -webkit-mask-image: url("/systems/mist-engine-fvtt/assets/icons/icon-burn-scratch-to-burn.svg");
+  mask-image: url("/systems/mist-engine-fvtt/assets/icons/icon-burn-scratch-to-burn.svg");
+  opacity: 1;
+  filter:
+    drop-shadow(0 0 4px rgb(255 122 85 / 62%))
+    drop-shadow(0 0 8px rgb(255 122 85 / 26%));
+}
+
+/* ==========================================================================
+   6. FLOATING TAGS & STATUSES
+   ========================================================================== */
+
+body.litm-vo-scifi .mist-engine .floating-status-container-character {
+  height: 100%;
+  padding: 8px 10px;
+  color: var(--litm-vo-text);
   background:
-    linear-gradient(180deg,
-      rgb(var(--litm-vo-accent-rgb) / 14%),
-      rgb(4 16 24 / 90%));
+    linear-gradient(
+      135deg,
+      rgb(var(--litm-vo-accent-rgb) / 7%),
+      transparent 48%
+    ),
+    var(--litm-vo-panel);
   border: 1px solid rgb(var(--litm-vo-accent-rgb) / 38%);
-  border-radius: 3px;
+  border-top: 2px solid rgb(var(--litm-vo-accent-rgb) / 68%);
+  border-radius: 4px;
+  -moz-border-image: none;
+  -webkit-border-image: none;
+  -o-border-image: none;
+  border-image: none;
+  box-shadow:
+    inset 0 0 22px rgb(var(--litm-vo-accent-rgb) / 3%),
+    0 6px 18px rgb(0 0 0 / 22%);
+}
+
+body.litm-vo-scifi .mist-engine .floating-status-container-character .npc-subtitle-container-c {
+  margin: -4px 0 7px;
+  padding: 3px 6px 5px;
+  color: #dff8ff;
+  background: transparent;
+  border-bottom: 1px solid rgb(var(--litm-vo-accent-rgb) / 28%);
+  text-transform: uppercase;
+  letter-spacing: .055em;
+}
+
+body.litm-vo-scifi .mist-engine .floating-tags-and-status-entries {
+  gap: 5px;
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-name {
+  outline: none;
   box-shadow: none;
 }
 
-body.litm-vo-scifi .mist-engine button:hover,
-body.litm-vo-scifi #scene-data-app button:hover,
-body.litm-vo-scifi #dice-roll-app button:hover {
-  color: #fff;
+body.litm-vo-scifi .mist-engine .fts-input-name.tag,
+body.litm-vo-scifi .mist-engine .fts-input-name.status {
+  min-height: 25px;
+  padding: 3px 6px;
+  color: #effaff;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 25%);
+  border-radius: 3px;
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-name.tag.positive {
+  color: #ffeaa9;
+  background: rgb(202 158 44 / 19%);
+  border-color: rgb(226 187 74 / 58%);
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-name.status.positive {
+  color: #c6f7df;
+  background: rgb(70 190 130 / 18%);
+  border-color: rgb(83 214 153 / 58%);
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-name.tag.negative {
+  color: #ffd7c6;
+  background: rgb(224 107 62 / 18%);
+  border-color: rgb(241 126 81 / 60%);
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-name.status.negative {
+  color: #ffd3eb;
+  background: rgb(195 74 133 / 19%);
+  border-color: rgb(226 99 161 / 62%);
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-name .fts-selectable.selected {
+  position: relative;
+  z-index: 2;
+  color: inherit;
+  -webkit-text-fill-color: currentColor;
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+  text-shadow: none;
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-name .fts-selectable.selected::before {
+  content: "";
+  position: absolute;
+  inset: -5px -9px;
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  background-image: none;
+  pointer-events: none;
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-name.tag.positive .fts-selectable.selected::before {
+  border-color: var(--litm-vo-tag-pos);
+  background: rgb(226 187 74 / 6%);
+  box-shadow:
+    0 0 7px rgb(226 187 74 / 42%),
+    inset 0 0 7px rgb(226 187 74 / 10%);
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-name.status.positive .fts-selectable.selected::before {
+  border-color: var(--litm-vo-status-pos);
+  background: rgb(83 214 153 / 6%);
+  box-shadow:
+    0 0 7px rgb(83 214 153 / 42%),
+    inset 0 0 7px rgb(83 214 153 / 10%);
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-name.tag.negative .fts-selectable.selected::before {
+  border-color: var(--litm-vo-tag-neg);
+  background: rgb(241 126 81 / 6%);
+  box-shadow:
+    0 0 7px rgb(241 126 81 / 42%),
+    inset 0 0 7px rgb(241 126 81 / 10%);
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-name.status.negative .fts-selectable.selected::before {
+  border-color: var(--litm-vo-status-neg);
+  background: rgb(226 99 161 / 6%);
+  box-shadow:
+    0 0 7px rgb(226 99 161 / 42%),
+    inset 0 0 7px rgb(226 99 161 / 10%);
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-marking i.marking-circle {
+  color: #a9bfca;
+  background: rgb(255 255 255 / 4%);
+  border-color: rgb(255 255 255 / 16%);
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-marking i.marking-circle.active {
+  color: #071019;
+  background: var(--litm-vo-accent);
   border-color: var(--litm-vo-accent);
   box-shadow:
-    0 0 calc(12px * var(--litm-vo-glow))
-    rgb(var(--litm-vo-accent-rgb) / 24%);
+    0 0 7px rgb(var(--litm-vo-accent-rgb) / 32%);
 }
 
 /* ==========================================================================
-   Other Mist Engine windows
+   7. CHARACTER SHEET — EDIT MODE
    ========================================================================== */
 
-body.litm-vo-scifi .application.mist-engine .window-header,
-body.litm-vo-scifi .mist-engine.application .window-header,
-body.litm-vo-scifi #scene-data-app .window-header,
-body.litm-vo-scifi #how-to-play-app .window-header,
-body.litm-vo-scifi #camping-app .window-header,
-body.litm-vo-scifi #group-action-app .window-header,
-body.litm-vo-scifi #dice-roll-app .window-header,
-body.litm-vo-scifi #themekit-selection-app .window-header,
-body.litm-vo-scifi #themekit-character-app .window-header {
-  background:
-    linear-gradient(90deg,
-      rgb(var(--litm-vo-accent-rgb) / 14%),
-      rgb(3 13 20 / 92%) 48%,
-      rgb(var(--litm-vo-secondary-rgb) / 7%));
-  border-bottom: 1px solid rgb(var(--litm-vo-accent-rgb) / 32%);
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode {
+  --litm-premium-left-margin: 0px;
 }
 
-body.litm-vo-scifi .application.mist-engine .window-title,
-body.litm-vo-scifi .mist-engine.application .window-title {
-  color: #ebf9fd;
-  letter-spacing: .035em;
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .sheet-header.edit-mode {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: none;
+  margin-bottom: 10px;
+  padding: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
 }
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .sheet-header.edit-mode .header-fields {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 100%;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  gap: .5rem;
+  align-items: flex-start;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .sheet-header.edit-mode .portrait-img {
+  flex: 0 0 150px;
+  width: 150px;
+  min-width: 150px;
+  max-width: 150px;
+  height: 150px;
+  margin-right: 10px;
+  object-fit: cover;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 34%);
+  border-radius: 6px;
+  box-shadow:
+    0 0 12px rgb(var(--litm-vo-accent-rgb) / 12%);
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .sheet-header.edit-mode .col-character-name.edit-mode {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  width: auto;
+  max-width: none;
+  min-width: 0;
+  margin: 0;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .sheet-header.edit-mode h1.charname {
+  width: 100%;
+  margin: 0 0 8px;
+  padding: 0;
+  border: 0;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .sheet-header.edit-mode h1.charname input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 54px;
+  margin: 0;
+  padding: 4px 10px;
+  color: #f4fbff;
+  -webkit-text-fill-color: #f4fbff;
+  background: rgb(5 15 23 / 82%);
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 30%);
+  border-radius: 3px;
+  font: inherit;
+  text-align: left;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .sheet-header.edit-mode .short-description {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .sheet-header.edit-mode .short-description input {
+  box-sizing: border-box;
+  width: 100%;
+  color: #dfeef4;
+  -webkit-text-fill-color: #dfeef4;
+  background: rgb(5 15 23 / 82%);
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 25%);
+  border-radius: 3px;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .sheet-header.edit-mode .grid.grid-4col {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: 100%;
+  gap: 10px;
+  margin: 10px 0;
+  padding: 0;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .sheet-header.edit-mode .change-custom-background-btn {
+  width: auto;
+  min-width: 0;
+  height: auto;
+  white-space: normal;
+  line-height: normal;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .character-sheet-divider .right-side.edit-mode {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  margin-left: 0;
+  flex: 1 1 100%;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .right-side.edit-mode .litm-character-themebooks-container {
+  box-sizing: border-box;
+  width: auto;
+  max-width: none;
+  min-width: 0;
+  margin: 5px;
+  padding: 0;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebooks-container.edit-mode,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .grid-themebook-container.edit-mode {
+  display: grid;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  min-width: 233px;
+  height: 100%;
+  grid-template-columns: repeat(auto-fit, 260px);
+  gap: 2px;
+  margin-top: 0;
+  margin-bottom: 5px;
+  padding: 0;
+  justify-content: center;
+  align-items: stretch;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebooks-container.edit-mode .themebook-container {
+  position: static;
+  flex-grow: .25;
+  padding-bottom: 8px;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebooks-container.edit-mode .container-themebook-with-border {
+  clip-path: none;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebooks-container.edit-mode .themebook-style h2.theme-name {
+  position: relative;
+  box-sizing: border-box;
+  height: 30px;
+  margin: 0;
+  padding: 0 24px 0 8px;
+  line-height: 1.8em;
+  color: #effbff;
+  background:
+    linear-gradient(
+      90deg,
+      rgb(var(--litm-vo-accent-rgb) / 20%),
+      rgb(4 16 24 / 82%)
+    );
+  border-bottom: 1px solid rgb(var(--litm-vo-accent-rgb) / 24%);
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebook-style h2.theme-name > a {
+  position: relative;
+  float: right;
+  margin-left: 7px;
+  color: #c7f4ff;
+  opacity: .9;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebook-style h2.theme-name > a:hover {
+  color: #fff;
+  opacity: 1;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themekit-container {
+  margin: 0;
+  color: #dcebf2;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themekit-button {
+  width: auto;
+  margin: 0;
+  color: #eaf9fd;
+  background: rgb(var(--litm-vo-accent-rgb) / 8%);
+  border-color: rgb(var(--litm-vo-accent-rgb) / 30%);
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebook-section-header {
+  margin: 0;
+  padding: 0;
+  min-height: 0;
+  color: #dff8ff;
+  background:
+    linear-gradient(
+      90deg,
+      rgb(var(--litm-vo-accent-rgb) / 16%),
+      rgb(var(--litm-vo-accent-rgb) / 4%)
+    );
+  border-left: 3px solid var(--litm-vo-accent);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .item-powertag-line,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .item-weakness-line {
+  min-height: 23px;
+  margin: 5px;
+  padding: 0;
+  border-bottom: 1.5px solid rgb(var(--litm-vo-accent-rgb) / 10%);
+  align-items: center;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .letter-box {
+  color: #b8d1dc;
+  -webkit-text-fill-color: #b8d1dc;
+  text-align: center;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebook-entry-input[type="text"],
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .quest-textarea {
+  box-sizing: border-box;
+  min-width: 0;
+  color: #e5f0f5;
+  -webkit-text-fill-color: #e5f0f5;
+  background: rgb(7 17 25 / 92%);
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 26%);
+  border-radius: 3px;
+  box-shadow: none;
+  opacity: 1;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebook-entry-input[type="text"] {
+  width: auto;
+  padding: 0 .5em;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebook-entry-input[type="text"]::placeholder,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .quest-textarea::placeholder {
+  color: #748d99;
+  -webkit-text-fill-color: #748d99;
+  opacity: 1;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .item-weakness-line .themebook-entry-input[type="text"] {
+  color: #ffd9e7;
+  -webkit-text-fill-color: #ffd9e7;
+  border: 2px solid var(--litm-vo-weakness);
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebook-entry-input[type="checkbox"] {
+  accent-color: var(--litm-vo-accent);
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .item-powertag-line .fa-trash {
+  color: #9fefff;
+  opacity: .85;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .item-weakness-line .fa-trash {
+  color: #ff78aa;
+  opacity: .9;
+}
+
+/* ==========================================================================
+   8. NOTES & BIOGRAPHY
+   ========================================================================== */
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .tab-notes.container-card-with-border,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .tab-biography.container-card-with-border {
+  box-sizing: border-box;
+  height: 100%;
+  padding: 18px 22px;
+  color: #deebf1;
+  background:
+    linear-gradient(
+      135deg,
+      rgb(var(--litm-vo-accent-rgb) / 5%),
+      transparent 36%
+    ),
+    rgb(5 14 22 / 93%);
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 30%);
+  border-top: 2px solid rgb(var(--litm-vo-accent-rgb) / 58%);
+  border-radius: 4px;
+  -moz-border-image: none;
+  -webkit-border-image: none;
+  -o-border-image: none;
+  border-image: none;
+  box-shadow:
+    inset 0 0 28px rgb(var(--litm-vo-accent-rgb) / 2%),
+    0 8px 22px rgb(0 0 0 / 24%);
+}
+
+body.litm-vo-scifi .mist-engine .tab-notes,
+body.litm-vo-scifi .mist-engine .tab-biography,
+body.litm-vo-scifi .mist-engine .tab-notes prose-mirror,
+body.litm-vo-scifi .mist-engine .tab-biography prose-mirror,
+body.litm-vo-scifi .mist-engine .tab-notes .editor-content,
+body.litm-vo-scifi .mist-engine .tab-biography .editor-content,
+body.litm-vo-scifi .mist-engine .tab-notes .ProseMirror,
+body.litm-vo-scifi .mist-engine .tab-biography .ProseMirror {
+  --color-text-primary: #e5f0f5;
+  --color-text-dark-primary: #e5f0f5;
+  --color-text-dark-secondary: #b8cbd4;
+  --color-text-light-primary: #f3fbff;
+  color: #e5f0f5;
+  background-color: transparent;
+}
+
+body.litm-vo-scifi .mist-engine .tab-notes :is(p, li, td, th, strong, b, em, i, span, div),
+body.litm-vo-scifi .mist-engine .tab-biography :is(p, li, td, th, strong, b, em, i, span, div) {
+  color: #e5f0f5;
+}
+
+body.litm-vo-scifi .mist-engine .tab-notes :is(h1, h2, h3, h4, h5, h6),
+body.litm-vo-scifi .mist-engine .tab-biography :is(h1, h2, h3, h4, h5, h6) {
+  color: #bff4ff;
+  text-shadow:
+    0 0 10px rgb(var(--litm-vo-accent-rgb) / 22%);
+}
+
+body.litm-vo-scifi .mist-engine .tab-notes .black-strong,
+body.litm-vo-scifi .mist-engine .tab-biography .black-strong {
+  color: #f6fcff;
+  -webkit-text-fill-color: #f6fcff;
+}
+
+body.litm-vo-scifi .mist-engine .tab-notes table,
+body.litm-vo-scifi .mist-engine .tab-biography table {
+  color: #e5f0f5;
+  background: rgb(3 13 20 / 38%);
+}
+
+body.litm-vo-scifi .mist-engine .tab-notes table td,
+body.litm-vo-scifi .mist-engine .tab-notes table th,
+body.litm-vo-scifi .mist-engine .tab-biography table td,
+body.litm-vo-scifi .mist-engine .tab-biography table th {
+  color: #e5f0f5;
+  border-color: rgb(var(--litm-vo-accent-rgb) / 20%);
+}
+
+body.litm-vo-scifi .mist-engine .tab-notes mark,
+body.litm-vo-scifi .mist-engine .tab-biography mark {
+  color: #071019;
+  -webkit-text-fill-color: #071019;
+  border-radius: 3px;
+}
+
+body.litm-vo-scifi .mist-engine .tab-notes mark.tag,
+body.litm-vo-scifi .mist-engine .tab-biography mark.tag {
+  background: #f2cf70;
+}
+
+body.litm-vo-scifi .mist-engine .tab-notes mark.status,
+body.litm-vo-scifi .mist-engine .tab-notes mark.tag.green,
+body.litm-vo-scifi .mist-engine .tab-biography mark.status,
+body.litm-vo-scifi .mist-engine .tab-biography mark.tag.green {
+  background: #8fd3b0;
+}
+
+body.litm-vo-scifi .mist-engine .tab-notes mark.weakness,
+body.litm-vo-scifi .mist-engine .tab-biography mark.weakness {
+  background: #ff93bc;
+}
+
+/* ==========================================================================
+   9. ROLL DIALOGS — OFFICIAL GEOMETRY, SCI-FI SKIN
+   ========================================================================== */
+
+body.litm-vo-scifi #dice-roll-app > section.window-content,
+body.litm-vo-scifi .gm-roll-confirm-dialog > section.window-content,
+body.litm-vo-scifi .sacrifice-roll-dialog > section.window-content {
+  color: #dfeaf0;
+  font-family: Labrada, serif;
+  background:
+    linear-gradient(
+      rgb(var(--litm-vo-accent-rgb) / 2.5%) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgb(var(--litm-vo-accent-rgb) / 2.5%) 1px,
+      transparent 1px
+    ),
+    linear-gradient(155deg, #0b1721, #050b11 75%);
+  background-size: 26px 26px, 26px 26px, auto;
+  border-style: solid;
+  border-width: 10px;
+  border-color: rgb(var(--litm-vo-accent-rgb) / 24%);
+  -moz-border-image: none;
+  -webkit-border-image: none;
+  -o-border-image: none;
+  border-image: none;
+  box-shadow:
+    inset 0 0 26px rgb(var(--litm-vo-accent-rgb) / 2%);
+}
+
+body.litm-vo-scifi #dice-roll-app .resource-label,
+body.litm-vo-scifi .gm-roll-confirm-dialog .resource-label,
+body.litm-vo-scifi .sacrifice-roll-dialog .resource-label,
+body.litm-vo-scifi #group-action-app .resource-label {
+  color: #bdeeff;
+}
+
+body.litm-vo-scifi #dice-roll-app .selected-tags-container,
+body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container {
+  margin: 10px 0;
+  gap: 2px;
+}
+
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag,
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .status,
+body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .tag,
+body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .status {
+  padding: 2px;
+  border-radius: 2px;
+  font-family: Labrada, serif;
+  font-weight: bold;
+  font-style: italic;
+  text-align: center;
+  border: 1px solid currentColor;
+  box-shadow: none;
+}
+
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag.positive,
+body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .tag.positive {
+  color: #ffeaa9;
+  background: rgb(202 158 44 / 20%);
+  border-color: rgb(226 187 74 / 58%);
+}
+
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .status.positive,
+body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .status.positive {
+  color: #c6f7df;
+  background: rgb(70 190 130 / 18%);
+  border-color: rgb(83 214 153 / 58%);
+}
+
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag.negative,
+body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .tag.negative {
+  color: #ffd7c6;
+  background: rgb(224 107 62 / 18%);
+  border-color: rgb(241 126 81 / 60%);
+}
+
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .status.negative,
+body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .status.negative {
+  color: #ffd3eb;
+  background: rgb(195 74 133 / 19%);
+  border-color: rgb(226 99 161 / 62%);
+}
+
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag.unapplied-preview {
+  opacity: .75;
+}
+
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag.inverted-tag,
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag.inverted-challenge {
+  outline: 1px dashed var(--litm-vo-secondary);
+  outline-offset: -3px;
+}
+
+body.litm-vo-scifi #dice-roll-app #positiveInput,
+body.litm-vo-scifi #dice-roll-app #negativeInput {
+  color: #f4fbff;
+  background: #07131c;
+  border-color: rgb(var(--litm-vo-accent-rgb) / 35%);
+  text-align: center;
+}
+
+body.litm-vo-scifi #dice-roll-app #button-positive-minus,
+body.litm-vo-scifi #dice-roll-app #button-positive-plus,
+body.litm-vo-scifi #dice-roll-app #button-negative-minus,
+body.litm-vo-scifi #dice-roll-app #button-negative-plus {
+  color: #c8effa;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+body.litm-vo-scifi #dice-roll-app .might-scale-entry {
+  color: #adbfca;
+}
+
+body.litm-vo-scifi #dice-roll-app .might-scale-radio {
+  accent-color: var(--litm-vo-accent);
+  filter:
+    drop-shadow(
+      0 0 4px
+      rgb(var(--litm-vo-accent-rgb) / 28%)
+    );
+}
+
+body.litm-vo-scifi #dice-roll-app .might-scale-radio:checked {
+  filter:
+    drop-shadow(
+      0 0 4px
+      rgb(var(--litm-vo-accent-rgb) / 75%)
+    )
+    drop-shadow(
+      0 0 9px
+      rgb(var(--litm-vo-accent-rgb) / 35%)
+    );
+}
+
+body.litm-vo-scifi #dice-roll-app .power-label,
+body.litm-vo-scifi #group-action-app .power-label {
+  color: #f0fbff;
+  text-shadow:
+    0 0 9px rgb(var(--litm-vo-accent-rgb) / 28%);
+}
+
+body.litm-vo-scifi #dice-roll-app .request-help-button {
+  border-color: rgb(var(--litm-vo-secondary-rgb) / 55%);
+  background:
+    linear-gradient(
+      180deg,
+      rgb(var(--litm-vo-secondary-rgb) / 17%),
+      rgb(8 13 25 / 96%)
+    );
+}
+
+/* ==========================================================================
+   10. CHAT ROLL CARDS
+   ========================================================================== */
+
+body.litm-vo-scifi .chat-message:has(.roll-card) {
+  color: #dcebf1;
+  background:
+    linear-gradient(145deg, #0a1721, #050b11);
+  border-color: rgb(var(--litm-vo-accent-rgb) / 24%);
+  box-shadow:
+    inset 0 0 24px rgb(var(--litm-vo-accent-rgb) / 2%),
+    0 5px 16px rgb(0 0 0 / 25%);
+}
+
+body.litm-vo-scifi .chat-message:has(.roll-card) .message-header,
+body.litm-vo-scifi .chat-message:has(.roll-card) .message-header *,
+body.litm-vo-scifi .chat-message:has(.roll-card) .message-content {
+  color: #cfe0e8;
+}
+
+body.litm-vo-scifi .chat-message .roll-card {
+  color: #e3eff4;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .card-title {
+  color: #e9f9ff;
+  background: rgb(var(--litm-vo-accent-rgb) / 8%);
+  border-left: 3px solid var(--litm-vo-accent);
+  border-bottom-color: rgb(var(--litm-vo-accent-rgb) / 22%);
+}
+
+body.litm-vo-scifi .chat-message .roll-card .selected-tags .resource-label {
+  color: #91adba;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .selected-tags .tag {
+  color: #eaf6fa;
+  background: rgb(var(--litm-vo-accent-rgb) / 9%);
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 23%);
+  border-left: 3px solid var(--litm-vo-accent);
+  border-radius: 3px;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .selected-tags .tag.positive:not(.weakness) {
+  color: #c6f7df;
+  background: rgb(70 190 130 / 16%);
+  border-color: rgb(83 214 153 / 48%);
+  border-left-color: var(--litm-vo-status-pos);
+}
+
+body.litm-vo-scifi .chat-message .roll-card .selected-tags .tag.negative,
+body.litm-vo-scifi .chat-message .roll-card .selected-tags .tag.weakness {
+  color: #ffd7c6;
+  background: rgb(224 107 62 / 16%);
+  border-color: rgb(241 126 81 / 50%);
+  border-left-color: var(--litm-vo-tag-neg);
+}
+
+body.litm-vo-scifi .chat-message .roll-card .dice-roll .dice-formula,
+body.litm-vo-scifi .chat-message .roll-card .dice-roll .dice-total {
+  color: #edf9fc;
+  background: #07131c;
+  border-color: rgb(var(--litm-vo-accent-rgb) / 28%);
+  box-shadow:
+    inset 0 0 10px rgb(var(--litm-vo-accent-rgb) / 3%);
+}
+
+body.litm-vo-scifi .chat-message .roll-card .consequence-result-negative,
+body.litm-vo-scifi .chat-message .roll-card .consequence-result-neutral,
+body.litm-vo-scifi .chat-message .roll-card .consequence-result-positive {
+  color: #e6f0f4;
+  background-image: none;
+  background-color: #08151f;
+  border: 1px solid rgb(255 255 255 / 8%);
+  border-radius: 3px;
+  box-shadow:
+    inset 0 0 20px rgb(0 0 0 / 20%);
+}
+
+body.litm-vo-scifi .chat-message .roll-card .consequence-result-negative {
+  border-left: 4px solid #ff648f;
+  background:
+    linear-gradient(
+      90deg,
+      rgb(255 100 143 / 10%),
+      transparent 58%
+    ),
+    #08151f;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .consequence-result-neutral {
+  border-left: 4px solid #ffbf61;
+  background:
+    linear-gradient(
+      90deg,
+      rgb(255 191 97 / 9%),
+      transparent 58%
+    ),
+    #08151f;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .consequence-result-positive {
+  border-left: 4px solid #69e3b0;
+  background:
+    linear-gradient(
+      90deg,
+      rgb(105 227 176 / 10%),
+      transparent 58%
+    ),
+    #08151f;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .consequence-container,
+body.litm-vo-scifi .chat-message .roll-card .consequence-container :is(p, li, strong, em) {
+  color: #e6f0f4;
+  font-family: inherit;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .consequence-container .heading {
+  color: #f2fbff;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .consequence-container .power-counter {
+  color: #bff4ff;
+  border-top-color: rgb(var(--litm-vo-accent-rgb) / 18%);
+}
+
+body.litm-vo-scifi .chat-message .roll-card .detailed-spend {
+  color: #dcebf1;
+  border-top-color: rgb(var(--litm-vo-accent-rgb) / 20%);
+}
+
+body.litm-vo-scifi .chat-message .roll-card .detailed-spend-header {
+  color: #bff3ff;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .detailed-spend-remaining {
+  color: var(--litm-vo-accent);
+}
+
+body.litm-vo-scifi .chat-message .roll-card .detailed-spend-btn {
+  color: #edf9fc;
+  background:
+    linear-gradient(
+      180deg,
+      rgb(var(--litm-vo-accent-rgb) / 13%),
+      #07131c
+    );
+  border-color: rgb(var(--litm-vo-accent-rgb) / 30%);
+}
+
+body.litm-vo-scifi .chat-message .roll-card .critical-roll,
+body.litm-vo-scifi .chat-message .roll-card .fumble-roll {
+  color: #f2fbff;
+  background: rgb(var(--litm-vo-accent-rgb) / 8%);
+  border-color: rgb(var(--litm-vo-accent-rgb) / 25%);
+  border-left: 3px solid var(--litm-vo-accent);
+}
+
+body.litm-vo-scifi .chat-message .roll-card .fumble-roll {
+  background: rgb(255 100 157 / 7%);
+  border-color: rgb(255 100 157 / 25%);
+  border-left-color: #ff649d;
+}
+
+body.litm-vo-scifi .chat-message .camping-chat-entry {
+  color: #e2eef3;
+  background:
+    linear-gradient(
+      135deg,
+      rgb(var(--litm-vo-accent-rgb) / 6%),
+      transparent 45%
+    ),
+    #08151f;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 23%);
+  border-left: 3px solid #69e3b0;
+}
+
+body.litm-vo-scifi .chat-message .camping-chat-title {
+  color: #c8f5e3;
+  border-bottom-color: rgb(105 227 176 / 18%);
+}
+
+/* ==========================================================================
+   11. AUXILIARY APPS
+   ========================================================================== */
 
 body.litm-vo-scifi #scene-data-app > .window-content,
 body.litm-vo-scifi #how-to-play-app > .window-content,
 body.litm-vo-scifi #camping-app > .window-content,
 body.litm-vo-scifi #group-action-app > .window-content,
-body.litm-vo-scifi #dice-roll-app > .window-content,
 body.litm-vo-scifi #themekit-selection-app > .window-content,
 body.litm-vo-scifi #themekit-character-app > .window-content {
   color: var(--litm-vo-text);
   background:
-    linear-gradient(rgb(var(--litm-vo-accent-rgb) / 3%) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(var(--litm-vo-accent-rgb) / 3%) 1px, transparent 1px),
-    linear-gradient(145deg, #0a1721, #040a10) !important;
-  background-size: 30px 30px, 30px 30px, auto !important;
+    linear-gradient(
+      rgb(var(--litm-vo-accent-rgb) / 3%) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgb(var(--litm-vo-accent-rgb) / 3%) 1px,
+      transparent 1px
+    ),
+    linear-gradient(145deg, #0a1721, #040a10);
+  background-size: 30px 30px, 30px 30px, auto;
+}
+
+body.litm-vo-scifi #group-action-app .tag {
+  color: #edf9fc;
+  background: rgb(var(--litm-vo-accent-rgb) / 9%);
+  border-color: rgb(var(--litm-vo-accent-rgb) / 25%);
 }
 
 /* ==========================================================================
-   Chat cards
+   12. SCROLLBARS + OPTIONAL EFFECTS
    ========================================================================== */
 
-body.litm-vo-scifi .chat-message .mist-engine,
-body.litm-vo-scifi .chat-message .roll-card,
-body.litm-vo-scifi .chat-message .camping-chat-entry,
-body.litm-vo-scifi .chat-message .group-roll-card {
-  color: #dcebf1;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 24%);
-  border-radius: var(--litm-vo-card-radius);
-  background:
-    linear-gradient(135deg,
-      rgb(var(--litm-vo-accent-rgb) / 7%),
-      transparent 42%),
-    linear-gradient(155deg, #0e1d29, #071019);
+body.litm-vo-scifi .mist-engine .scrollable,
+body.litm-vo-scifi #dice-roll-app .scrollable,
+body.litm-vo-scifi #group-action-app .scrollable {
+  scrollbar-width: thin;
+  scrollbar-color:
+    rgb(var(--litm-vo-accent-rgb) / 34%)
+    transparent;
 }
 
-/* ==========================================================================
-   Optional scanlines — disabled by default
-   ========================================================================== */
+body.litm-vo-scifi .mist-engine .scrollable::-webkit-scrollbar,
+body.litm-vo-scifi #dice-roll-app .scrollable::-webkit-scrollbar,
+body.litm-vo-scifi #group-action-app .scrollable::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+body.litm-vo-scifi .mist-engine .scrollable::-webkit-scrollbar-track,
+body.litm-vo-scifi #dice-roll-app .scrollable::-webkit-scrollbar-track,
+body.litm-vo-scifi #group-action-app .scrollable::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body.litm-vo-scifi .mist-engine .scrollable::-webkit-scrollbar-thumb,
+body.litm-vo-scifi #dice-roll-app .scrollable::-webkit-scrollbar-thumb,
+body.litm-vo-scifi #group-action-app .scrollable::-webkit-scrollbar-thumb {
+  background: rgb(var(--litm-vo-accent-rgb) / 32%);
+  border: 1px solid rgb(3 11 17 / 60%);
+  border-radius: 999px;
+}
 
 body.litm-vo-scifi.litm-vo-scanlines .mist-engine .window-content::after,
 body.litm-vo-scifi.litm-vo-scanlines #scene-data-app > .window-content::after,
@@ -567,2142 +1586,15 @@ body.litm-vo-scifi.litm-vo-scanlines #dice-roll-app > .window-content::after {
   mix-blend-mode: screen;
 }
 
-/* ==========================================================================
-   Compact sheet: defer to official compact geometry
-   ========================================================================== */
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-compact .character-name-container {
-  position: static !important;
-  width: auto !important;
-  max-width: none !important;
-  padding: 0;
+body.litm-vo-scifi.litm-vo-dense .mist-engine .window-content,
+body.litm-vo-scifi.litm-vo-dense #scene-data-app .window-content {
+  --form-field-height: 28px;
+  font-size: .94em;
 }
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-compact .character-sheet-divider .right-side {
-  margin-left: 0 !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-compact .litm-character-sheet-tabs {
-  margin-left: 0 !important;
-}
-
-/* ==========================================================================
-   Accessibility
-   ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
   body.litm-vo-scifi .mist-engine *,
   body.litm-vo-scifi #scene-data-app * {
     transition: none !important;
   }
-}
-
-
-/* ==========================================================================
-   v0.3.1 hotfix — artwork, overlap, selection visibility, notes/biography
-   ========================================================================== */
-
-/* Full sheet: make the 300px artwork lane deterministic instead of relying
-   on the right-side margin from the upstream flex layout. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #character .character-sheet-divider .right-side,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #other .character-sheet-divider .right-side {
-  width: 100% !important;
-  margin-left: 0 !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #character .litm-character-themebooks-container,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #other .litm-character-themebooks-container {
-  box-sizing: border-box;
-  width: calc(100% - var(--litm-premium-left-margin)) !important;
-  margin-left: var(--litm-premium-left-margin) !important;
-  margin-right: 0 !important;
-}
-
-/* Keep the actor art visible and readable under the HUD. The JS layer
-   re-applies the actual custom background URL with !important on render. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) .window-content {
-  background-color: #061019 !important;
-  background-size: cover !important;
-  background-position: left top !important;
-  background-repeat: no-repeat !important;
-  box-shadow: inset 0 0 55px rgb(0 0 0 / 18%) !important;
-}
-
-/* Name stays inside the reserved artwork lane, never over the card grid. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) .character-name-container {
-  box-sizing: border-box;
-  left: 0 !important;
-  width: var(--litm-premium-left-margin) !important;
-  max-width: var(--litm-premium-left-margin) !important;
-  padding: 0 18px !important;
-}
-
-/* Make selected tags unmistakable on a dark sheet. */
-body.litm-vo-scifi .mist-engine .litm-pc-powertag.selected,
-body.litm-vo-scifi .mist-engine .litm-pc-storytag.selected {
-  z-index: 2;
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-  text-shadow:
-    0 0 5px rgb(var(--litm-vo-accent-rgb) / 85%),
-    0 0 12px rgb(var(--litm-vo-accent-rgb) / 42%) !important;
-}
-
-body.litm-vo-scifi .mist-engine .litm-pc-powertag.selected::before,
-body.litm-vo-scifi .mist-engine .litm-pc-storytag.selected::before {
-  content: "" !important;
-  position: absolute !important;
-  inset: -5px -8px !important;
-  background: rgb(var(--litm-vo-accent-rgb) / 7%) !important;
-  border: 2px solid var(--litm-vo-accent) !important;
-  border-radius: 999px !important;
-  box-shadow:
-    0 0 0 1px rgb(0 0 0 / 55%),
-    0 0 10px rgb(var(--litm-vo-accent-rgb) / 48%),
-    inset 0 0 8px rgb(var(--litm-vo-accent-rgb) / 12%) !important;
-  pointer-events: none;
-}
-
-body.litm-vo-scifi .mist-engine .fts-selectable.selected {
-  color: #fff !important;
-  background: rgb(var(--litm-vo-accent-rgb) / 15%) !important;
-  outline: 2px solid var(--litm-vo-accent);
-  outline-offset: 2px;
-  border-radius: 999px;
-  padding-inline: 5px;
-  box-shadow: 0 0 10px rgb(var(--litm-vo-accent-rgb) / 35%);
-}
-
-/* Force every normal story/power line in cards away from upstream black. */
-body.litm-vo-scifi .mist-engine .themebook-style .item-powertag-line,
-body.litm-vo-scifi .mist-engine .themebook-style .item-storytag-line,
-body.litm-vo-scifi .mist-engine .themebook-style .litm-pc-powertag,
-body.litm-vo-scifi .mist-engine .themebook-style .litm-pc-storytag,
-body.litm-vo-scifi .mist-engine .themebook-style .storytag-name,
-body.litm-vo-scifi .mist-engine .themebook-style .empty-message,
-body.litm-vo-scifi .mist-engine .themebook-style .fellowship-entries,
-body.litm-vo-scifi .mist-engine .themebook-style .fellowship-entries *,
-body.litm-vo-scifi .mist-engine .themebook-style.litm-backpack .powertags-container *,
-body.litm-vo-scifi .mist-engine .themebook-style.litm-fellowship-themecard .powertags-container *,
-body.litm-vo-scifi .mist-engine .themebook-style.litm-fellowship-relationship .powertags-container * {
-  color: #dcebf2 !important;
-  -webkit-text-fill-color: currentColor;
-}
-
-body.litm-vo-scifi .mist-engine .themebook-style .item-weakness-line,
-body.litm-vo-scifi .mist-engine .themebook-style .litm-pc-weakness {
-  color: #ff86b8 !important;
-  -webkit-text-fill-color: #ff86b8 !important;
-}
-
-/* Notes and Biography are rich-text documents, not cards. Give them their own
-   dark document surface and neutralize the upstream parchment border. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes.container-card-with-border,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography.container-card-with-border {
-  box-sizing: border-box;
-  height: 100% !important;
-  padding: 18px 22px !important;
-  color: #deebf1 !important;
-  background:
-    linear-gradient(135deg, rgb(var(--litm-vo-accent-rgb) / 5%), transparent 36%),
-    rgb(5 14 22 / 93%) !important;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 30%) !important;
-  border-top: 2px solid rgb(var(--litm-vo-accent-rgb) / 58%) !important;
-  border-radius: 4px;
-  -moz-border-image: none !important;
-  -webkit-border-image: none !important;
-  -o-border-image: none !important;
-  border-image: none !important;
-  box-shadow:
-    inset 0 0 28px rgb(var(--litm-vo-accent-rgb) / 2%),
-    0 8px 22px rgb(0 0 0 / 24%);
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .editor-content,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .editor-content,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes prose-mirror,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography prose-mirror {
-  color: #deebf1 !important;
-  background-color: transparent !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes p,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes li,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes td,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes th,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes strong,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes em,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes .black-strong,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography p,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography li,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography td,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography th,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography strong,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography em {
-  color: #deebf1 !important;
-  -webkit-text-fill-color: #deebf1 !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes h1,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes h2,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes h3,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes h4,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography h1,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography h2,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography h3,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography h4 {
-  color: #bff3ff !important;
-  -webkit-text-fill-color: #bff3ff !important;
-  text-shadow: 0 0 8px rgb(var(--litm-vo-accent-rgb) / 24%);
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes h3.with-line::after,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography h3.with-line::after {
-  height: 2px !important;
-  background: linear-gradient(90deg, var(--litm-vo-accent), transparent) !important;
-  background-image: none !important;
-  opacity: .65;
-}
-
-/* The example-actions table ships with explicit black text and dark borders. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes table.example-actions-table {
-  width: 100%;
-  color: #deebf1 !important;
-  background: rgb(255 255 255 / 2%) !important;
-  border-collapse: collapse;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes table.example-actions-table tr,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes table.example-actions-table td,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes table.example-actions-table th {
-  color: #deebf1 !important;
-  background: transparent !important;
-  border-color: rgb(var(--litm-vo-accent-rgb) / 17%) !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes table.example-actions-table .black-strong {
-  color: #f2fbff !important;
-  -webkit-text-fill-color: #f2fbff !important;
-  font-weight: 700;
-}
-
-/* Keep tag/status chips intentionally dark-on-light for readability. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes mark.tag,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes mark.status,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography mark.tag,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography mark.status {
-  color: #071019 !important;
-  -webkit-text-fill-color: #071019 !important;
-  border-radius: 3px;
-}
-
-/* Never let the full-sheet name/description overlap a wrapped second card row. */
-@media (max-width: 1500px) {
-  body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #character .litm-character-themebooks-container,
-  body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #other .litm-character-themebooks-container {
-    padding-left: 8px;
-  }
-
-  body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) .character-name-container {
-    z-index: 5;
-  }
-}
-
-
-/* ==========================================================================
-   v0.4.0 visual audit — rolls, chat results, notes and theme-card rhythm
-   ========================================================================== */
-
-/* --------------------------------------------------------------------------
-   Theme-card spacing: keep official 186px geometry but stop cards touching.
-   -------------------------------------------------------------------------- */
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .grid-themebook-container {
-  column-gap: 8px !important;
-  row-gap: 8px !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebook-container {
-  padding-bottom: 0 !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .container-themebook-with-border {
-  outline: 1px solid rgb(0 0 0 / 28%);
-  outline-offset: -1px;
-}
-
-/* Give the second row a clear visual break from the first. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container {
-  align-content: start !important;
-}
-
-/* --------------------------------------------------------------------------
-   Notes / Biography — broad inherited colour fixes for ProseMirror content.
-   -------------------------------------------------------------------------- */
-
-body.litm-vo-scifi .mist-engine .tab-notes,
-body.litm-vo-scifi .mist-engine .tab-biography,
-body.litm-vo-scifi .mist-engine .tab-notes prose-mirror,
-body.litm-vo-scifi .mist-engine .tab-biography prose-mirror,
-body.litm-vo-scifi .mist-engine .tab-notes .editor-content,
-body.litm-vo-scifi .mist-engine .tab-biography .editor-content,
-body.litm-vo-scifi .mist-engine .tab-notes .ProseMirror,
-body.litm-vo-scifi .mist-engine .tab-biography .ProseMirror {
-  --color-text-primary: #e5f0f5;
-  --color-text-dark-primary: #e5f0f5;
-  --color-text-dark-secondary: #b8cbd4;
-  --color-text-light-primary: #f3fbff;
-  color: #e5f0f5 !important;
-}
-
-body.litm-vo-scifi .mist-engine .tab-notes :is(p, li, td, th, strong, b, em, i, span, div),
-body.litm-vo-scifi .mist-engine .tab-biography :is(p, li, td, th, strong, b, em, i, span, div) {
-  color: #e5f0f5 !important;
-}
-
-body.litm-vo-scifi .mist-engine .tab-notes :is(h1, h2, h3, h4, h5, h6),
-body.litm-vo-scifi .mist-engine .tab-biography :is(h1, h2, h3, h4, h5, h6) {
-  color: #bff4ff !important;
-  text-shadow: 0 0 10px rgb(var(--litm-vo-accent-rgb) / 22%) !important;
-}
-
-body.litm-vo-scifi .mist-engine .tab-notes .black-strong,
-body.litm-vo-scifi .mist-engine .tab-biography .black-strong {
-  color: #f6fcff !important;
-  -webkit-text-fill-color: #f6fcff !important;
-}
-
-body.litm-vo-scifi .mist-engine .tab-notes table,
-body.litm-vo-scifi .mist-engine .tab-biography table {
-  color: #e5f0f5 !important;
-  background: rgb(3 13 20 / 38%) !important;
-}
-
-body.litm-vo-scifi .mist-engine .tab-notes table td,
-body.litm-vo-scifi .mist-engine .tab-notes table th,
-body.litm-vo-scifi .mist-engine .tab-biography table td,
-body.litm-vo-scifi .mist-engine .tab-biography table th {
-  color: #e5f0f5 !important;
-  border-color: rgb(var(--litm-vo-accent-rgb) / 20%) !important;
-}
-
-body.litm-vo-scifi .mist-engine .tab-notes table tr:nth-child(even),
-body.litm-vo-scifi .mist-engine .tab-biography table tr:nth-child(even) {
-  background: rgb(var(--litm-vo-accent-rgb) / 3%) !important;
-}
-
-/* Restore purposeful chip colours after the broad rich-text colour pass. */
-body.litm-vo-scifi .mist-engine .tab-notes mark,
-body.litm-vo-scifi .mist-engine .tab-biography mark {
-  -webkit-text-fill-color: #071019 !important;
-  color: #071019 !important;
-  border-radius: 3px;
-}
-
-body.litm-vo-scifi .mist-engine .tab-notes mark.tag,
-body.litm-vo-scifi .mist-engine .tab-biography mark.tag {
-  background: #f2cf70 !important;
-}
-
-body.litm-vo-scifi .mist-engine .tab-notes mark.status,
-body.litm-vo-scifi .mist-engine .tab-notes mark.tag.green,
-body.litm-vo-scifi .mist-engine .tab-biography mark.status,
-body.litm-vo-scifi .mist-engine .tab-biography mark.tag.green {
-  background: #8fd3b0 !important;
-}
-
-body.litm-vo-scifi .mist-engine .tab-notes mark.weakness,
-body.litm-vo-scifi .mist-engine .tab-biography mark.weakness {
-  background: #ff93bc !important;
-}
-
-/* --------------------------------------------------------------------------
-   Every roll HUD that uses the official parchment shell.
-   -------------------------------------------------------------------------- */
-
-body.litm-vo-scifi #dice-roll-app > section.window-content,
-body.litm-vo-scifi .gm-roll-confirm-dialog > section.window-content,
-body.litm-vo-scifi .sacrifice-roll-dialog > section.window-content,
-body.litm-vo-scifi #group-action-app > section.window-content {
-  color: #e8f3f7 !important;
-  background:
-    linear-gradient(rgb(var(--litm-vo-accent-rgb) / 3%) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(var(--litm-vo-accent-rgb) / 3%) 1px, transparent 1px),
-    radial-gradient(circle at 20% 0%, rgb(var(--litm-vo-accent-rgb) / 10%), transparent 38%),
-    linear-gradient(155deg, #0c1924, #050b11 72%) !important;
-  background-size: 24px 24px, 24px 24px, auto, auto !important;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 38%) !important;
-  border-top: 2px solid rgb(var(--litm-vo-accent-rgb) / 68%) !important;
-  border-radius: 4px;
-  -moz-border-image: none !important;
-  -webkit-border-image: none !important;
-  -o-border-image: none !important;
-  border-image: none !important;
-  box-shadow:
-    inset 0 0 30px rgb(var(--litm-vo-accent-rgb) / 3%),
-    0 10px 28px rgb(0 0 0 / 38%);
-}
-
-body.litm-vo-scifi #dice-roll-app .roll-dialog-container,
-body.litm-vo-scifi .gm-roll-confirm-dialog .roll-dialog-container,
-body.litm-vo-scifi .sacrifice-roll-dialog,
-body.litm-vo-scifi #group-action-app {
-  color: #e8f3f7 !important;
-}
-
-/* Section labels in roll HUDs. */
-body.litm-vo-scifi #dice-roll-app .resource-label,
-body.litm-vo-scifi .gm-roll-confirm-dialog .resource-label,
-body.litm-vo-scifi .sacrifice-roll-dialog .resource-label,
-body.litm-vo-scifi #group-action-app .resource-label {
-  color: #bdeeff !important;
-  font-weight: 750;
-  letter-spacing: .025em;
-  text-shadow: 0 0 8px rgb(var(--litm-vo-accent-rgb) / 18%);
-}
-
-body.litm-vo-scifi #dice-roll-app .selected-tags-container {
-  margin: 7px 0 !important;
-  gap: 4px !important;
-}
-
-/* Selected tags in the roll dialog become compact HUD rows instead of parchment
-   highlighter strips. */
-body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag,
-body.litm-vo-scifi #dice-roll-app .selected-tags-container .status,
-body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .tag,
-body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .status {
-  min-height: 26px;
-  box-sizing: border-box;
-  padding: 4px 8px !important;
-  color: #f0f9fc !important;
-  background: rgb(var(--litm-vo-accent-rgb) / 9%) !important;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 28%);
-  border-left: 3px solid var(--litm-vo-accent);
-  border-radius: 3px !important;
-  font-family: inherit !important;
-  font-style: normal !important;
-  font-weight: 600 !important;
-  text-align: left !important;
-}
-
-body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag.negative,
-body.litm-vo-scifi #dice-roll-app .selected-tags-container .status.negative,
-body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .tag.negative,
-body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .status.negative {
-  color: #ffdce9 !important;
-  background: rgb(255 103 157 / 8%) !important;
-  border-color: rgb(255 103 157 / 30%);
-  border-left-color: #ff679d;
-}
-
-body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag.unapplied-preview {
-  opacity: .48 !important;
-  filter: saturate(.5);
-}
-
-body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag.inverted-tag,
-body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag.inverted-challenge {
-  outline: 1px dashed var(--litm-vo-secondary) !important;
-  outline-offset: -3px !important;
-}
-
-body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag-icon,
-body.litm-vo-scifi #dice-roll-app .selected-tags-container .deselect-icon {
-  color: #c8f3ff !important;
-}
-
-/* Modifier controls: give +/- real buttons and center the number field. */
-body.litm-vo-scifi #dice-roll-app .form-group {
-  gap: 6px;
-  margin: 8px 0;
-}
-
-body.litm-vo-scifi #dice-roll-app .form-group > .flexrow {
-  align-items: center;
-  gap: 8px;
-}
-
-body.litm-vo-scifi #dice-roll-app #positiveInput,
-body.litm-vo-scifi #dice-roll-app #negativeInput {
-  flex: 1 1 auto;
-  height: 32px;
-  color: #f4fbff !important;
-  background: #07131c !important;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 35%) !important;
-  border-radius: 3px;
-  text-align: center;
-  font-size: 1rem;
-  font-weight: 800;
-}
-
-body.litm-vo-scifi #dice-roll-app #button-positive-minus,
-body.litm-vo-scifi #dice-roll-app #button-positive-plus,
-body.litm-vo-scifi #dice-roll-app #button-negative-minus,
-body.litm-vo-scifi #dice-roll-app #button-negative-plus {
-  display: grid;
-  place-items: center;
-  flex: 0 0 34px;
-  width: 34px;
-  height: 32px;
-  color: #d8f5ff !important;
-  background: rgb(var(--litm-vo-accent-rgb) / 8%);
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 30%);
-  border-radius: 3px;
-}
-
-body.litm-vo-scifi #dice-roll-app #button-positive-minus:hover,
-body.litm-vo-scifi #dice-roll-app #button-positive-plus:hover,
-body.litm-vo-scifi #dice-roll-app #button-negative-minus:hover,
-body.litm-vo-scifi #dice-roll-app #button-negative-plus:hover {
-  color: #fff !important;
-  background: rgb(var(--litm-vo-accent-rgb) / 18%);
-  border-color: var(--litm-vo-accent);
-  box-shadow: 0 0 9px rgb(var(--litm-vo-accent-rgb) / 28%);
-}
-
-/* Might scale as an actual segmented control. */
-body.litm-vo-scifi #dice-roll-app .scene-app-might-modifier {
-  margin: 10px 0 6px;
-  padding: 8px 10px;
-  background: rgb(var(--litm-vo-accent-rgb) / 4%);
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 18%);
-  border-radius: 4px;
-}
-
-body.litm-vo-scifi #dice-roll-app .scene-app-might-modifier .npc-subtitle-container-c {
-  margin-bottom: 7px;
-  color: #bdeeff !important;
-  background: transparent !important;
-  border-bottom: 1px solid rgb(var(--litm-vo-accent-rgb) / 20%);
-}
-
-body.litm-vo-scifi #dice-roll-app .might-scale-entry {
-  color: #adbfca !important;
-  font-weight: 700;
-}
-
-body.litm-vo-scifi #dice-roll-app .might-scale-radio {
-  accent-color: var(--litm-vo-accent);
-  filter: drop-shadow(0 0 4px rgb(var(--litm-vo-accent-rgb) / 28%));
-}
-
-body.litm-vo-scifi #dice-roll-app .might-scale-radio:checked {
-  filter:
-    drop-shadow(0 0 4px rgb(var(--litm-vo-accent-rgb) / 75%))
-    drop-shadow(0 0 9px rgb(var(--litm-vo-accent-rgb) / 35%));
-}
-
-body.litm-vo-scifi #dice-roll-app .power-label,
-body.litm-vo-scifi #group-action-app .power-label {
-  box-sizing: border-box;
-  width: 100%;
-  padding: 8px 10px;
-  color: #f0fbff !important;
-  background:
-    linear-gradient(90deg,
-      transparent,
-      rgb(var(--litm-vo-accent-rgb) / 11%),
-      transparent);
-  border-top: 1px solid rgb(var(--litm-vo-accent-rgb) / 18%);
-  border-bottom: 1px solid rgb(var(--litm-vo-accent-rgb) / 18%);
-  font-size: 1.08rem !important;
-  text-align: center;
-  text-shadow: 0 0 9px rgb(var(--litm-vo-accent-rgb) / 28%);
-}
-
-body.litm-vo-scifi #dice-roll-app .dialog-footer {
-  gap: 6px;
-  margin-top: 8px;
-}
-
-body.litm-vo-scifi #dice-roll-app .dialog-footer .roll-button,
-body.litm-vo-scifi #group-action-app .dialog-footer button,
-body.litm-vo-scifi .sacrifice-roll-dialog button,
-body.litm-vo-scifi .gm-roll-confirm-dialog button {
-  min-height: 34px;
-  color: #f3fbff !important;
-  background:
-    linear-gradient(180deg,
-      rgb(var(--litm-vo-accent-rgb) / 18%),
-      rgb(4 16 24 / 96%)) !important;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 45%) !important;
-  border-radius: 3px;
-  box-shadow: inset 0 0 10px rgb(var(--litm-vo-accent-rgb) / 3%);
-}
-
-body.litm-vo-scifi #dice-roll-app .dialog-footer .roll-button:hover,
-body.litm-vo-scifi #group-action-app .dialog-footer button:hover,
-body.litm-vo-scifi .sacrifice-roll-dialog button:hover,
-body.litm-vo-scifi .gm-roll-confirm-dialog button:hover {
-  border-color: var(--litm-vo-accent) !important;
-  box-shadow:
-    0 0 12px rgb(var(--litm-vo-accent-rgb) / 28%),
-    inset 0 0 12px rgb(var(--litm-vo-accent-rgb) / 5%);
-}
-
-body.litm-vo-scifi #dice-roll-app .request-help-button {
-  border-color: rgb(var(--litm-vo-secondary-rgb) / 55%) !important;
-  background:
-    linear-gradient(180deg,
-      rgb(var(--litm-vo-secondary-rgb) / 17%),
-      rgb(8 13 25 / 96%)) !important;
-}
-
-/* --------------------------------------------------------------------------
-   Chat roll cards: Quick, Detailed, Reaction, Sacrifice and Group.
-   -------------------------------------------------------------------------- */
-
-body.litm-vo-scifi .chat-message:has(.roll-card) {
-  color: #dcebf1 !important;
-  background:
-    linear-gradient(145deg, #0a1721, #050b11) !important;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 24%) !important;
-  box-shadow:
-    inset 0 0 24px rgb(var(--litm-vo-accent-rgb) / 2%),
-    0 5px 16px rgb(0 0 0 / 25%);
-}
-
-body.litm-vo-scifi .chat-message:has(.roll-card) .message-header,
-body.litm-vo-scifi .chat-message:has(.roll-card) .message-header *,
-body.litm-vo-scifi .chat-message:has(.roll-card) .message-content {
-  color: #cfe0e8 !important;
-}
-
-body.litm-vo-scifi .chat-message .roll-card {
-  margin: 0;
-  padding: 4px;
-  color: #e3eff4 !important;
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-}
-
-body.litm-vo-scifi .chat-message .roll-card .card-title {
-  margin: 0 0 7px;
-  padding: 5px 7px;
-  color: #e9f9ff !important;
-  background: rgb(var(--litm-vo-accent-rgb) / 8%);
-  border-left: 3px solid var(--litm-vo-accent);
-  border-bottom: 1px solid rgb(var(--litm-vo-accent-rgb) / 22%);
-  font-weight: 800;
-  letter-spacing: .025em;
-}
-
-body.litm-vo-scifi .chat-message .roll-card .selected-tags {
-  gap: 4px !important;
-  margin: 5px 0 !important;
-  color: #cbdde5 !important;
-  font-family: inherit !important;
-}
-
-body.litm-vo-scifi .chat-message .roll-card .selected-tags .resource-label {
-  color: #91adba !important;
-  font-size: .78rem;
-  font-weight: 750;
-  text-transform: uppercase;
-  letter-spacing: .045em;
-}
-
-body.litm-vo-scifi .chat-message .roll-card .selected-tags .tag {
-  padding: 4px 6px !important;
-  color: #eaf6fa !important;
-  background: rgb(var(--litm-vo-accent-rgb) / 9%) !important;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 23%);
-  border-left: 3px solid var(--litm-vo-accent);
-  border-radius: 3px !important;
-  text-align: left !important;
-  font-weight: 600;
-}
-
-body.litm-vo-scifi .chat-message .roll-card .selected-tags .tag.negative,
-body.litm-vo-scifi .chat-message .roll-card .selected-tags .tag.weakness {
-  color: #ffdbe9 !important;
-  background: rgb(255 100 157 / 7%) !important;
-  border-color: rgb(255 100 157 / 24%);
-  border-left-color: #ff649d;
-}
-
-body.litm-vo-scifi .chat-message .roll-card .selected-tags .tag.inverted-tag,
-body.litm-vo-scifi .chat-message .roll-card .selected-tags .tag.inverted-challenge {
-  outline: 1px dashed var(--litm-vo-secondary) !important;
-  outline-offset: -3px !important;
-}
-
-/* Foundry dice formula/total. */
-body.litm-vo-scifi .chat-message .roll-card .roll-result {
-  margin: 7px 0;
-}
-
-body.litm-vo-scifi .chat-message .roll-card .dice-roll .dice-formula,
-body.litm-vo-scifi .chat-message .roll-card .dice-roll .dice-total {
-  color: #edf9fc !important;
-  background: #07131c !important;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 28%) !important;
-  box-shadow: inset 0 0 10px rgb(var(--litm-vo-accent-rgb) / 3%) !important;
-}
-
-body.litm-vo-scifi .chat-message .roll-card .dice-roll .dice-total {
-  border-top-color: rgb(var(--litm-vo-accent-rgb) / 46%) !important;
-  font-size: 1.35rem;
-}
-
-/* Remove all parchment outcome images. */
-body.litm-vo-scifi .chat-message .roll-card .consequence-result-negative,
-body.litm-vo-scifi .chat-message .roll-card .consequence-result-neutral,
-body.litm-vo-scifi .chat-message .roll-card .consequence-result-positive {
-  position: relative;
-  margin-top: 8px;
-  padding: 10px 11px !important;
-  color: #e6f0f4 !important;
-  background-image: none !important;
-  background-color: #08151f !important;
-  border: 1px solid rgb(255 255 255 / 8%);
-  border-radius: 3px;
-  box-shadow: inset 0 0 20px rgb(0 0 0 / 20%);
-}
-
-body.litm-vo-scifi .chat-message .roll-card .consequence-result-negative {
-  border-left: 4px solid #ff648f;
-  background:
-    linear-gradient(90deg, rgb(255 100 143 / 10%), transparent 58%),
-    #08151f !important;
-}
-
-body.litm-vo-scifi .chat-message .roll-card .consequence-result-neutral {
-  border-left: 4px solid #ffbf61;
-  background:
-    linear-gradient(90deg, rgb(255 191 97 / 9%), transparent 58%),
-    #08151f !important;
-}
-
-body.litm-vo-scifi .chat-message .roll-card .consequence-result-positive {
-  border-left: 4px solid #69e3b0;
-  background:
-    linear-gradient(90deg, rgb(105 227 176 / 10%), transparent 58%),
-    #08151f !important;
-}
-
-body.litm-vo-scifi .chat-message .roll-card .consequence-container,
-body.litm-vo-scifi .chat-message .roll-card .consequence-container p,
-body.litm-vo-scifi .chat-message .roll-card .consequence-container li,
-body.litm-vo-scifi .chat-message .roll-card .consequence-container strong,
-body.litm-vo-scifi .chat-message .roll-card .consequence-container em {
-  color: #e6f0f4 !important;
-  font-family: inherit !important;
-}
-
-body.litm-vo-scifi .chat-message .roll-card .consequence-container .heading {
-  color: #f2fbff !important;
-  font-size: 1.55rem !important;
-  text-shadow: 0 0 8px rgb(255 255 255 / 12%);
-}
-
-body.litm-vo-scifi .chat-message .roll-card .consequence-container .power-counter {
-  margin-top: 8px;
-  padding-top: 6px;
-  color: #bff4ff !important;
-  border-top: 1px solid rgb(var(--litm-vo-accent-rgb) / 18%) !important;
-  font-weight: 800;
-}
-
-/* Detailed roll Power spending. */
-body.litm-vo-scifi .chat-message .roll-card .detailed-spend {
-  margin-top: 9px;
-  padding-top: 8px;
-  border-top: 1px solid rgb(var(--litm-vo-accent-rgb) / 20%) !important;
-  color: #dcebf1 !important;
-}
-
-body.litm-vo-scifi .chat-message .roll-card .detailed-spend-header {
-  color: #bff3ff !important;
-  letter-spacing: .035em;
-}
-
-body.litm-vo-scifi .chat-message .roll-card .detailed-spend-remaining {
-  color: var(--litm-vo-accent) !important;
-}
-
-body.litm-vo-scifi .chat-message .roll-card .detailed-spend-options {
-  gap: 5px !important;
-}
-
-body.litm-vo-scifi .chat-message .roll-card .detailed-spend-btn {
-  min-height: 34px;
-  color: #edf9fc !important;
-  background:
-    linear-gradient(180deg,
-      rgb(var(--litm-vo-accent-rgb) / 13%),
-      #07131c) !important;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 30%) !important;
-  border-radius: 3px !important;
-}
-
-body.litm-vo-scifi .chat-message .roll-card .detailed-spend-btn:hover:not(:disabled) {
-  border-color: var(--litm-vo-accent) !important;
-  background:
-    linear-gradient(180deg,
-      rgb(var(--litm-vo-accent-rgb) / 22%),
-      #07131c) !important;
-  box-shadow: 0 0 9px rgb(var(--litm-vo-accent-rgb) / 24%) !important;
-}
-
-body.litm-vo-scifi .chat-message .roll-card .detailed-spend-list {
-  color: #cbdde5 !important;
-}
-
-body.litm-vo-scifi .chat-message .roll-card .detailed-spend-undo {
-  color: #ff76a9 !important;
-}
-
-/* Group-action footnote and critical/fumble content stay readable too. */
-body.litm-vo-scifi .chat-message .roll-card .group-affects-all,
-body.litm-vo-scifi .chat-message .roll-card .critical-fumble,
-body.litm-vo-scifi .chat-message .roll-card .critical-fumble * {
-  color: #cfe0e8 !important;
-}
-
-/* --------------------------------------------------------------------------
-   Group-action roll HUD
-   -------------------------------------------------------------------------- */
-
-body.litm-vo-scifi #group-action-app .group-contributions,
-body.litm-vo-scifi #group-action-app .form-group {
-  color: #e4f0f5 !important;
-}
-
-body.litm-vo-scifi #group-action-app .tag {
-  color: #edf9fc !important;
-  background: rgb(var(--litm-vo-accent-rgb) / 9%) !important;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 25%);
-  border-radius: 3px;
-}
-
-body.litm-vo-scifi #group-action-app .icon-hover {
-  color: #c9f3ff !important;
-}
-
-
-/* v0.4 finishing pass */
-
-/* Hide empty roll-source sections so the dialog does not reserve dead space
-   for Story / Challenge / GM tags when none are selected. */
-body.litm-vo-scifi #dice-roll-app .selected-tags-container:not(:has(.tag)):not(:has(.status)) {
-  display: none !important;
-}
-
-/* Critical/fumble banners. */
-body.litm-vo-scifi .chat-message .roll-card .critical-roll,
-body.litm-vo-scifi .chat-message .roll-card .fumble-roll {
-  display: block;
-  margin: 6px 0;
-  padding: 6px 8px;
-  color: #f2fbff !important;
-  background: rgb(var(--litm-vo-accent-rgb) / 8%);
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 25%);
-  border-left: 3px solid var(--litm-vo-accent);
-  border-radius: 3px;
-  text-align: center;
-  font-weight: 800;
-}
-
-body.litm-vo-scifi .chat-message .roll-card .fumble-roll {
-  background: rgb(255 100 157 / 7%);
-  border-color: rgb(255 100 157 / 25%);
-  border-left-color: #ff649d;
-}
-
-/* Camping chat output belongs to the same visual family. */
-body.litm-vo-scifi .chat-message .camping-chat-entry {
-  padding: 7px 8px;
-  color: #e2eef3 !important;
-  background:
-    linear-gradient(135deg, rgb(var(--litm-vo-accent-rgb) / 6%), transparent 45%),
-    #08151f !important;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 23%);
-  border-left: 3px solid #69e3b0;
-  border-radius: 3px;
-}
-
-body.litm-vo-scifi .chat-message .camping-chat-title {
-  color: #c8f5e3 !important;
-  border-bottom: 1px solid rgb(105 227 176 / 18%);
-}
-
-body.litm-vo-scifi .chat-message .camping-chat-entry :is(p, em, strong, span) {
-  color: #e2eef3 !important;
-}
-
-/* Scrollbars inside LiTM windows: remove the leftover burgundy strip. */
-body.litm-vo-scifi .mist-engine .scrollable,
-body.litm-vo-scifi #dice-roll-app .scrollable,
-body.litm-vo-scifi #group-action-app .scrollable {
-  scrollbar-color: rgb(var(--litm-vo-accent-rgb) / 55%) rgb(3 11 17 / 70%);
-  scrollbar-width: thin;
-}
-
-body.litm-vo-scifi .mist-engine .scrollable::-webkit-scrollbar,
-body.litm-vo-scifi #dice-roll-app .scrollable::-webkit-scrollbar,
-body.litm-vo-scifi #group-action-app .scrollable::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-body.litm-vo-scifi .mist-engine .scrollable::-webkit-scrollbar-track,
-body.litm-vo-scifi #dice-roll-app .scrollable::-webkit-scrollbar-track,
-body.litm-vo-scifi #group-action-app .scrollable::-webkit-scrollbar-track {
-  background: rgb(3 11 17 / 72%);
-}
-
-body.litm-vo-scifi .mist-engine .scrollable::-webkit-scrollbar-thumb,
-body.litm-vo-scifi #dice-roll-app .scrollable::-webkit-scrollbar-thumb,
-body.litm-vo-scifi #group-action-app .scrollable::-webkit-scrollbar-thumb {
-  background: rgb(var(--litm-vo-accent-rgb) / 45%);
-  border: 2px solid rgb(3 11 17 / 90%);
-  border-radius: 999px;
-}
-
-
-/* ==========================================================================
-   v0.4.2 — full pass B
-   Preserve official geometry; fix tag/status polarity colours and sheet rhythm.
-   ========================================================================== */
-
-/* --------------------------------------------------------------------------
-   Roll dialogs: restore OFFICIAL geometry, change only skin/colors.
-   Official metrics:
-   - content border width: 10px
-   - selected groups: margin 10px 0, gap 2px
-   - tag/status chips: padding 2px, radius 2px, centered italic Labrada
-   -------------------------------------------------------------------------- */
-
-body.litm-vo-scifi #dice-roll-app > section.window-content,
-body.litm-vo-scifi .gm-roll-confirm-dialog > section.window-content,
-body.litm-vo-scifi .sacrifice-roll-dialog > section.window-content {
-  border-style: solid !important;
-  border-width: 10px !important;
-  border-color: rgb(var(--litm-vo-accent-rgb) / 24%) !important;
-  -moz-border-image: none !important;
-  -webkit-border-image: none !important;
-  -o-border-image: none !important;
-  border-image: none !important;
-  border-radius: 0 !important;
-  color: #dfeaf0 !important;
-  font-family: Labrada, serif !important;
-  background:
-    linear-gradient(rgb(var(--litm-vo-accent-rgb) / 2.5%) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(var(--litm-vo-accent-rgb) / 2.5%) 1px, transparent 1px),
-    linear-gradient(155deg, #0b1721, #050b11 75%) !important;
-  background-size: 26px 26px, 26px 26px, auto !important;
-  box-shadow: inset 0 0 26px rgb(var(--litm-vo-accent-rgb) / 2%) !important;
-}
-
-body.litm-vo-scifi #dice-roll-app .selected-tags-container,
-body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container {
-  margin: 10px 0 !important;
-  gap: 2px !important;
-}
-
-body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag,
-body.litm-vo-scifi #dice-roll-app .selected-tags-container .status,
-body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .tag,
-body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .status {
-  min-height: 0 !important;
-  padding: 2px !important;
-  border-radius: 2px !important;
-  font-family: Labrada, serif !important;
-  font-weight: bold !important;
-  font-style: italic !important;
-  text-align: center !important;
-  border-width: 1px !important;
-  border-style: solid !important;
-  box-shadow: none !important;
-}
-
-/* Four distinct semantic states in roll HUDs. */
-body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag.positive,
-body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .tag.positive {
-  color: #ffeaa9 !important;
-  background: rgb(202 158 44 / 20%) !important;
-  border-color: rgb(226 187 74 / 58%) !important;
-}
-
-body.litm-vo-scifi #dice-roll-app .selected-tags-container .status.positive,
-body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .status.positive {
-  color: #c6f7df !important;
-  background: rgb(70 190 130 / 18%) !important;
-  border-color: rgb(83 214 153 / 58%) !important;
-}
-
-body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag.negative,
-body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .tag.negative {
-  color: #ffd7c6 !important;
-  background: rgb(224 107 62 / 18%) !important;
-  border-color: rgb(241 126 81 / 60%) !important;
-}
-
-body.litm-vo-scifi #dice-roll-app .selected-tags-container .status.negative,
-body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .status.negative {
-  color: #ffd3eb !important;
-  background: rgb(195 74 133 / 19%) !important;
-  border-color: rgb(226 99 161 / 62%) !important;
-}
-
-body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag.unapplied-preview,
-body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .tag.unapplied-preview {
-  opacity: .75 !important;
-}
-
-/* Remove our structural changes from modifier controls. */
-body.litm-vo-scifi #dice-roll-app .form-group {
-  gap: 0 !important;
-  margin: 0 !important;
-}
-
-body.litm-vo-scifi #dice-roll-app .form-group > .flexrow {
-  gap: 0 !important;
-  align-items: stretch !important;
-}
-
-body.litm-vo-scifi #dice-roll-app #positiveInput,
-body.litm-vo-scifi #dice-roll-app #negativeInput {
-  flex: 1 !important;
-  width: auto !important;
-  height: var(--form-field-height, 32px) !important;
-  min-height: 0 !important;
-  padding: 0 0.5em !important;
-  text-align: center;
-  font-size: inherit !important;
-  font-weight: inherit !important;
-}
-
-body.litm-vo-scifi #dice-roll-app #button-positive-minus,
-body.litm-vo-scifi #dice-roll-app #button-positive-plus,
-body.litm-vo-scifi #dice-roll-app #button-negative-minus,
-body.litm-vo-scifi #dice-roll-app #button-negative-plus {
-  display: inline-block !important;
-  flex: 1 !important;
-  width: auto !important;
-  height: auto !important;
-  padding: 0 !important;
-  color: #c8effa !important;
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  line-height: var(--form-field-height, 32px);
-}
-
-/* Might keeps upstream structure: no extra panel spacing/box model. */
-body.litm-vo-scifi #dice-roll-app .scene-app-might-modifier {
-  margin: 0 !important;
-  padding: 0 !important;
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-}
-
-body.litm-vo-scifi #dice-roll-app .scene-app-might-modifier .npc-subtitle-container-c {
-  margin: 0 !important;
-  padding: 0 !important;
-  background: transparent !important;
-  border: 0 !important;
-}
-
-body.litm-vo-scifi #dice-roll-app .might-scale-entry {
-  text-align: center !important;
-}
-
-body.litm-vo-scifi #dice-roll-app .might-scale-radio {
-  display: block !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
-
-/* Power and footer return to upstream sizing. */
-body.litm-vo-scifi #dice-roll-app .power-label {
-  width: 100% !important;
-  padding: 0 !important;
-  background: transparent !important;
-  border: 0 !important;
-  display: block !important;
-  text-align: center !important;
-  font-size: large !important;
-  text-shadow: 0 0 8px rgb(var(--litm-vo-accent-rgb) / 24%);
-}
-
-body.litm-vo-scifi #dice-roll-app .dialog-footer {
-  gap: 0 !important;
-  margin-top: 0 !important;
-}
-
-body.litm-vo-scifi #dice-roll-app .dialog-footer .roll-button {
-  min-height: 0 !important;
-  height: auto !important;
-  margin: 5px !important;
-  width: 100% !important;
-  padding: var(--button-padding, 0.25rem 0.5rem) !important;
-}
-
-/* Keep empty source labels exactly as upstream; no layout collapsing. */
-body.litm-vo-scifi #dice-roll-app .selected-tags-container:not(:has(.tag)):not(:has(.status)) {
-  display: flex !important;
-}
-
-/* --------------------------------------------------------------------------
-   Floating Tags & Statuses on the character sheet.
-   Use the system's actual class matrix: tag/status + positive/negative.
-   -------------------------------------------------------------------------- */
-
-body.litm-vo-scifi .mist-engine .fts-input-name.tag.positive {
-  color: #ffeaa9 !important;
-  background: rgb(202 158 44 / 19%) !important;
-  border-color: rgb(226 187 74 / 58%) !important;
-  box-shadow:
-    inset 0 0 9px rgb(226 187 74 / 5%),
-    0 1px 3px rgb(0 0 0 / 24%) !important;
-}
-
-body.litm-vo-scifi .mist-engine .fts-input-name.status.positive {
-  color: #c6f7df !important;
-  background: rgb(70 190 130 / 18%) !important;
-  border-color: rgb(83 214 153 / 58%) !important;
-  box-shadow:
-    inset 0 0 9px rgb(83 214 153 / 5%),
-    0 1px 3px rgb(0 0 0 / 24%) !important;
-}
-
-body.litm-vo-scifi .mist-engine .fts-input-name.tag.negative {
-  color: #ffd7c6 !important;
-  background: rgb(224 107 62 / 18%) !important;
-  border-color: rgb(241 126 81 / 60%) !important;
-  box-shadow:
-    inset 0 0 9px rgb(241 126 81 / 5%),
-    0 1px 3px rgb(0 0 0 / 24%) !important;
-}
-
-body.litm-vo-scifi .mist-engine .fts-input-name.status.negative {
-  color: #ffd3eb !important;
-  background: rgb(195 74 133 / 19%) !important;
-  border-color: rgb(226 99 161 / 62%) !important;
-  box-shadow:
-    inset 0 0 9px rgb(226 99 161 / 5%),
-    0 1px 3px rgb(0 0 0 / 24%) !important;
-}
-
-body.litm-vo-scifi .mist-engine .fts-input-name.tag.positive .fts-tag-modifier-toggle,
-body.litm-vo-scifi .mist-engine .fts-input-name.tag.positive .fts-tag-status-toggle {
-  color: #f1cc61 !important;
-}
-
-body.litm-vo-scifi .mist-engine .fts-input-name.status.positive .fts-tag-modifier-toggle,
-body.litm-vo-scifi .mist-engine .fts-input-name.status.positive .fts-tag-status-toggle {
-  color: #71e2ab !important;
-}
-
-body.litm-vo-scifi .mist-engine .fts-input-name.tag.negative .fts-tag-modifier-toggle,
-body.litm-vo-scifi .mist-engine .fts-input-name.tag.negative .fts-tag-status-toggle {
-  color: #f59872 !important;
-}
-
-body.litm-vo-scifi .mist-engine .fts-input-name.status.negative .fts-tag-modifier-toggle,
-body.litm-vo-scifi .mist-engine .fts-input-name.status.negative .fts-tag-status-toggle {
-  color: #ee7db4 !important;
-}
-
-/* Status tier markers also inherit the semantic status colour. */
-body.litm-vo-scifi .mist-engine .floating-tag-and-status-entry[data-is-status="true"] .fts-markings-container {
-  opacity: .92;
-}
-
-body.litm-vo-scifi .mist-engine .fts-input-marking i.marking-circle {
-  color: #a9bfca !important;
-  background: rgb(255 255 255 / 4%) !important;
-  border-color: rgb(255 255 255 / 16%) !important;
-}
-
-body.litm-vo-scifi .mist-engine .fts-input-marking i.marking-circle.active {
-  color: #071019 !important;
-  background: var(--litm-vo-accent) !important;
-  border-color: var(--litm-vo-accent) !important;
-  box-shadow: 0 0 7px rgb(var(--litm-vo-accent-rgb) / 32%);
-}
-
-/* --------------------------------------------------------------------------
-   Character sheet rhythm: visible breathing room between every Theme Card.
-   -------------------------------------------------------------------------- */
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .grid-themebook-container {
-  column-gap: 10px !important;
-  row-gap: 10px !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .litm-character-themebooks-container {
-  padding: 0 5px 6px !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebook-container {
-  padding-bottom: 0 !important;
-}
-
-/* No accidental double-border where card rows meet. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .container-themebook-with-border {
-  outline: none !important;
-}
-
-/* --------------------------------------------------------------------------
-   Sheet right-side / scroll treatment: keep function, reduce visual noise.
-   -------------------------------------------------------------------------- */
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .scrollable {
-  scrollbar-width: thin;
-  scrollbar-color: rgb(var(--litm-vo-accent-rgb) / 34%) transparent;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .scrollable::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .scrollable::-webkit-scrollbar-track {
-  background: transparent !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .scrollable::-webkit-scrollbar-thumb {
-  background: rgb(var(--litm-vo-accent-rgb) / 32%) !important;
-  border: 1px solid rgb(3 11 17 / 60%) !important;
-  border-radius: 999px;
-}
-
-/* Keep tabs visually separated from the card grid without altering dimensions. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .litm-character-sheet-tabs {
-  border-bottom-color: rgb(var(--litm-vo-accent-rgb) / 28%) !important;
-  box-shadow: 0 3px 10px rgb(0 0 0 / 16%);
-}
-
-/* --------------------------------------------------------------------------
-   Chat cards: semantic tag colours mirror the sheet and roll HUD.
-   -------------------------------------------------------------------------- */
-
-body.litm-vo-scifi .chat-message .roll-card .selected-tags .tag.positive:not(.weakness) {
-  color: #c6f7df !important;
-  background: rgb(70 190 130 / 16%) !important;
-  border-color: rgb(83 214 153 / 48%) !important;
-  border-left-color: #53d699 !important;
-}
-
-body.litm-vo-scifi .chat-message .roll-card .selected-tags .tag.negative,
-body.litm-vo-scifi .chat-message .roll-card .selected-tags .tag.weakness {
-  color: #ffd7c6 !important;
-  background: rgb(224 107 62 / 16%) !important;
-  border-color: rgb(241 126 81 / 50%) !important;
-  border-left-color: #f17e51 !important;
-}
-
-/* Keep chat structure intact: no forced min-heights on action buttons. */
-body.litm-vo-scifi .chat-message .roll-card .detailed-spend-btn {
-  min-height: 0 !important;
-}
-
-
-/* ==========================================================================
-   v0.4.3 — theme headers, semantic selection rings and character edit mode
-   ========================================================================== */
-
-/* --------------------------------------------------------------------------
-   Theme card headers: add horizontal breathing room and keep icons away from
-   clipped corners without changing the upstream 30px header height.
-   -------------------------------------------------------------------------- */
-
-body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name {
-  position: relative;
-  box-sizing: border-box;
-  padding: 2px 24px 2px 12px !important;
-}
-
-body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name .card-drag-handle {
-  margin: 0 6px 0 0 !important;
-  color: #baf4ff !important;
-  opacity: .9 !important;
-  font-size: .9em !important;
-  text-shadow: 0 0 6px rgb(var(--litm-vo-accent-rgb) / 30%);
-}
-
-body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name .card-drag-handle:hover {
-  color: #ffffff !important;
-  opacity: 1 !important;
-  text-shadow:
-    0 0 5px rgb(var(--litm-vo-accent-rgb) / 80%),
-    0 0 10px rgb(var(--litm-vo-accent-rgb) / 42%);
-}
-
-body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name .themebook-icon {
-  position: absolute !important;
-  top: 4px !important;
-  right: 8px !important;
-  float: none !important;
-  margin: 0 !important;
-  opacity: .9;
-  filter:
-    brightness(2)
-    saturate(.45)
-    drop-shadow(0 0 4px rgb(var(--litm-vo-accent-rgb) / 36%)) !important;
-}
-
-body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name > a {
-  float: right;
-  margin-left: 6px;
-  color: #c7f4ff !important;
-  opacity: .9;
-  text-shadow: 0 0 5px rgb(var(--litm-vo-accent-rgb) / 25%);
-}
-
-body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name > a:hover {
-  color: #ffffff !important;
-  opacity: 1;
-}
-
-/* --------------------------------------------------------------------------
-   Remove upstream hand-drawn selection art and replace it with semantic neon.
-   -------------------------------------------------------------------------- */
-
-body.litm-vo-scifi .mist-engine .fts-selectable.selected::before,
-body.litm-vo-scifi .mist-engine .litm-pc-powertag.selected::before,
-body.litm-vo-scifi .mist-engine .litm-pc-storytag.selected::before,
-body.litm-vo-scifi .mist-engine .litm-pc-weakness.selected::before,
-body.litm-vo-scifi .mist-engine .litm-pc-fellowship-relationship.selected::before {
-  background: none !important;
-  background-image: none !important;
-}
-
-/* Floating Tag/Status selection follows its semantic colour. */
-body.litm-vo-scifi .mist-engine .fts-input-name .fts-selectable.selected {
-  position: relative;
-  z-index: 2;
-}
-
-body.litm-vo-scifi .mist-engine .fts-input-name .fts-selectable.selected::before {
-  content: "" !important;
-  position: absolute !important;
-  inset: -5px -9px !important;
-  border: 2px solid currentColor !important;
-  border-radius: 999px !important;
-  background: color-mix(in srgb, currentColor 8%, transparent) !important;
-  box-shadow:
-    0 0 7px color-mix(in srgb, currentColor 48%, transparent),
-    inset 0 0 7px color-mix(in srgb, currentColor 14%, transparent) !important;
-  pointer-events: none;
-}
-
-/* Keep the whole floating row free of the system's dark focus ring. */
-body.litm-vo-scifi .mist-engine .fts-input-name,
-body.litm-vo-scifi .mist-engine .fts-input-name:focus,
-body.litm-vo-scifi .mist-engine .fts-input-name:focus-visible,
-body.litm-vo-scifi .mist-engine .fts-selectable:focus,
-body.litm-vo-scifi .mist-engine .fts-selectable:focus-visible {
-  outline: none !important;
-}
-
-/* Selected Power / Story tag = cyan neon. */
-body.litm-vo-scifi .mist-engine .litm-pc-powertag.selected,
-body.litm-vo-scifi .mist-engine .litm-pc-storytag.selected {
-  position: relative;
-  z-index: 2;
-  color: #f4fdff !important;
-  text-shadow:
-    0 0 5px rgb(var(--litm-vo-accent-rgb) / 88%),
-    0 0 11px rgb(var(--litm-vo-accent-rgb) / 42%) !important;
-}
-
-body.litm-vo-scifi .mist-engine .litm-pc-powertag.selected::before,
-body.litm-vo-scifi .mist-engine .litm-pc-storytag.selected::before {
-  content: "" !important;
-  position: absolute !important;
-  inset: -4px -10px !important;
-  border: 2px solid var(--litm-vo-accent) !important;
-  border-radius: 999px !important;
-  background: rgb(var(--litm-vo-accent-rgb) / 7%) !important;
-  box-shadow:
-    0 0 8px rgb(var(--litm-vo-accent-rgb) / 42%),
-    inset 0 0 8px rgb(var(--litm-vo-accent-rgb) / 12%) !important;
-  pointer-events: none;
-}
-
-/* Selected Weakness = red/pink neon, never the old hand-drawn ring. */
-body.litm-vo-scifi .mist-engine .litm-pc-weakness.selected {
-  position: relative;
-  z-index: 2;
-  color: #ff8db8 !important;
-  text-shadow:
-    0 0 5px rgb(255 84 139 / 88%),
-    0 0 11px rgb(255 84 139 / 42%) !important;
-}
-
-body.litm-vo-scifi .mist-engine .litm-pc-weakness.selected::before {
-  content: "" !important;
-  position: absolute !important;
-  inset: -4px -10px !important;
-  border: 2px solid #ff548b !important;
-  border-radius: 999px !important;
-  background: rgb(255 84 139 / 8%) !important;
-  box-shadow:
-    0 0 8px rgb(255 84 139 / 46%),
-    inset 0 0 8px rgb(255 84 139 / 13%) !important;
-  pointer-events: none;
-}
-
-/* Fellowship selection gets secondary neon instead of upstream art. */
-body.litm-vo-scifi .mist-engine .litm-pc-fellowship-relationship.selected {
-  position: relative;
-  z-index: 2;
-  color: #e8c9ff !important;
-  text-shadow: 0 0 7px rgb(var(--litm-vo-secondary-rgb) / 58%);
-}
-
-body.litm-vo-scifi .mist-engine .litm-pc-fellowship-relationship.selected::before {
-  content: "" !important;
-  position: absolute !important;
-  inset: -4px -10px !important;
-  border: 2px solid var(--litm-vo-secondary) !important;
-  border-radius: 999px !important;
-  background: rgb(var(--litm-vo-secondary-rgb) / 7%) !important;
-  box-shadow: 0 0 8px rgb(var(--litm-vo-secondary-rgb) / 42%) !important;
-  pointer-events: none;
-}
-
-/* --------------------------------------------------------------------------
-   CHARACTER EDIT MODE
-   Restore upstream geometry. Edit mode intentionally uses the full sheet
-   width and MUST NOT reserve the 300px artwork lane.
-   -------------------------------------------------------------------------- */
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode {
-  margin-bottom: 10px !important;
-  padding: 0 !important;
-  min-height: 0 !important;
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .header-fields {
-  display: flex !important;
-  flex-direction: row !important;
-  width: 100% !important;
-  gap: .5rem !important;
-  align-items: flex-start !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .portrait-img {
-  flex: 0 0 auto !important;
-  width: 150px !important;
-  height: 150px !important;
-  margin-right: 10px !important;
-  object-fit: cover;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 34%) !important;
-  border-radius: 6px !important;
-  box-shadow: 0 0 12px rgb(var(--litm-vo-accent-rgb) / 12%);
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .col-character-name.edit-mode {
-  flex: 1 1 auto !important;
-  width: 80% !important;
-  max-width: 80% !important;
-  min-width: 80% !important;
-  margin: 0 !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode h1.charname {
-  width: 100% !important;
-  margin: 0 0 8px !important;
-  padding: 0 !important;
-  text-align: center !important;
-  border: 0 !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode h1.charname input {
-  box-sizing: border-box;
-  width: 100% !important;
-  height: 54px !important;
-  margin: 0 !important;
-  padding: 4px 10px !important;
-  color: #f4fbff !important;
-  -webkit-text-fill-color: #f4fbff !important;
-  background: rgb(5 15 23 / 82%) !important;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 30%) !important;
-  border-radius: 3px;
-  font: inherit !important;
-  text-align: left !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .short-description {
-  width: 100%;
-  margin-bottom: 8px;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .short-description input {
-  box-sizing: border-box;
-  width: 100% !important;
-  height: var(--form-field-height, 32px) !important;
-  color: #dfeef4 !important;
-  -webkit-text-fill-color: #dfeef4 !important;
-  background: rgb(5 15 23 / 82%) !important;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 25%) !important;
-  border-radius: 3px;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .grid.grid-4col {
-  display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  gap: .5rem !important;
-  width: 100% !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .change-custom-background-btn {
-  width: 100% !important;
-  min-width: 0 !important;
-  height: auto !important;
-  min-height: 32px;
-  padding: 4px 7px !important;
-  color: #e7f6fb !important;
-  background: rgb(5 16 24 / 84%) !important;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 28%) !important;
-  white-space: normal !important;
-  line-height: 1.2;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode color-picker {
-  min-width: 0 !important;
-  width: 100% !important;
-}
-
-/* Edit-mode card grid must use full width like upstream. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .character-sheet-divider .right-side.edit-mode {
-  width: 100% !important;
-  margin-left: 0 !important;
-  min-width: 0 !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .right-side.edit-mode .litm-character-themebooks-container {
-  box-sizing: border-box;
-  width: 100% !important;
-  margin: 5px !important;
-  padding: 0 !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .grid-themebook-container.edit-mode {
-  width: 100% !important;
-  grid-template-columns: repeat(auto-fit, 260px) !important;
-  column-gap: 10px !important;
-  row-gap: 10px !important;
-  justify-content: center !important;
-}
-
-/* Edit card surface: readable dark HUD, no parchment bleed. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .container-themebook-with-border {
-  color: #e5f0f5 !important;
-  background:
-    linear-gradient(160deg, rgb(var(--litm-vo-accent-rgb) / 6%), transparent 38%),
-    rgb(5 14 22 / 94%) !important;
-  border-color: rgb(var(--litm-vo-accent-rgb) / 26%) !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themebook-style {
-  color: #e5f0f5 !important;
-}
-
-/* Theme Kit area and section bars. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themekit-container {
-  margin: 5px 4px 6px;
-  color: #dcebf2 !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themekit-button {
-  width: calc(100% - 8px) !important;
-  margin: 0 4px !important;
-  color: #eaf9fd !important;
-  background: rgb(var(--litm-vo-accent-rgb) / 8%) !important;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 30%) !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themebook-section-header {
-  margin: 5px 4px !important;
-  padding: 3px 6px !important;
-  color: #dff8ff !important;
-  background:
-    linear-gradient(90deg, rgb(var(--litm-vo-accent-rgb) / 16%), rgb(var(--litm-vo-accent-rgb) / 4%)) !important;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 22%);
-  border-left: 3px solid var(--litm-vo-accent);
-  text-align: center;
-  text-transform: uppercase;
-}
-
-/* Power/weakness rows in edit mode. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .item-powertag-line,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .item-weakness-line {
-  box-sizing: border-box;
-  min-height: 34px;
-  margin: 4px 5px !important;
-  padding: 0 !important;
-  color: #dcebf2 !important;
-  border-bottom: 0 !important;
-  text-shadow: none !important;
-  align-items: center;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .letter-box {
-  color: #b8d1dc !important;
-  -webkit-text-fill-color: #b8d1dc !important;
-  text-align: center;
-}
-
-/* Text fields: readable even when the original font colour is black. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themebook-entry-input[type="text"],
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .quest-textarea {
-  box-sizing: border-box;
-  color: #e5f0f5 !important;
-  -webkit-text-fill-color: #e5f0f5 !important;
-  background: rgb(7 17 25 / 92%) !important;
-  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 26%) !important;
-  border-radius: 3px;
-  box-shadow: none !important;
-  opacity: 1 !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themebook-entry-input[type="text"]::placeholder,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .quest-textarea::placeholder {
-  color: #748d99 !important;
-  -webkit-text-fill-color: #748d99 !important;
-  opacity: 1 !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themebook-entry-input[type="text"]:focus,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .quest-textarea:focus {
-  border-color: var(--litm-vo-accent) !important;
-  box-shadow: 0 0 7px rgb(var(--litm-vo-accent-rgb) / 24%) !important;
-}
-
-/* Planned checkboxes and destructive icons keep clear semantic colours. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themebook-entry-input[type="checkbox"] {
-  accent-color: var(--litm-vo-accent);
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .item-powertag-line .fa-trash {
-  color: #9fefff !important;
-  opacity: .85;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .item-weakness-line .fa-trash {
-  color: #ff78aa !important;
-  opacity: .9;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .item-powertag-line .fa-trash:hover,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .item-weakness-line .fa-trash:hover {
-  opacity: 1;
-  text-shadow: 0 0 7px currentColor;
-}
-
-/* Weakness edit rows use a subtle red semantic border, never unreadable black. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .item-weakness-line .themebook-entry-input[type="text"] {
-  color: #ffd9e7 !important;
-  -webkit-text-fill-color: #ffd9e7 !important;
-  border-color: rgb(255 84 139 / 46%) !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .item-weakness-line .themebook-entry-input[type="text"]:focus {
-  border-color: #ff548b !important;
-  box-shadow: 0 0 7px rgb(255 84 139 / 28%) !important;
-}
-
-/* Empty/unplanned lines and supporting copy remain legible. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode :is(
-  p,
-  span,
-  strong,
-  label,
-  .special-improvement-label,
-  .help-text
-) {
-  color: #dcebf2 !important;
-  -webkit-text-fill-color: #dcebf2 !important;
-}
-
-/* Quest/story textareas retain upstream size but gain dark-theme contrast. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .quest-textarea {
-  width: calc(100% - 10px) !important;
-  margin: 4px 5px !important;
-}
-
-/* Do not clip edit-card controls with the optional angular-card mask. */
-body.litm-vo-scifi.litm-vo-sharp-cards .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .container-themebook-with-border {
-  clip-path: none !important;
-}
-
-
-/* ==========================================================================
-   v0.4.4 — top breathing room, clean floating selection and visible burn icon
-   ========================================================================== */
-
-/* The official header used negative margins to compensate for a 10px parchment
-   border. Our Sci-Fi card has a thin border, so those negative margins glue
-   the title to the top edge. Give the header its own inset instead. */
-body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name {
-  height: 30px !important;
-  margin: 5px 5px 0 5px !important;
-  padding: 3px 30px 2px 14px !important;
-  line-height: 1.45em !important;
-  border-radius: 2px 2px 0 0;
-}
-
-/* Pull both utility icons inward so they are not sitting in the cut corner. */
-body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name .themebook-icon {
-  top: 7px !important;
-  right: 12px !important;
-  width: 12px !important;
-  height: 12px !important;
-}
-
-body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name .card-drag-handle {
-  position: relative;
-  top: 0 !important;
-  margin-right: 7px !important;
-}
-
-/* When edit controls replace the type icon, keep them inside the same safe
-   header inset instead of touching the edge. */
-body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name > a {
-  position: relative;
-  top: 0;
-  margin-left: 7px !important;
-}
-
-/* Floating Tags & Statuses: remove every legacy direct selection effect.
-   The only visible selection indicator should be the semantic ::before ring. */
-body.litm-vo-scifi .mist-engine .fts-input-name .fts-selectable.selected {
-  color: inherit !important;
-  -webkit-text-fill-color: currentColor !important;
-  background: transparent !important;
-  outline: none !important;
-  outline-offset: 0 !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  border-radius: 0 !important;
-  text-shadow: none !important;
-}
-
-/* Explicit semantic ring colours. */
-body.litm-vo-scifi .mist-engine .fts-input-name.tag.positive .fts-selectable.selected::before {
-  border-color: #e2bb4a !important;
-  background: rgb(226 187 74 / 6%) !important;
-  box-shadow:
-    0 0 7px rgb(226 187 74 / 42%),
-    inset 0 0 7px rgb(226 187 74 / 10%) !important;
-}
-
-body.litm-vo-scifi .mist-engine .fts-input-name.status.positive .fts-selectable.selected::before {
-  border-color: #53d699 !important;
-  background: rgb(83 214 153 / 6%) !important;
-  box-shadow:
-    0 0 7px rgb(83 214 153 / 42%),
-    inset 0 0 7px rgb(83 214 153 / 10%) !important;
-}
-
-body.litm-vo-scifi .mist-engine .fts-input-name.tag.negative .fts-selectable.selected::before {
-  border-color: #f17e51 !important;
-  background: rgb(241 126 81 / 6%) !important;
-  box-shadow:
-    0 0 7px rgb(241 126 81 / 42%),
-    inset 0 0 7px rgb(241 126 81 / 10%) !important;
-}
-
-body.litm-vo-scifi .mist-engine .fts-input-name.status.negative .fts-selectable.selected::before {
-  border-color: #e263a1 !important;
-  background: rgb(226 99 161 / 6%) !important;
-  box-shadow:
-    0 0 7px rgb(226 99 161 / 42%),
-    inset 0 0 7px rgb(226 99 161 / 10%) !important;
-}
-
-/* Scratch/Burn control: use upstream artwork as a mask so its visibility is
-   controlled by the Sci-Fi theme instead of the SVG's original dark colour. */
-body.litm-vo-scifi .mist-engine .burn-indicator {
-  flex-grow: 0.15;
-  align-self: center !important;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 16px;
-  opacity: .9;
-}
-
-body.litm-vo-scifi .mist-engine .burn-icon {
-  width: 1.05em !important;
-  height: 1.05em !important;
-  display: inline-block !important;
-  background-image: none !important;
-  background-color: #8edff1 !important;
-  -webkit-mask-image: url("/systems/mist-engine-fvtt/assets/icons/icon-burn-scratch-empty.svg");
-  mask-image: url("/systems/mist-engine-fvtt/assets/icons/icon-burn-scratch-empty.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  -webkit-mask-size: contain;
-  mask-size: contain;
-  opacity: .72;
-  filter: drop-shadow(0 0 3px rgb(77 225 255 / 28%));
-  transition: opacity 120ms ease, filter 120ms ease, background-color 120ms ease;
-}
-
-body.litm-vo-scifi .mist-engine .burn-indicator:hover .burn-icon {
-  opacity: 1;
-  background-color: #d7f8ff !important;
-  filter:
-    drop-shadow(0 0 4px rgb(77 225 255 / 55%))
-    drop-shadow(0 0 7px rgb(77 225 255 / 25%));
-}
-
-body.litm-vo-scifi .mist-engine .burn-icon.to-burn {
-  background-image: none !important;
-  background-color: #ff7a55 !important;
-  -webkit-mask-image: url("/systems/mist-engine-fvtt/assets/icons/icon-burn-scratch-to-burn.svg");
-  mask-image: url("/systems/mist-engine-fvtt/assets/icons/icon-burn-scratch-to-burn.svg");
-  opacity: 1;
-  filter:
-    drop-shadow(0 0 4px rgb(255 122 85 / 62%))
-    drop-shadow(0 0 8px rgb(255 122 85 / 26%));
-}
-
-
-/* ==========================================================================
-   v0.4.5 — exact edit-mode geometry isolation
-   Keep upstream layout; theme only the surface.
-   ========================================================================== */
-
-/* Header itself must span the whole sheet. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode {
-  box-sizing: border-box !important;
-  display: flex !important;
-  flex: 0 0 auto !important;
-  flex-direction: row !important;
-  flex-wrap: wrap !important;
-  justify-content: flex-start !important;
-  width: 100% !important;
-  max-width: none !important;
-  overflow: hidden !important;
-}
-
-/* The official header is portrait + one flexible editor column. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .header-fields {
-  box-sizing: border-box !important;
-  display: flex !important;
-  flex: 1 1 100% !important;
-  flex-direction: row !important;
-  flex-wrap: nowrap !important;
-  width: 100% !important;
-  max-width: none !important;
-  min-width: 0 !important;
-  gap: .5rem !important;
-  align-items: flex-start !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .portrait-img {
-  flex: 0 0 150px !important;
-  width: 150px !important;
-  min-width: 150px !important;
-  max-width: 150px !important;
-  height: 150px !important;
-  margin-right: 10px !important;
-}
-
-/* Override both our normal-sheet 300px lane and upstream percentage sizing.
-   In edit mode this column simply fills all remaining header width. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .header-fields .col-character-name.edit-mode {
-  box-sizing: border-box !important;
-  flex: 1 1 0 !important;
-  width: auto !important;
-  max-width: none !important;
-  min-width: 0 !important;
-  margin: 0 !important;
-}
-
-/* Identity fields keep upstream dimensions but stretch with the editor column. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .col-character-name.edit-mode h1.charname,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .col-character-name.edit-mode .short-description,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .col-character-name.edit-mode h1.charname input,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .col-character-name.edit-mode .short-description input {
-  box-sizing: border-box !important;
-  width: 100% !important;
-  max-width: none !important;
-}
-
-/* Background controls must remain one horizontal row like the original. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .col-character-name.edit-mode > .grid.grid-4col {
-  box-sizing: border-box !important;
-  display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  width: 100% !important;
-  max-width: none !important;
-  gap: .5rem !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .change-custom-background-btn {
-  min-width: 0 !important;
-  width: 100% !important;
-  white-space: nowrap !important;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: normal !important;
-}
-
-/* Neutralize the stronger normal-mode #character/#other rules in edit mode.
-   The IDs make those old rules win unless we explicitly match them here. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #character .character-sheet-divider .right-side.edit-mode,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #other .character-sheet-divider .right-side.edit-mode {
-  box-sizing: border-box !important;
-  width: 100% !important;
-  margin-left: 0 !important;
-  min-width: 0 !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #character .right-side.edit-mode .litm-character-themebooks-container,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #other .right-side.edit-mode .litm-character-themebooks-container {
-  box-sizing: border-box !important;
-  width: 100% !important;
-  margin: 5px !important;
-  margin-left: 5px !important;
-  margin-right: 5px !important;
-  padding: 0 !important;
-}
-
-/* Match the official edit grid: 260px cards, centered, full available width. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #character .themebooks-container.edit-mode,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #other .themebooks-container.edit-mode {
-  box-sizing: border-box !important;
-  display: grid !important;
-  width: 100% !important;
-  min-width: 0 !important;
-  height: 100% !important;
-  grid-template-columns: repeat(auto-fit, 260px) !important;
-  justify-content: center !important;
-  align-items: stretch !important;
-  margin-top: 0 !important;
-  margin-bottom: 5px !important;
-}
-
-/* In edit mode only, use the original tighter rhythm. We keep colour changes
-   but do not enlarge the layout with our normal-mode 10px card spacing. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .grid-themebook-container.edit-mode {
-  column-gap: var(--grid-column-gap, 0.5rem) !important;
-  row-gap: var(--grid-row-gap, 0.5rem) !important;
-}
-
-/* Do not impose normal-view card-header inset on editable cards. Preserve
-   upstream edit geometry while retaining Sci-Fi colours/icons. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themebook-style h2.theme-name {
-  margin: 0 !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-  height: 30px !important;
-  line-height: 1.8em !important;
-}
-
-/* Edit cards should keep upstream row dimensions. Earlier theme rules added
-   height and margins which made the cards visibly different from official. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .item-powertag-line,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .item-weakness-line {
-  min-height: 23px !important;
-  margin: 5px !important;
-  padding: 0 !important;
-  border-bottom: 1.5px solid rgb(var(--litm-vo-accent-rgb) / 10%) !important;
-}
-
-/* Original edit-mode weakness inputs use the red semantic border; keep its
-   geometry, just use our neon red instead of altering the field dimensions. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .item-weakness-line .themebook-entry-input[type="text"] {
-  border-width: 2px !important;
-}
-
-/* Do not shrink text controls. Let the inline upstream flex-grow values drive
-   the same proportions as the official sheet. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themebook-entry-input[type="text"] {
-  width: auto !important;
-  min-width: 0 !important;
-  height: var(--form-field-height, 32px) !important;
-  padding: 0 0.5em !important;
-}
-
-/* Section headers keep official spacing; only their palette is themed. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themebook-section-header {
-  margin: 0 !important;
-  padding: 0 !important;
-  min-height: 0 !important;
-  line-height: normal !important;
-}
-
-/* Theme Kit button: remove the extra margins/width adjustments added by the
-   theme so the official card composition remains recognizable. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themekit-container {
-  margin: 0 !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themekit-button {
-  width: auto !important;
-  margin: 0 !important;
-}
-
-
-/* ==========================================================================
-   v0.4.6 — explicit edit-mode state from JS
-   The sheet root receives .litm-vo-edit-mode while editing.
-   ========================================================================== */
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode {
-  /* The premium 300px lane belongs only to normal view. */
-  --litm-premium-left-margin: 0px !important;
-}
-
-/* Header: portrait + one editor column spanning all remaining width. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .sheet-header.edit-mode {
-  width: 100% !important;
-  max-width: none !important;
-  margin-bottom: 10px !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .sheet-header.edit-mode .header-fields {
-  display: flex !important;
-  flex: 1 1 auto !important;
-  flex-direction: row !important;
-  flex-wrap: nowrap !important;
-  width: 100% !important;
-  max-width: none !important;
-  min-width: 0 !important;
-  gap: .5rem !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .sheet-header.edit-mode .portrait-img {
-  flex: 0 0 150px !important;
-  width: 150px !important;
-  min-width: 150px !important;
-  max-width: 150px !important;
-  height: 150px !important;
-  margin-right: 10px !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .sheet-header.edit-mode .col-character-name.edit-mode {
-  flex: 1 1 auto !important;
-  width: auto !important;
-  min-width: 0 !important;
-  max-width: none !important;
-}
-
-/* Keep the official edit controls in a single four-column row. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .sheet-header.edit-mode .col-character-name.edit-mode > .grid.grid-4col {
-  display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  width: 100% !important;
-  gap: 10px !important;
-  margin: 10px 0 !important;
-  padding: 0 !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .sheet-header.edit-mode .change-custom-background-btn {
-  width: auto !important;
-  min-width: 0 !important;
-  height: auto !important;
-  padding: var(--button-padding, 0.25rem 0.5rem) !important;
-  white-space: normal !important;
-  line-height: normal !important;
-  text-overflow: clip !important;
-}
-
-/* Main edit tab consumes the entire sheet width. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode #character .character-sheet-divider,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode #other .character-sheet-divider {
-  width: 100% !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode #character .character-sheet-divider .right-side.edit-mode,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode #other .character-sheet-divider .right-side.edit-mode {
-  box-sizing: border-box !important;
-  width: 100% !important;
-  max-width: none !important;
-  min-width: 0 !important;
-  margin-left: 0 !important;
-  flex: 1 1 100% !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode #character .right-side.edit-mode .litm-character-themebooks-container,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode #other .right-side.edit-mode .litm-character-themebooks-container {
-  box-sizing: border-box !important;
-  width: auto !important;
-  max-width: none !important;
-  min-width: 0 !important;
-  margin: 5px !important;
-  padding: 0 !important;
-}
-
-/* These are the actual upstream edit-grid metrics. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode #character .themebooks-container.edit-mode,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode #other .themebooks-container.edit-mode {
-  display: grid !important;
-  box-sizing: border-box !important;
-  width: 100% !important;
-  max-width: none !important;
-  min-width: 233px !important;
-  height: 100% !important;
-  grid-template-columns: repeat(auto-fit, 260px) !important;
-  gap: 2px !important;
-  margin-top: 0 !important;
-  margin-bottom: 5px !important;
-  padding: 0 !important;
-  justify-content: center !important;
-  align-items: stretch !important;
-}
-
-/* Normal-view card spacing must not leak into edit mode. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebooks-container.edit-mode,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .grid-themebook-container.edit-mode {
-  column-gap: 2px !important;
-  row-gap: 2px !important;
-}
-
-/* Restore upstream card shell geometry during editing. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebooks-container.edit-mode .themebook-container {
-  position: static !important;
-  flex-grow: .25 !important;
-  padding-bottom: 8px !important;
-}
-
-/* Preserve official edit-header and edit-row geometry while keeping Sci-Fi palette. */
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebooks-container.edit-mode .themebook-style h2.theme-name {
-  height: 30px !important;
-  margin: 0 !important;
-  padding: 0 24px 0 8px !important;
-  line-height: 1.8em !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebooks-container.edit-mode .item-powertag-line,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebooks-container.edit-mode .item-weakness-line {
-  min-height: 23px !important;
-  margin: 5px !important;
-  padding: 0 !important;
-}
-
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebooks-container.edit-mode .themebook-section-header,
-body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebooks-container.edit-mode .themekit-container {
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-}
-
-/* No angular clipping while editing; controls need the full rectangle. */
-body.litm-vo-scifi.litm-vo-sharp-cards .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebooks-container.edit-mode .container-themebook-with-border {
-  clip-path: none !important;
 }
