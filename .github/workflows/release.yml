@@ -29,6 +29,44 @@ jobs:
         run: |
           node -e "JSON.parse(require('fs').readFileSync('module.json', 'utf8'))"
           find scripts -name '*.mjs' -print0 | xargs -0 -n1 node --check
+          node <<'NODE'
+          const fs = require('fs');
+          const css = fs.readFileSync('styles/overhaul.css', 'utf8');
+
+          let depth = 0;
+          let minDepth = 0;
+          for (const ch of css) {
+            if (ch === '{') depth++;
+            else if (ch === '}') depth--;
+            minDepth = Math.min(minDepth, depth);
+          }
+
+          if (depth !== 0 || minDepth < 0) {
+            throw new Error(`CSS brace imbalance: depth=${depth}, min=${minDepth}`);
+          }
+
+          if (/\/\*\s*=+[\s\S]*?v0\.\d/i.test(css)) {
+            throw new Error('Legacy versioned hotfix section found in clean stylesheet.');
+          }
+
+          const required = [
+            '.litm-vo-edit-mode',
+            '#dice-roll-app > section.window-content',
+            '.litm-pc-weakness.selected::before',
+            '.fts-input-name.status.negative',
+            '.burn-icon.to-burn',
+            '.tab-notes',
+            '.chat-message .roll-card'
+          ];
+
+          for (const selector of required) {
+            if (!css.includes(selector)) {
+              throw new Error(`Required visual selector missing: ${selector}`);
+            }
+          }
+
+          console.log('CSS structural validation passed.');
+          NODE
 
       - name: Read version
         id: meta
