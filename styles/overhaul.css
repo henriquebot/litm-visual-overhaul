@@ -2557,3 +2557,152 @@ body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container
   width: auto !important;
   margin: 0 !important;
 }
+
+
+/* ==========================================================================
+   v0.4.6 — explicit edit-mode state from JS
+   The sheet root receives .litm-vo-edit-mode while editing.
+   ========================================================================== */
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode {
+  /* The premium 300px lane belongs only to normal view. */
+  --litm-premium-left-margin: 0px !important;
+}
+
+/* Header: portrait + one editor column spanning all remaining width. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .sheet-header.edit-mode {
+  width: 100% !important;
+  max-width: none !important;
+  margin-bottom: 10px !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .sheet-header.edit-mode .header-fields {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  gap: .5rem !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .sheet-header.edit-mode .portrait-img {
+  flex: 0 0 150px !important;
+  width: 150px !important;
+  min-width: 150px !important;
+  max-width: 150px !important;
+  height: 150px !important;
+  margin-right: 10px !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .sheet-header.edit-mode .col-character-name.edit-mode {
+  flex: 1 1 auto !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+}
+
+/* Keep the official edit controls in a single four-column row. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .sheet-header.edit-mode .col-character-name.edit-mode > .grid.grid-4col {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  width: 100% !important;
+  gap: 10px !important;
+  margin: 10px 0 !important;
+  padding: 0 !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .sheet-header.edit-mode .change-custom-background-btn {
+  width: auto !important;
+  min-width: 0 !important;
+  height: auto !important;
+  padding: var(--button-padding, 0.25rem 0.5rem) !important;
+  white-space: normal !important;
+  line-height: normal !important;
+  text-overflow: clip !important;
+}
+
+/* Main edit tab consumes the entire sheet width. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode #character .character-sheet-divider,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode #other .character-sheet-divider {
+  width: 100% !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode #character .character-sheet-divider .right-side.edit-mode,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode #other .character-sheet-divider .right-side.edit-mode {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  margin-left: 0 !important;
+  flex: 1 1 100% !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode #character .right-side.edit-mode .litm-character-themebooks-container,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode #other .right-side.edit-mode .litm-character-themebooks-container {
+  box-sizing: border-box !important;
+  width: auto !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  margin: 5px !important;
+  padding: 0 !important;
+}
+
+/* These are the actual upstream edit-grid metrics. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode #character .themebooks-container.edit-mode,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode #other .themebooks-container.edit-mode {
+  display: grid !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 233px !important;
+  height: 100% !important;
+  grid-template-columns: repeat(auto-fit, 260px) !important;
+  gap: 2px !important;
+  margin-top: 0 !important;
+  margin-bottom: 5px !important;
+  padding: 0 !important;
+  justify-content: center !important;
+  align-items: stretch !important;
+}
+
+/* Normal-view card spacing must not leak into edit mode. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebooks-container.edit-mode,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .grid-themebook-container.edit-mode {
+  column-gap: 2px !important;
+  row-gap: 2px !important;
+}
+
+/* Restore upstream card shell geometry during editing. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebooks-container.edit-mode .themebook-container {
+  position: static !important;
+  flex-grow: .25 !important;
+  padding-bottom: 8px !important;
+}
+
+/* Preserve official edit-header and edit-row geometry while keeping Sci-Fi palette. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebooks-container.edit-mode .themebook-style h2.theme-name {
+  height: 30px !important;
+  margin: 0 !important;
+  padding: 0 24px 0 8px !important;
+  line-height: 1.8em !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebooks-container.edit-mode .item-powertag-line,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebooks-container.edit-mode .item-weakness-line {
+  min-height: 23px !important;
+  margin: 5px !important;
+  padding: 0 !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebooks-container.edit-mode .themebook-section-header,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebooks-container.edit-mode .themekit-container {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* No angular clipping while editing; controls need the full rectangle. */
+body.litm-vo-scifi.litm-vo-sharp-cards .mist-engine.sheet.actor.litm-character.litm-vo-edit-mode .themebooks-container.edit-mode .container-themebook-with-border {
+  clip-path: none !important;
+}
