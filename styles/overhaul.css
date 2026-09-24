@@ -1807,3 +1807,439 @@ body.litm-vo-scifi .chat-message .roll-card .selected-tags .tag.weakness {
 body.litm-vo-scifi .chat-message .roll-card .detailed-spend-btn {
   min-height: 0 !important;
 }
+
+
+/* ==========================================================================
+   v0.4.3 — theme headers, semantic selection rings and character edit mode
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Theme card headers: add horizontal breathing room and keep icons away from
+   clipped corners without changing the upstream 30px header height.
+   -------------------------------------------------------------------------- */
+
+body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name {
+  position: relative;
+  box-sizing: border-box;
+  padding: 2px 24px 2px 12px !important;
+}
+
+body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name .card-drag-handle {
+  margin: 0 6px 0 0 !important;
+  color: #baf4ff !important;
+  opacity: .9 !important;
+  font-size: .9em !important;
+  text-shadow: 0 0 6px rgb(var(--litm-vo-accent-rgb) / 30%);
+}
+
+body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name .card-drag-handle:hover {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  text-shadow:
+    0 0 5px rgb(var(--litm-vo-accent-rgb) / 80%),
+    0 0 10px rgb(var(--litm-vo-accent-rgb) / 42%);
+}
+
+body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name .themebook-icon {
+  position: absolute !important;
+  top: 4px !important;
+  right: 8px !important;
+  float: none !important;
+  margin: 0 !important;
+  opacity: .9;
+  filter:
+    brightness(2)
+    saturate(.45)
+    drop-shadow(0 0 4px rgb(var(--litm-vo-accent-rgb) / 36%)) !important;
+}
+
+body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name > a {
+  float: right;
+  margin-left: 6px;
+  color: #c7f4ff !important;
+  opacity: .9;
+  text-shadow: 0 0 5px rgb(var(--litm-vo-accent-rgb) / 25%);
+}
+
+body.litm-vo-scifi .mist-engine .themebook-style h2.theme-name > a:hover {
+  color: #ffffff !important;
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Remove upstream hand-drawn selection art and replace it with semantic neon.
+   -------------------------------------------------------------------------- */
+
+body.litm-vo-scifi .mist-engine .fts-selectable.selected::before,
+body.litm-vo-scifi .mist-engine .litm-pc-powertag.selected::before,
+body.litm-vo-scifi .mist-engine .litm-pc-storytag.selected::before,
+body.litm-vo-scifi .mist-engine .litm-pc-weakness.selected::before,
+body.litm-vo-scifi .mist-engine .litm-pc-fellowship-relationship.selected::before {
+  background: none !important;
+  background-image: none !important;
+}
+
+/* Floating Tag/Status selection follows its semantic colour. */
+body.litm-vo-scifi .mist-engine .fts-input-name .fts-selectable.selected {
+  position: relative;
+  z-index: 2;
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-name .fts-selectable.selected::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: -5px -9px !important;
+  border: 2px solid currentColor !important;
+  border-radius: 999px !important;
+  background: color-mix(in srgb, currentColor 8%, transparent) !important;
+  box-shadow:
+    0 0 7px color-mix(in srgb, currentColor 48%, transparent),
+    inset 0 0 7px color-mix(in srgb, currentColor 14%, transparent) !important;
+  pointer-events: none;
+}
+
+/* Keep the whole floating row free of the system's dark focus ring. */
+body.litm-vo-scifi .mist-engine .fts-input-name,
+body.litm-vo-scifi .mist-engine .fts-input-name:focus,
+body.litm-vo-scifi .mist-engine .fts-input-name:focus-visible,
+body.litm-vo-scifi .mist-engine .fts-selectable:focus,
+body.litm-vo-scifi .mist-engine .fts-selectable:focus-visible {
+  outline: none !important;
+}
+
+/* Selected Power / Story tag = cyan neon. */
+body.litm-vo-scifi .mist-engine .litm-pc-powertag.selected,
+body.litm-vo-scifi .mist-engine .litm-pc-storytag.selected {
+  position: relative;
+  z-index: 2;
+  color: #f4fdff !important;
+  text-shadow:
+    0 0 5px rgb(var(--litm-vo-accent-rgb) / 88%),
+    0 0 11px rgb(var(--litm-vo-accent-rgb) / 42%) !important;
+}
+
+body.litm-vo-scifi .mist-engine .litm-pc-powertag.selected::before,
+body.litm-vo-scifi .mist-engine .litm-pc-storytag.selected::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: -4px -10px !important;
+  border: 2px solid var(--litm-vo-accent) !important;
+  border-radius: 999px !important;
+  background: rgb(var(--litm-vo-accent-rgb) / 7%) !important;
+  box-shadow:
+    0 0 8px rgb(var(--litm-vo-accent-rgb) / 42%),
+    inset 0 0 8px rgb(var(--litm-vo-accent-rgb) / 12%) !important;
+  pointer-events: none;
+}
+
+/* Selected Weakness = red/pink neon, never the old hand-drawn ring. */
+body.litm-vo-scifi .mist-engine .litm-pc-weakness.selected {
+  position: relative;
+  z-index: 2;
+  color: #ff8db8 !important;
+  text-shadow:
+    0 0 5px rgb(255 84 139 / 88%),
+    0 0 11px rgb(255 84 139 / 42%) !important;
+}
+
+body.litm-vo-scifi .mist-engine .litm-pc-weakness.selected::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: -4px -10px !important;
+  border: 2px solid #ff548b !important;
+  border-radius: 999px !important;
+  background: rgb(255 84 139 / 8%) !important;
+  box-shadow:
+    0 0 8px rgb(255 84 139 / 46%),
+    inset 0 0 8px rgb(255 84 139 / 13%) !important;
+  pointer-events: none;
+}
+
+/* Fellowship selection gets secondary neon instead of upstream art. */
+body.litm-vo-scifi .mist-engine .litm-pc-fellowship-relationship.selected {
+  position: relative;
+  z-index: 2;
+  color: #e8c9ff !important;
+  text-shadow: 0 0 7px rgb(var(--litm-vo-secondary-rgb) / 58%);
+}
+
+body.litm-vo-scifi .mist-engine .litm-pc-fellowship-relationship.selected::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: -4px -10px !important;
+  border: 2px solid var(--litm-vo-secondary) !important;
+  border-radius: 999px !important;
+  background: rgb(var(--litm-vo-secondary-rgb) / 7%) !important;
+  box-shadow: 0 0 8px rgb(var(--litm-vo-secondary-rgb) / 42%) !important;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   CHARACTER EDIT MODE
+   Restore upstream geometry. Edit mode intentionally uses the full sheet
+   width and MUST NOT reserve the 300px artwork lane.
+   -------------------------------------------------------------------------- */
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode {
+  margin-bottom: 10px !important;
+  padding: 0 !important;
+  min-height: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .header-fields {
+  display: flex !important;
+  flex-direction: row !important;
+  width: 100% !important;
+  gap: .5rem !important;
+  align-items: flex-start !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .portrait-img {
+  flex: 0 0 auto !important;
+  width: 150px !important;
+  height: 150px !important;
+  margin-right: 10px !important;
+  object-fit: cover;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 34%) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 0 12px rgb(var(--litm-vo-accent-rgb) / 12%);
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .col-character-name.edit-mode {
+  flex: 1 1 auto !important;
+  width: 80% !important;
+  max-width: 80% !important;
+  min-width: 80% !important;
+  margin: 0 !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode h1.charname {
+  width: 100% !important;
+  margin: 0 0 8px !important;
+  padding: 0 !important;
+  text-align: center !important;
+  border: 0 !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode h1.charname input {
+  box-sizing: border-box;
+  width: 100% !important;
+  height: 54px !important;
+  margin: 0 !important;
+  padding: 4px 10px !important;
+  color: #f4fbff !important;
+  -webkit-text-fill-color: #f4fbff !important;
+  background: rgb(5 15 23 / 82%) !important;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 30%) !important;
+  border-radius: 3px;
+  font: inherit !important;
+  text-align: left !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .short-description {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .short-description input {
+  box-sizing: border-box;
+  width: 100% !important;
+  height: var(--form-field-height, 32px) !important;
+  color: #dfeef4 !important;
+  -webkit-text-fill-color: #dfeef4 !important;
+  background: rgb(5 15 23 / 82%) !important;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 25%) !important;
+  border-radius: 3px;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .grid.grid-4col {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: .5rem !important;
+  width: 100% !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .change-custom-background-btn {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 32px;
+  padding: 4px 7px !important;
+  color: #e7f6fb !important;
+  background: rgb(5 16 24 / 84%) !important;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 28%) !important;
+  white-space: normal !important;
+  line-height: 1.2;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode color-picker {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+/* Edit-mode card grid must use full width like upstream. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .character-sheet-divider .right-side.edit-mode {
+  width: 100% !important;
+  margin-left: 0 !important;
+  min-width: 0 !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .right-side.edit-mode .litm-character-themebooks-container {
+  box-sizing: border-box;
+  width: 100% !important;
+  margin: 5px !important;
+  padding: 0 !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .grid-themebook-container.edit-mode {
+  width: 100% !important;
+  grid-template-columns: repeat(auto-fit, 260px) !important;
+  column-gap: 10px !important;
+  row-gap: 10px !important;
+  justify-content: center !important;
+}
+
+/* Edit card surface: readable dark HUD, no parchment bleed. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .container-themebook-with-border {
+  color: #e5f0f5 !important;
+  background:
+    linear-gradient(160deg, rgb(var(--litm-vo-accent-rgb) / 6%), transparent 38%),
+    rgb(5 14 22 / 94%) !important;
+  border-color: rgb(var(--litm-vo-accent-rgb) / 26%) !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themebook-style {
+  color: #e5f0f5 !important;
+}
+
+/* Theme Kit area and section bars. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themekit-container {
+  margin: 5px 4px 6px;
+  color: #dcebf2 !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themekit-button {
+  width: calc(100% - 8px) !important;
+  margin: 0 4px !important;
+  color: #eaf9fd !important;
+  background: rgb(var(--litm-vo-accent-rgb) / 8%) !important;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 30%) !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themebook-section-header {
+  margin: 5px 4px !important;
+  padding: 3px 6px !important;
+  color: #dff8ff !important;
+  background:
+    linear-gradient(90deg, rgb(var(--litm-vo-accent-rgb) / 16%), rgb(var(--litm-vo-accent-rgb) / 4%)) !important;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 22%);
+  border-left: 3px solid var(--litm-vo-accent);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* Power/weakness rows in edit mode. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .item-powertag-line,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .item-weakness-line {
+  box-sizing: border-box;
+  min-height: 34px;
+  margin: 4px 5px !important;
+  padding: 0 !important;
+  color: #dcebf2 !important;
+  border-bottom: 0 !important;
+  text-shadow: none !important;
+  align-items: center;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .letter-box {
+  color: #b8d1dc !important;
+  -webkit-text-fill-color: #b8d1dc !important;
+  text-align: center;
+}
+
+/* Text fields: readable even when the original font colour is black. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themebook-entry-input[type="text"],
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .quest-textarea {
+  box-sizing: border-box;
+  color: #e5f0f5 !important;
+  -webkit-text-fill-color: #e5f0f5 !important;
+  background: rgb(7 17 25 / 92%) !important;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 26%) !important;
+  border-radius: 3px;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themebook-entry-input[type="text"]::placeholder,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .quest-textarea::placeholder {
+  color: #748d99 !important;
+  -webkit-text-fill-color: #748d99 !important;
+  opacity: 1 !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themebook-entry-input[type="text"]:focus,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .quest-textarea:focus {
+  border-color: var(--litm-vo-accent) !important;
+  box-shadow: 0 0 7px rgb(var(--litm-vo-accent-rgb) / 24%) !important;
+}
+
+/* Planned checkboxes and destructive icons keep clear semantic colours. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themebook-entry-input[type="checkbox"] {
+  accent-color: var(--litm-vo-accent);
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .item-powertag-line .fa-trash {
+  color: #9fefff !important;
+  opacity: .85;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .item-weakness-line .fa-trash {
+  color: #ff78aa !important;
+  opacity: .9;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .item-powertag-line .fa-trash:hover,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .item-weakness-line .fa-trash:hover {
+  opacity: 1;
+  text-shadow: 0 0 7px currentColor;
+}
+
+/* Weakness edit rows use a subtle red semantic border, never unreadable black. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .item-weakness-line .themebook-entry-input[type="text"] {
+  color: #ffd9e7 !important;
+  -webkit-text-fill-color: #ffd9e7 !important;
+  border-color: rgb(255 84 139 / 46%) !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .item-weakness-line .themebook-entry-input[type="text"]:focus {
+  border-color: #ff548b !important;
+  box-shadow: 0 0 7px rgb(255 84 139 / 28%) !important;
+}
+
+/* Empty/unplanned lines and supporting copy remain legible. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode :is(
+  p,
+  span,
+  strong,
+  label,
+  .special-improvement-label,
+  .help-text
+) {
+  color: #dcebf2 !important;
+  -webkit-text-fill-color: #dcebf2 !important;
+}
+
+/* Quest/story textareas retain upstream size but gain dark-theme contrast. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .quest-textarea {
+  width: calc(100% - 10px) !important;
+  margin: 4px 5px !important;
+}
+
+/* Do not clip edit-card controls with the optional angular-card mask. */
+body.litm-vo-scifi.litm-vo-sharp-cards .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .container-themebook-with-border {
+  clip-path: none !important;
+}
