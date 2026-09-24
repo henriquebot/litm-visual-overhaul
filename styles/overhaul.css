@@ -596,3 +596,216 @@ body.litm-vo-scifi .mist-engine.sheet.actor.litm-character.litm-compact .litm-ch
     transition: none !important;
   }
 }
+
+
+/* ==========================================================================
+   v0.3.1 hotfix — artwork, overlap, selection visibility, notes/biography
+   ========================================================================== */
+
+/* Full sheet: make the 300px artwork lane deterministic instead of relying
+   on the right-side margin from the upstream flex layout. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #character .character-sheet-divider .right-side,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #other .character-sheet-divider .right-side {
+  width: 100% !important;
+  margin-left: 0 !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #character .litm-character-themebooks-container,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #other .litm-character-themebooks-container {
+  box-sizing: border-box;
+  width: calc(100% - var(--litm-premium-left-margin)) !important;
+  margin-left: var(--litm-premium-left-margin) !important;
+  margin-right: 0 !important;
+}
+
+/* Keep the actor art visible and readable under the HUD. The JS layer
+   re-applies the actual custom background URL with !important on render. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) .window-content {
+  background-color: #061019 !important;
+  background-size: cover !important;
+  background-position: left top !important;
+  background-repeat: no-repeat !important;
+  box-shadow: inset 0 0 55px rgb(0 0 0 / 18%) !important;
+}
+
+/* Name stays inside the reserved artwork lane, never over the card grid. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) .character-name-container {
+  box-sizing: border-box;
+  left: 0 !important;
+  width: var(--litm-premium-left-margin) !important;
+  max-width: var(--litm-premium-left-margin) !important;
+  padding: 0 18px !important;
+}
+
+/* Make selected tags unmistakable on a dark sheet. */
+body.litm-vo-scifi .mist-engine .litm-pc-powertag.selected,
+body.litm-vo-scifi .mist-engine .litm-pc-storytag.selected {
+  z-index: 2;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-shadow:
+    0 0 5px rgb(var(--litm-vo-accent-rgb) / 85%),
+    0 0 12px rgb(var(--litm-vo-accent-rgb) / 42%) !important;
+}
+
+body.litm-vo-scifi .mist-engine .litm-pc-powertag.selected::before,
+body.litm-vo-scifi .mist-engine .litm-pc-storytag.selected::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: -5px -8px !important;
+  background: rgb(var(--litm-vo-accent-rgb) / 7%) !important;
+  border: 2px solid var(--litm-vo-accent) !important;
+  border-radius: 999px !important;
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 55%),
+    0 0 10px rgb(var(--litm-vo-accent-rgb) / 48%),
+    inset 0 0 8px rgb(var(--litm-vo-accent-rgb) / 12%) !important;
+  pointer-events: none;
+}
+
+body.litm-vo-scifi .mist-engine .fts-selectable.selected {
+  color: #fff !important;
+  background: rgb(var(--litm-vo-accent-rgb) / 15%) !important;
+  outline: 2px solid var(--litm-vo-accent);
+  outline-offset: 2px;
+  border-radius: 999px;
+  padding-inline: 5px;
+  box-shadow: 0 0 10px rgb(var(--litm-vo-accent-rgb) / 35%);
+}
+
+/* Force every normal story/power line in cards away from upstream black. */
+body.litm-vo-scifi .mist-engine .themebook-style .item-powertag-line,
+body.litm-vo-scifi .mist-engine .themebook-style .item-storytag-line,
+body.litm-vo-scifi .mist-engine .themebook-style .litm-pc-powertag,
+body.litm-vo-scifi .mist-engine .themebook-style .litm-pc-storytag,
+body.litm-vo-scifi .mist-engine .themebook-style .storytag-name,
+body.litm-vo-scifi .mist-engine .themebook-style .empty-message,
+body.litm-vo-scifi .mist-engine .themebook-style .fellowship-entries,
+body.litm-vo-scifi .mist-engine .themebook-style .fellowship-entries *,
+body.litm-vo-scifi .mist-engine .themebook-style.litm-backpack .powertags-container *,
+body.litm-vo-scifi .mist-engine .themebook-style.litm-fellowship-themecard .powertags-container *,
+body.litm-vo-scifi .mist-engine .themebook-style.litm-fellowship-relationship .powertags-container * {
+  color: #dcebf2 !important;
+  -webkit-text-fill-color: currentColor;
+}
+
+body.litm-vo-scifi .mist-engine .themebook-style .item-weakness-line,
+body.litm-vo-scifi .mist-engine .themebook-style .litm-pc-weakness {
+  color: #ff86b8 !important;
+  -webkit-text-fill-color: #ff86b8 !important;
+}
+
+/* Notes and Biography are rich-text documents, not cards. Give them their own
+   dark document surface and neutralize the upstream parchment border. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes.container-card-with-border,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography.container-card-with-border {
+  box-sizing: border-box;
+  height: 100% !important;
+  padding: 18px 22px !important;
+  color: #deebf1 !important;
+  background:
+    linear-gradient(135deg, rgb(var(--litm-vo-accent-rgb) / 5%), transparent 36%),
+    rgb(5 14 22 / 93%) !important;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 30%) !important;
+  border-top: 2px solid rgb(var(--litm-vo-accent-rgb) / 58%) !important;
+  border-radius: 4px;
+  -moz-border-image: none !important;
+  -webkit-border-image: none !important;
+  -o-border-image: none !important;
+  border-image: none !important;
+  box-shadow:
+    inset 0 0 28px rgb(var(--litm-vo-accent-rgb) / 2%),
+    0 8px 22px rgb(0 0 0 / 24%);
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .editor-content,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .editor-content,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes prose-mirror,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography prose-mirror {
+  color: #deebf1 !important;
+  background-color: transparent !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes p,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes li,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes td,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes th,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes strong,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes em,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes .black-strong,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography p,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography li,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography td,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography th,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography strong,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography em {
+  color: #deebf1 !important;
+  -webkit-text-fill-color: #deebf1 !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes h1,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes h2,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes h3,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes h4,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography h1,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography h2,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography h3,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography h4 {
+  color: #bff3ff !important;
+  -webkit-text-fill-color: #bff3ff !important;
+  text-shadow: 0 0 8px rgb(var(--litm-vo-accent-rgb) / 24%);
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes .tab-notes h3.with-line::after,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography .tab-biography h3.with-line::after {
+  height: 2px !important;
+  background: linear-gradient(90deg, var(--litm-vo-accent), transparent) !important;
+  background-image: none !important;
+  opacity: .65;
+}
+
+/* The example-actions table ships with explicit black text and dark borders. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes table.example-actions-table {
+  width: 100%;
+  color: #deebf1 !important;
+  background: rgb(255 255 255 / 2%) !important;
+  border-collapse: collapse;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes table.example-actions-table tr,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes table.example-actions-table td,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes table.example-actions-table th {
+  color: #deebf1 !important;
+  background: transparent !important;
+  border-color: rgb(var(--litm-vo-accent-rgb) / 17%) !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes table.example-actions-table .black-strong {
+  color: #f2fbff !important;
+  -webkit-text-fill-color: #f2fbff !important;
+  font-weight: 700;
+}
+
+/* Keep tag/status chips intentionally dark-on-light for readability. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes mark.tag,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #notes mark.status,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography mark.tag,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character #biography mark.status {
+  color: #071019 !important;
+  -webkit-text-fill-color: #071019 !important;
+  border-radius: 3px;
+}
+
+/* Never let the full-sheet name/description overlap a wrapped second card row. */
+@media (max-width: 1500px) {
+  body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #character .litm-character-themebooks-container,
+  body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #other .litm-character-themebooks-container {
+    padding-left: 8px;
+  }
+
+  body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) .character-name-container {
+    z-index: 5;
+  }
+}
