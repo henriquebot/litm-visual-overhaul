@@ -1464,3 +1464,346 @@ body.litm-vo-scifi #group-action-app .scrollable::-webkit-scrollbar-thumb {
   border: 2px solid rgb(3 11 17 / 90%);
   border-radius: 999px;
 }
+
+
+/* ==========================================================================
+   v0.4.2 — full pass B
+   Preserve official geometry; fix tag/status polarity colours and sheet rhythm.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Roll dialogs: restore OFFICIAL geometry, change only skin/colors.
+   Official metrics:
+   - content border width: 10px
+   - selected groups: margin 10px 0, gap 2px
+   - tag/status chips: padding 2px, radius 2px, centered italic Labrada
+   -------------------------------------------------------------------------- */
+
+body.litm-vo-scifi #dice-roll-app > section.window-content,
+body.litm-vo-scifi .gm-roll-confirm-dialog > section.window-content,
+body.litm-vo-scifi .sacrifice-roll-dialog > section.window-content {
+  border-style: solid !important;
+  border-width: 10px !important;
+  border-color: rgb(var(--litm-vo-accent-rgb) / 24%) !important;
+  -moz-border-image: none !important;
+  -webkit-border-image: none !important;
+  -o-border-image: none !important;
+  border-image: none !important;
+  border-radius: 0 !important;
+  color: #dfeaf0 !important;
+  font-family: Labrada, serif !important;
+  background:
+    linear-gradient(rgb(var(--litm-vo-accent-rgb) / 2.5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--litm-vo-accent-rgb) / 2.5%) 1px, transparent 1px),
+    linear-gradient(155deg, #0b1721, #050b11 75%) !important;
+  background-size: 26px 26px, 26px 26px, auto !important;
+  box-shadow: inset 0 0 26px rgb(var(--litm-vo-accent-rgb) / 2%) !important;
+}
+
+body.litm-vo-scifi #dice-roll-app .selected-tags-container,
+body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container {
+  margin: 10px 0 !important;
+  gap: 2px !important;
+}
+
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag,
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .status,
+body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .tag,
+body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .status {
+  min-height: 0 !important;
+  padding: 2px !important;
+  border-radius: 2px !important;
+  font-family: Labrada, serif !important;
+  font-weight: bold !important;
+  font-style: italic !important;
+  text-align: center !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  box-shadow: none !important;
+}
+
+/* Four distinct semantic states in roll HUDs. */
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag.positive,
+body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .tag.positive {
+  color: #ffeaa9 !important;
+  background: rgb(202 158 44 / 20%) !important;
+  border-color: rgb(226 187 74 / 58%) !important;
+}
+
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .status.positive,
+body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .status.positive {
+  color: #c6f7df !important;
+  background: rgb(70 190 130 / 18%) !important;
+  border-color: rgb(83 214 153 / 58%) !important;
+}
+
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag.negative,
+body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .tag.negative {
+  color: #ffd7c6 !important;
+  background: rgb(224 107 62 / 18%) !important;
+  border-color: rgb(241 126 81 / 60%) !important;
+}
+
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .status.negative,
+body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .status.negative {
+  color: #ffd3eb !important;
+  background: rgb(195 74 133 / 19%) !important;
+  border-color: rgb(226 99 161 / 62%) !important;
+}
+
+body.litm-vo-scifi #dice-roll-app .selected-tags-container .tag.unapplied-preview,
+body.litm-vo-scifi .gm-roll-confirm-dialog .selected-tags-container .tag.unapplied-preview {
+  opacity: .75 !important;
+}
+
+/* Remove our structural changes from modifier controls. */
+body.litm-vo-scifi #dice-roll-app .form-group {
+  gap: 0 !important;
+  margin: 0 !important;
+}
+
+body.litm-vo-scifi #dice-roll-app .form-group > .flexrow {
+  gap: 0 !important;
+  align-items: stretch !important;
+}
+
+body.litm-vo-scifi #dice-roll-app #positiveInput,
+body.litm-vo-scifi #dice-roll-app #negativeInput {
+  flex: 1 !important;
+  width: auto !important;
+  height: var(--form-field-height, 32px) !important;
+  min-height: 0 !important;
+  padding: 0 0.5em !important;
+  text-align: center;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+}
+
+body.litm-vo-scifi #dice-roll-app #button-positive-minus,
+body.litm-vo-scifi #dice-roll-app #button-positive-plus,
+body.litm-vo-scifi #dice-roll-app #button-negative-minus,
+body.litm-vo-scifi #dice-roll-app #button-negative-plus {
+  display: inline-block !important;
+  flex: 1 !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+  color: #c8effa !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  line-height: var(--form-field-height, 32px);
+}
+
+/* Might keeps upstream structure: no extra panel spacing/box model. */
+body.litm-vo-scifi #dice-roll-app .scene-app-might-modifier {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+body.litm-vo-scifi #dice-roll-app .scene-app-might-modifier .npc-subtitle-container-c {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+
+body.litm-vo-scifi #dice-roll-app .might-scale-entry {
+  text-align: center !important;
+}
+
+body.litm-vo-scifi #dice-roll-app .might-scale-radio {
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Power and footer return to upstream sizing. */
+body.litm-vo-scifi #dice-roll-app .power-label {
+  width: 100% !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  display: block !important;
+  text-align: center !important;
+  font-size: large !important;
+  text-shadow: 0 0 8px rgb(var(--litm-vo-accent-rgb) / 24%);
+}
+
+body.litm-vo-scifi #dice-roll-app .dialog-footer {
+  gap: 0 !important;
+  margin-top: 0 !important;
+}
+
+body.litm-vo-scifi #dice-roll-app .dialog-footer .roll-button {
+  min-height: 0 !important;
+  height: auto !important;
+  margin: 5px !important;
+  width: 100% !important;
+  padding: var(--button-padding, 0.25rem 0.5rem) !important;
+}
+
+/* Keep empty source labels exactly as upstream; no layout collapsing. */
+body.litm-vo-scifi #dice-roll-app .selected-tags-container:not(:has(.tag)):not(:has(.status)) {
+  display: flex !important;
+}
+
+/* --------------------------------------------------------------------------
+   Floating Tags & Statuses on the character sheet.
+   Use the system's actual class matrix: tag/status + positive/negative.
+   -------------------------------------------------------------------------- */
+
+body.litm-vo-scifi .mist-engine .fts-input-name.tag.positive {
+  color: #ffeaa9 !important;
+  background: rgb(202 158 44 / 19%) !important;
+  border-color: rgb(226 187 74 / 58%) !important;
+  box-shadow:
+    inset 0 0 9px rgb(226 187 74 / 5%),
+    0 1px 3px rgb(0 0 0 / 24%) !important;
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-name.status.positive {
+  color: #c6f7df !important;
+  background: rgb(70 190 130 / 18%) !important;
+  border-color: rgb(83 214 153 / 58%) !important;
+  box-shadow:
+    inset 0 0 9px rgb(83 214 153 / 5%),
+    0 1px 3px rgb(0 0 0 / 24%) !important;
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-name.tag.negative {
+  color: #ffd7c6 !important;
+  background: rgb(224 107 62 / 18%) !important;
+  border-color: rgb(241 126 81 / 60%) !important;
+  box-shadow:
+    inset 0 0 9px rgb(241 126 81 / 5%),
+    0 1px 3px rgb(0 0 0 / 24%) !important;
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-name.status.negative {
+  color: #ffd3eb !important;
+  background: rgb(195 74 133 / 19%) !important;
+  border-color: rgb(226 99 161 / 62%) !important;
+  box-shadow:
+    inset 0 0 9px rgb(226 99 161 / 5%),
+    0 1px 3px rgb(0 0 0 / 24%) !important;
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-name.tag.positive .fts-tag-modifier-toggle,
+body.litm-vo-scifi .mist-engine .fts-input-name.tag.positive .fts-tag-status-toggle {
+  color: #f1cc61 !important;
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-name.status.positive .fts-tag-modifier-toggle,
+body.litm-vo-scifi .mist-engine .fts-input-name.status.positive .fts-tag-status-toggle {
+  color: #71e2ab !important;
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-name.tag.negative .fts-tag-modifier-toggle,
+body.litm-vo-scifi .mist-engine .fts-input-name.tag.negative .fts-tag-status-toggle {
+  color: #f59872 !important;
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-name.status.negative .fts-tag-modifier-toggle,
+body.litm-vo-scifi .mist-engine .fts-input-name.status.negative .fts-tag-status-toggle {
+  color: #ee7db4 !important;
+}
+
+/* Status tier markers also inherit the semantic status colour. */
+body.litm-vo-scifi .mist-engine .floating-tag-and-status-entry[data-is-status="true"] .fts-markings-container {
+  opacity: .92;
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-marking i.marking-circle {
+  color: #a9bfca !important;
+  background: rgb(255 255 255 / 4%) !important;
+  border-color: rgb(255 255 255 / 16%) !important;
+}
+
+body.litm-vo-scifi .mist-engine .fts-input-marking i.marking-circle.active {
+  color: #071019 !important;
+  background: var(--litm-vo-accent) !important;
+  border-color: var(--litm-vo-accent) !important;
+  box-shadow: 0 0 7px rgb(var(--litm-vo-accent-rgb) / 32%);
+}
+
+/* --------------------------------------------------------------------------
+   Character sheet rhythm: visible breathing room between every Theme Card.
+   -------------------------------------------------------------------------- */
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .grid-themebook-container {
+  column-gap: 10px !important;
+  row-gap: 10px !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .litm-character-themebooks-container {
+  padding: 0 5px 6px !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebook-container {
+  padding-bottom: 0 !important;
+}
+
+/* No accidental double-border where card rows meet. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .container-themebook-with-border {
+  outline: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   Sheet right-side / scroll treatment: keep function, reduce visual noise.
+   -------------------------------------------------------------------------- */
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .scrollable {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--litm-vo-accent-rgb) / 34%) transparent;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .scrollable::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .scrollable::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .scrollable::-webkit-scrollbar-thumb {
+  background: rgb(var(--litm-vo-accent-rgb) / 32%) !important;
+  border: 1px solid rgb(3 11 17 / 60%) !important;
+  border-radius: 999px;
+}
+
+/* Keep tabs visually separated from the card grid without altering dimensions. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .litm-character-sheet-tabs {
+  border-bottom-color: rgb(var(--litm-vo-accent-rgb) / 28%) !important;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 16%);
+}
+
+/* --------------------------------------------------------------------------
+   Chat cards: semantic tag colours mirror the sheet and roll HUD.
+   -------------------------------------------------------------------------- */
+
+body.litm-vo-scifi .chat-message .roll-card .selected-tags .tag.positive:not(.weakness) {
+  color: #c6f7df !important;
+  background: rgb(70 190 130 / 16%) !important;
+  border-color: rgb(83 214 153 / 48%) !important;
+  border-left-color: #53d699 !important;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .selected-tags .tag.negative,
+body.litm-vo-scifi .chat-message .roll-card .selected-tags .tag.weakness {
+  color: #ffd7c6 !important;
+  background: rgb(224 107 62 / 16%) !important;
+  border-color: rgb(241 126 81 / 50%) !important;
+  border-left-color: #f17e51 !important;
+}
+
+/* Keep chat structure intact: no forced min-heights on action buttons. */
+body.litm-vo-scifi .chat-message .roll-card .detailed-spend-btn {
+  min-height: 0 !important;
+}
