@@ -48,5 +48,15 @@
   "download": "https://github.com/henriquebot/litm-visual-overhaul/releases/latest/download/litm-visual-overhaul.zip",
   "readme": "https://github.com/henriquebot/litm-visual-overhaul/blob/main/README.md",
   "bugs": "https://github.com/henriquebot/litm-visual-overhaul/issues",
-  "flags": {}
+  "flags": {
+    "hotReload": {
+      "paths": [
+        "styles",
+        "scripts",
+        "lang",
+        "templates",
+        "module.json"
+      ]
+    }
+  }
 }
