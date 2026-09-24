@@ -102,11 +102,15 @@ function detectType(message, card) {
   const sacrifice = normalize(localized("MIST_ENGINE.SACRIFICE.Title", "Sacrifice"));
   const group = normalize(localized("MIST_ENGINE.COLLAB.GroupTitle", "Acting Together"));
 
-  if (title === quick || title === PT_BR.titles.quick) return "quick";
-  if (title === detailed || title === PT_BR.titles.detailed) return "detailed";
-  if (title === reaction || title === PT_BR.titles.reaction) return "reaction";
-  if (title === group || title === PT_BR.titles.group) return "group";
-  if (title.startsWith(sacrifice) || title.startsWith(PT_BR.titles.sacrifice)) return "sacrifice";
+  if ([quick, "Quick Roll", PT_BR.titles.quick].includes(title)) return "quick";
+  if ([detailed, "Detailed Roll", PT_BR.titles.detailed].includes(title)) return "detailed";
+  if ([reaction, "Reaction Roll", PT_BR.titles.reaction].includes(title)) return "reaction";
+  if ([group, "Acting Together", PT_BR.titles.group].includes(title)) return "group";
+  if (
+    title.startsWith(sacrifice) ||
+    title.startsWith("Sacrifice") ||
+    title.startsWith(PT_BR.titles.sacrifice)
+  ) return "sacrifice";
 
   return null;
 }
