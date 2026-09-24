@@ -30,6 +30,12 @@
       "DenseUi": {
         "Name": "Interface Compacta",
         "Hint": "Reduz um pouco os espaçamentos para mostrar mais informação na tela."
+      },
+      "RollCardTranslation": {
+        "Name": "Tradução dos Cards de Resultado",
+        "Hint": "Traduz somente os cards de resultado das rolagens exibidos no chat. Fichas, menus, compêndios e janelas de rolagem não são traduzidos.",
+        "Off": "Desativado",
+        "PtBR": "Português (Brasil)"
       }
     }
   }
