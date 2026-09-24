@@ -156,6 +156,28 @@ function reinforceCharacterArtwork(app, html) {
   content.style.setProperty("background-repeat", "no-repeat", "important");
 }
 
+
+function syncCharacterEditModeClass(app, html) {
+  if (game.system.id !== SYSTEM_ID) return;
+
+  const rootCandidate = elementFrom(app?.element) ?? elementFrom(html);
+  if (!rootCandidate) return;
+
+  const sheet = rootCandidate.matches?.(".mist-engine.sheet.actor.litm-character")
+    ? rootCandidate
+    : rootCandidate.querySelector?.(".mist-engine.sheet.actor.litm-character");
+
+  if (!sheet) return;
+
+  const isEditMode = Boolean(
+    sheet.querySelector(".sheet-header.edit-mode") ||
+    sheet.querySelector("#character .right-side.edit-mode") ||
+    sheet.querySelector(".themebooks-container.edit-mode")
+  );
+
+  sheet.classList.toggle("litm-vo-edit-mode", isEditMode);
+}
+
 function scheduleArtworkReinforcement(app, html) {
   requestAnimationFrame(() => reinforceCharacterArtwork(app, html));
 }
@@ -224,10 +246,12 @@ Hooks.on("renderSettingsConfig", () => {
 
 
 Hooks.on("renderActorSheet", (app, html) => {
+  syncCharacterEditModeClass(app, html);
   scheduleArtworkReinforcement(app, html);
 });
 
 Hooks.on("renderApplicationV2", (app, html) => {
+  syncCharacterEditModeClass(app, html);
   scheduleArtworkReinforcement(app, html);
 });
 
