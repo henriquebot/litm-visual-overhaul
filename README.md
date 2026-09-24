@@ -66,3 +66,10 @@ Versão atual do tema: **0.2.0** — reconstrução visual da ficha de personage
 O planejamento de estabilização, cobertura do sistema e 1.0 está em [ROADMAP.md](ROADMAP.md) e nas Issues do repositório.
 
 A partir da série 0.5.x, a regra do projeto é preservar a geometria oficial do Mist Engine e alterar prioritariamente skin, contraste, cores e efeitos.
+
+
+### Tradução opcional dos cards de resultado
+
+O módulo pode traduzir somente os cards de resultado das rolagens no chat para Português (Brasil), sem alterar o idioma das fichas, menus, compêndios ou janelas de rolagem.
+
+A opção fica em **Configurações do Módulo → Tradução dos Cards de Resultado**.
