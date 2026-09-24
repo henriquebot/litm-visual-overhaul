@@ -1384,3 +1384,83 @@ body.litm-vo-scifi #group-action-app .tag {
 body.litm-vo-scifi #group-action-app .icon-hover {
   color: #c9f3ff !important;
 }
+
+
+/* v0.4 finishing pass */
+
+/* Hide empty roll-source sections so the dialog does not reserve dead space
+   for Story / Challenge / GM tags when none are selected. */
+body.litm-vo-scifi #dice-roll-app .selected-tags-container:not(:has(.tag)):not(:has(.status)) {
+  display: none !important;
+}
+
+/* Critical/fumble banners. */
+body.litm-vo-scifi .chat-message .roll-card .critical-roll,
+body.litm-vo-scifi .chat-message .roll-card .fumble-roll {
+  display: block;
+  margin: 6px 0;
+  padding: 6px 8px;
+  color: #f2fbff !important;
+  background: rgb(var(--litm-vo-accent-rgb) / 8%);
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 25%);
+  border-left: 3px solid var(--litm-vo-accent);
+  border-radius: 3px;
+  text-align: center;
+  font-weight: 800;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .fumble-roll {
+  background: rgb(255 100 157 / 7%);
+  border-color: rgb(255 100 157 / 25%);
+  border-left-color: #ff649d;
+}
+
+/* Camping chat output belongs to the same visual family. */
+body.litm-vo-scifi .chat-message .camping-chat-entry {
+  padding: 7px 8px;
+  color: #e2eef3 !important;
+  background:
+    linear-gradient(135deg, rgb(var(--litm-vo-accent-rgb) / 6%), transparent 45%),
+    #08151f !important;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 23%);
+  border-left: 3px solid #69e3b0;
+  border-radius: 3px;
+}
+
+body.litm-vo-scifi .chat-message .camping-chat-title {
+  color: #c8f5e3 !important;
+  border-bottom: 1px solid rgb(105 227 176 / 18%);
+}
+
+body.litm-vo-scifi .chat-message .camping-chat-entry :is(p, em, strong, span) {
+  color: #e2eef3 !important;
+}
+
+/* Scrollbars inside LiTM windows: remove the leftover burgundy strip. */
+body.litm-vo-scifi .mist-engine .scrollable,
+body.litm-vo-scifi #dice-roll-app .scrollable,
+body.litm-vo-scifi #group-action-app .scrollable {
+  scrollbar-color: rgb(var(--litm-vo-accent-rgb) / 55%) rgb(3 11 17 / 70%);
+  scrollbar-width: thin;
+}
+
+body.litm-vo-scifi .mist-engine .scrollable::-webkit-scrollbar,
+body.litm-vo-scifi #dice-roll-app .scrollable::-webkit-scrollbar,
+body.litm-vo-scifi #group-action-app .scrollable::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+body.litm-vo-scifi .mist-engine .scrollable::-webkit-scrollbar-track,
+body.litm-vo-scifi #dice-roll-app .scrollable::-webkit-scrollbar-track,
+body.litm-vo-scifi #group-action-app .scrollable::-webkit-scrollbar-track {
+  background: rgb(3 11 17 / 72%);
+}
+
+body.litm-vo-scifi .mist-engine .scrollable::-webkit-scrollbar-thumb,
+body.litm-vo-scifi #dice-roll-app .scrollable::-webkit-scrollbar-thumb,
+body.litm-vo-scifi #group-action-app .scrollable::-webkit-scrollbar-thumb {
+  background: rgb(var(--litm-vo-accent-rgb) / 45%);
+  border: 2px solid rgb(3 11 17 / 90%);
+  border-radius: 999px;
+}
