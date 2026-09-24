@@ -1,0 +1,36 @@
+{
+  "LITMVO": {
+    "Settings": {
+      "Theme": {
+        "Name": "Tema Visual",
+        "Hint": "Escolha se o LiTM Visual Overhaul deixa o visual oficial intacto ou aplica a reformulação Sci-Fi.",
+        "Official": "Oficial / Sem Alterações",
+        "Scifi": "Sci-Fi HUD"
+      },
+      "Accent": {
+        "Name": "Cor de Destaque Principal",
+        "Hint": "Cor hexadecimal usada em destaques, abas ativas e brilho da interface. Exemplo: #4de1ff."
+      },
+      "Secondary": {
+        "Name": "Cor de Destaque Secundária",
+        "Hint": "Cor hexadecimal usada em detalhes neon secundários. Exemplo: #c45cff."
+      },
+      "Glow": {
+        "Name": "Intensidade do Brilho",
+        "Hint": "Controla a força das sombras e dos destaques neon."
+      },
+      "SharpCards": {
+        "Name": "Cards Angulares",
+        "Hint": "Aplica cantos recortados com aparência tecnológica aos cards e painéis."
+      },
+      "Scanlines": {
+        "Name": "Scanlines Sutis",
+        "Hint": "Adiciona linhas de varredura muito leves às janelas do sistema."
+      },
+      "DenseUi": {
+        "Name": "Interface Compacta",
+        "Hint": "Reduz um pouco os espaçamentos para mostrar mais informação na tela."
+      }
+    }
+  }
+}
