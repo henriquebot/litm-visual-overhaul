@@ -2378,3 +2378,182 @@ body.litm-vo-scifi .mist-engine .burn-icon.to-burn {
     drop-shadow(0 0 4px rgb(255 122 85 / 62%))
     drop-shadow(0 0 8px rgb(255 122 85 / 26%));
 }
+
+
+/* ==========================================================================
+   v0.4.5 — exact edit-mode geometry isolation
+   Keep upstream layout; theme only the surface.
+   ========================================================================== */
+
+/* Header itself must span the whole sheet. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode {
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex: 0 0 auto !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  justify-content: flex-start !important;
+  width: 100% !important;
+  max-width: none !important;
+  overflow: hidden !important;
+}
+
+/* The official header is portrait + one flexible editor column. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .header-fields {
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex: 1 1 100% !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  gap: .5rem !important;
+  align-items: flex-start !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .portrait-img {
+  flex: 0 0 150px !important;
+  width: 150px !important;
+  min-width: 150px !important;
+  max-width: 150px !important;
+  height: 150px !important;
+  margin-right: 10px !important;
+}
+
+/* Override both our normal-sheet 300px lane and upstream percentage sizing.
+   In edit mode this column simply fills all remaining header width. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .header-fields .col-character-name.edit-mode {
+  box-sizing: border-box !important;
+  flex: 1 1 0 !important;
+  width: auto !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+
+/* Identity fields keep upstream dimensions but stretch with the editor column. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .col-character-name.edit-mode h1.charname,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .col-character-name.edit-mode .short-description,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .col-character-name.edit-mode h1.charname input,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .col-character-name.edit-mode .short-description input {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: none !important;
+}
+
+/* Background controls must remain one horizontal row like the original. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .col-character-name.edit-mode > .grid.grid-4col {
+  box-sizing: border-box !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  width: 100% !important;
+  max-width: none !important;
+  gap: .5rem !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .sheet-header.edit-mode .change-custom-background-btn {
+  min-width: 0 !important;
+  width: 100% !important;
+  white-space: nowrap !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: normal !important;
+}
+
+/* Neutralize the stronger normal-mode #character/#other rules in edit mode.
+   The IDs make those old rules win unless we explicitly match them here. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #character .character-sheet-divider .right-side.edit-mode,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #other .character-sheet-divider .right-side.edit-mode {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  min-width: 0 !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #character .right-side.edit-mode .litm-character-themebooks-container,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #other .right-side.edit-mode .litm-character-themebooks-container {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  margin: 5px !important;
+  margin-left: 5px !important;
+  margin-right: 5px !important;
+  padding: 0 !important;
+}
+
+/* Match the official edit grid: 260px cards, centered, full available width. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #character .themebooks-container.edit-mode,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-compact) #other .themebooks-container.edit-mode {
+  box-sizing: border-box !important;
+  display: grid !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  grid-template-columns: repeat(auto-fit, 260px) !important;
+  justify-content: center !important;
+  align-items: stretch !important;
+  margin-top: 0 !important;
+  margin-bottom: 5px !important;
+}
+
+/* In edit mode only, use the original tighter rhythm. We keep colour changes
+   but do not enlarge the layout with our normal-mode 10px card spacing. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .grid-themebook-container.edit-mode {
+  column-gap: var(--grid-column-gap, 0.5rem) !important;
+  row-gap: var(--grid-row-gap, 0.5rem) !important;
+}
+
+/* Do not impose normal-view card-header inset on editable cards. Preserve
+   upstream edit geometry while retaining Sci-Fi colours/icons. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themebook-style h2.theme-name {
+  margin: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  height: 30px !important;
+  line-height: 1.8em !important;
+}
+
+/* Edit cards should keep upstream row dimensions. Earlier theme rules added
+   height and margins which made the cards visibly different from official. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .item-powertag-line,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .item-weakness-line {
+  min-height: 23px !important;
+  margin: 5px !important;
+  padding: 0 !important;
+  border-bottom: 1.5px solid rgb(var(--litm-vo-accent-rgb) / 10%) !important;
+}
+
+/* Original edit-mode weakness inputs use the red semantic border; keep its
+   geometry, just use our neon red instead of altering the field dimensions. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .item-weakness-line .themebook-entry-input[type="text"] {
+  border-width: 2px !important;
+}
+
+/* Do not shrink text controls. Let the inline upstream flex-grow values drive
+   the same proportions as the official sheet. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themebook-entry-input[type="text"] {
+  width: auto !important;
+  min-width: 0 !important;
+  height: var(--form-field-height, 32px) !important;
+  padding: 0 0.5em !important;
+}
+
+/* Section headers keep official spacing; only their palette is themed. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themebook-section-header {
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0 !important;
+  line-height: normal !important;
+}
+
+/* Theme Kit button: remove the extra margins/width adjustments added by the
+   theme so the official card composition remains recognizable. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themekit-container {
+  margin: 0 !important;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character .themebooks-container.edit-mode .themekit-button {
+  width: auto !important;
+  margin: 0 !important;
+}
