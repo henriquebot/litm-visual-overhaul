@@ -458,12 +458,23 @@ body.litm-vo-scifi .mist-engine .item-storytag-line {
 }
 
 body.litm-vo-scifi .mist-engine .litm-pc-powertag,
-body.litm-vo-scifi .mist-engine .litm-pc-powertag.empty,
 body.litm-vo-scifi .mist-engine .litm-pc-storytag,
-body.litm-vo-scifi .mist-engine .storytag-name,
-body.litm-vo-scifi .mist-engine .storytag-name.empty {
+body.litm-vo-scifi .mist-engine .storytag-name {
   color: #e0edf3;
   opacity: 1;
+}
+
+/* The official templates render planned Power/Story tags with the .empty
+   class in play mode. Keep them visibly present, but subdued like the
+   official sheet so planned tags read as future/inactive choices. */
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-vo-edit-mode) .litm-pc-powertag.empty,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-vo-edit-mode) .litm-pc-storytag.empty,
+body.litm-vo-scifi .mist-engine.sheet.actor.litm-character:not(.litm-vo-edit-mode) .storytag-name.empty {
+  color: #91a2aa;
+  -webkit-text-fill-color: #91a2aa;
+  opacity: .58;
+  text-shadow: none;
+  filter: saturate(.65);
 }
 
 body.litm-vo-scifi .mist-engine .litm-pc-powertag.first,
