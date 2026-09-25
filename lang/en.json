@@ -67,6 +67,9 @@
         "DetailedResult": "Push Your Luck: +1 Power to spend on effects, and you accept Consequences."
       },
       "Error": "Advanced roll rule failed. Check the console."
+    },
+    "HowToPlay": {
+      "Title": "How to Play"
     }
   }
 }
