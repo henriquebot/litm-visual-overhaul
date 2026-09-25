@@ -2,7 +2,7 @@
   "id": "litm-visual-overhaul",
   "title": "LiTM Visual Overhaul",
   "description": "Visual customization layer for the official Legend In The Mist FoundryVTT system, with optional PT-BR roll-card translation and p.158 roll-rule extensions.",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "authors": [
     {
       "name": "Henrique Andrade",
