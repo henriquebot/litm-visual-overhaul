@@ -1735,3 +1735,252 @@ body.litm-vo-scifi .chat-message .roll-card .litm-vo-push-result {
       transparent 72%
     );
 }
+
+
+/* ==========================================================================
+   14. SCI-FI AUXILIARY APP REFINEMENT
+   Scene Tracker / Camping / Acting Together / How to Play
+   ========================================================================== */
+
+/* The official auxiliary apps paint parchment through border-image: ... fill.
+   Reset both the filled border image and paper background explicitly. */
+body.litm-vo-scifi #scene-data-app > section.window-content,
+body.litm-vo-scifi #camping-app > section.window-content,
+body.litm-vo-scifi #group-action-app > section.window-content,
+body.litm-vo-scifi #how-to-play-app > section.window-content,
+body.litm-vo-scifi #scene-data-app > .window-content,
+body.litm-vo-scifi #camping-app > .window-content,
+body.litm-vo-scifi #group-action-app > .window-content,
+body.litm-vo-scifi #how-to-play-app > .window-content {
+  --color-text-primary: #e5f0f5;
+  --color-text-dark-primary: #e5f0f5;
+  --color-text-dark-secondary: #9fb6c1;
+  box-sizing: border-box;
+  color: #dcebf1 !important;
+  font-family: var(--font-body, "Segoe UI", system-ui, sans-serif) !important;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 30%) !important;
+  border-top-color: rgb(var(--litm-vo-accent-rgb) / 56%) !important;
+  border-image: none !important;
+  -moz-border-image: none !important;
+  -webkit-border-image: none !important;
+  -o-border-image: none !important;
+  background-color: #050c12 !important;
+  background-image:
+    linear-gradient(rgb(var(--litm-vo-accent-rgb) / 2.2%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--litm-vo-accent-rgb) / 2.2%) 1px, transparent 1px),
+    radial-gradient(circle at 16% 0%, rgb(var(--litm-vo-accent-rgb) / 8%), transparent 34%),
+    linear-gradient(145deg, #0a1721, #04090e 78%) !important;
+  background-size: 28px 28px, 28px 28px, auto, auto !important;
+  background-repeat: repeat, repeat, no-repeat, no-repeat !important;
+  box-shadow:
+    inset 0 0 42px rgb(0 0 0 / 30%),
+    inset 0 1px 0 rgb(var(--litm-vo-accent-rgb) / 12%) !important;
+}
+
+/* Use a clean HUD type treatment instead of the fantasy book typography. */
+body.litm-vo-scifi #scene-data-app :is(
+  .scene-app-actor-header,
+  .character-name,
+  .resource-label
+),
+body.litm-vo-scifi #camping-app :is(
+  .camping-mode-line,
+  .camping-section-header,
+  .camping-character-head
+),
+body.litm-vo-scifi #group-action-app :is(
+  .resource-label,
+  .power-label
+),
+body.litm-vo-scifi #how-to-play-app .how-to-play-dialog :is(h1, h2, h3, h4) {
+  color: #c9f4ff !important;
+  font-family: var(--font-heading, "Arial Narrow", "Segoe UI", sans-serif) !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  letter-spacing: .055em;
+  text-shadow:
+    0 0 calc(8px * var(--litm-vo-glow))
+    rgb(var(--litm-vo-accent-rgb) / 26%);
+}
+
+body.litm-vo-scifi #scene-data-app :is(
+  p, li, span, div, label, small
+),
+body.litm-vo-scifi #camping-app :is(
+  p, li, span, div, label, small
+),
+body.litm-vo-scifi #group-action-app :is(
+  p, li, span, div, label, small
+),
+body.litm-vo-scifi #how-to-play-app .how-to-play-dialog {
+  color: #d7e6ed;
+  font-family: var(--font-body, "Segoe UI", system-ui, sans-serif) !important;
+}
+
+/* Scene Tracker */
+body.litm-vo-scifi #scene-data-app .scene-app-characters,
+body.litm-vo-scifi #scene-data-app .character-container,
+body.litm-vo-scifi #scene-data-app .scene-app-journey,
+body.litm-vo-scifi #scene-data-app .scene-story-theme {
+  color: #dcebf1;
+}
+
+body.litm-vo-scifi #scene-data-app .scene-app-actor-header {
+  border-bottom: 1px solid rgb(var(--litm-vo-accent-rgb) / 28%);
+  padding-bottom: 3px;
+}
+
+body.litm-vo-scifi #scene-data-app .scene-app-dice-roll-modifiers .listing .mod-entry,
+body.litm-vo-scifi #scene-data-app .floating-tags-and-status-entries :is(.tag, .status),
+body.litm-vo-scifi #scene-data-app .weakness-tags-container .scene-weakness-tag {
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 22%);
+  box-shadow: none;
+}
+
+/* Camping */
+body.litm-vo-scifi #camping-app .camping-container {
+  padding: 8px;
+}
+
+body.litm-vo-scifi #camping-app .camping-section {
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 22%);
+  border-left: 2px solid rgb(var(--litm-vo-accent-rgb) / 46%);
+  border-radius: 3px;
+  background:
+    linear-gradient(110deg, rgb(var(--litm-vo-accent-rgb) / 5%), transparent 42%),
+    rgb(4 14 21 / 70%);
+  box-shadow: inset 0 0 18px rgb(var(--litm-vo-accent-rgb) / 2%);
+}
+
+body.litm-vo-scifi #camping-app .camping-section-header {
+  color: #bff2ff !important;
+  border-bottom-color: rgb(var(--litm-vo-accent-rgb) / 22%) !important;
+}
+
+body.litm-vo-scifi #camping-app .camping-hint,
+body.litm-vo-scifi #camping-app .camping-empty,
+body.litm-vo-scifi #camping-app .camping-used {
+  color: #91a9b4 !important;
+}
+
+body.litm-vo-scifi #camping-app .camping-tags .tag,
+body.litm-vo-scifi #camping-app .camping-theme-buttons button {
+  color: #ffeaa9 !important;
+  background: rgb(202 158 44 / 15%) !important;
+  border: 1px solid rgb(226 187 74 / 42%) !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+}
+
+body.litm-vo-scifi #camping-app .camping-tags .tag.status {
+  color: #c9f5df !important;
+  background: rgb(83 214 153 / 12%) !important;
+  border-color: rgb(83 214 153 / 40%) !important;
+}
+
+/* Acting Together */
+body.litm-vo-scifi #group-action-app .group-action-hint,
+body.litm-vo-scifi #group-action-app .group-empty {
+  color: #9eb5c0 !important;
+}
+
+body.litm-vo-scifi #group-action-app .group-contributions {
+  padding: 7px 9px;
+  border-left: 2px solid rgb(var(--litm-vo-accent-rgb) / 45%);
+  background: rgb(var(--litm-vo-accent-rgb) / 4%);
+}
+
+/* How to Play */
+body.litm-vo-scifi #how-to-play-app .window-content {
+  background-image:
+    linear-gradient(rgb(var(--litm-vo-accent-rgb) / 2.2%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--litm-vo-accent-rgb) / 2.2%) 1px, transparent 1px),
+    radial-gradient(circle at 15% 0%, rgb(var(--litm-vo-accent-rgb) / 7%), transparent 38%),
+    linear-gradient(145deg, #091722, #04090e 78%) !important;
+}
+
+body.litm-vo-scifi #how-to-play-app .how-to-play-dialog {
+  line-height: 1.48;
+}
+
+body.litm-vo-scifi #how-to-play-app .how-to-play-dialog :is(
+  .text-container-300,
+  .text-container-500,
+  .text-container-large-paper-background,
+  .text-container-long-paper-background
+) {
+  color: #dcebf1 !important;
+  background:
+    linear-gradient(140deg, rgb(var(--litm-vo-accent-rgb) / 5%), transparent 38%),
+    rgb(5 15 23 / 82%) !important;
+  background-image:
+    linear-gradient(140deg, rgb(var(--litm-vo-accent-rgb) / 5%), transparent 38%) !important;
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 24%) !important;
+  border-top: 1px solid rgb(var(--litm-vo-accent-rgb) / 42%) !important;
+  border-radius: 3px !important;
+  border-image: none !important;
+  box-shadow: inset 0 0 22px rgb(var(--litm-vo-accent-rgb) / 2%);
+}
+
+body.litm-vo-scifi #how-to-play-app .how-to-play-dialog h3,
+body.litm-vo-scifi #how-to-play-app .how-to-play-dialog h4 {
+  color: #c5f3ff !important;
+}
+
+body.litm-vo-scifi #how-to-play-app .how-to-play-dialog .with-line::after {
+  width: 105px;
+  height: 1px;
+  vertical-align: middle;
+  background: linear-gradient(
+    90deg,
+    rgb(var(--litm-vo-accent-rgb) / 72%),
+    rgb(var(--litm-vo-accent-rgb) / 4%)
+  ) !important;
+  background-image: none !important;
+}
+
+body.litm-vo-scifi #how-to-play-app .how-to-play-dialog .hr-gray-line,
+body.litm-vo-scifi #how-to-play-app .how-to-play-dialog .hr-red-line {
+  border-color: rgb(var(--litm-vo-accent-rgb) / 20%) !important;
+  background: rgb(var(--litm-vo-accent-rgb) / 18%) !important;
+}
+
+body.litm-vo-scifi #how-to-play-app .how-to-play-dialog :is(
+  .roll-result-success,
+  .roll-result-partial-success,
+  .roll-result-failure
+) {
+  color: #ecf8fb !important;
+  background-image: none !important;
+  border: 1px solid rgb(255 255 255 / 10%);
+  border-radius: 3px;
+}
+
+body.litm-vo-scifi #how-to-play-app .how-to-play-dialog .roll-result-success {
+  background: rgb(83 214 153 / 13%) !important;
+  border-color: rgb(83 214 153 / 38%) !important;
+}
+
+body.litm-vo-scifi #how-to-play-app .how-to-play-dialog .roll-result-partial-success {
+  background: rgb(226 187 74 / 13%) !important;
+  border-color: rgb(226 187 74 / 38%) !important;
+}
+
+body.litm-vo-scifi #how-to-play-app .how-to-play-dialog .roll-result-failure {
+  background: rgb(241 126 81 / 13%) !important;
+  border-color: rgb(241 126 81 / 38%) !important;
+}
+
+body.litm-vo-scifi #how-to-play-app .how-to-play-dialog .section-left-header {
+  color: #a9c4cf !important;
+  font-family: var(--font-body, "Segoe UI", system-ui, sans-serif) !important;
+}
+
+body.litm-vo-scifi #how-to-play-app .how-to-play-dialog mark {
+  border-radius: 3px;
+  box-shadow: none;
+}
+
+body.litm-vo-scifi #how-to-play-app .how-to-play-dialog strong {
+  color: #f0f8fb;
+}
