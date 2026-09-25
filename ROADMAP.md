@@ -10,6 +10,12 @@ O roadmap é acompanhado pelas Issues do repositório.
 
 Objetivo: uma base visual previsível, sem alterações estruturais acidentais do sistema oficial.
 
+## 0.5.2 — Extensões de regras do livro
+
+- #9 Regras avançadas de rolagem da página 158: Trade Power e Push Your Luck.
+
+As extensões de regras são opcionais e devem se apoiar no sistema oficial sem alterar seus arquivos.
+
 ## 0.6.0 — Cobertura do sistema
 
 - #4 Roll HUDs 1:1 com a geometria oficial.
