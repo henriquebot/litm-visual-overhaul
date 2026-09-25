@@ -1,4 +1,5 @@
 import { translateRollCardMessage } from "./roll-card-ptbr.mjs";
+import { setupAdvancedRollRules } from "./advanced-roll-rules.mjs";
 
 const MODULE_ID = "litm-visual-overhaul";
 const SYSTEM_ID = "mist-engine-fvtt";
@@ -11,7 +12,8 @@ const SETTINGS = {
   sharpCards: "sharpCards",
   scanlines: "scanlines",
   denseUi: "denseUi",
-  rollCardTranslation: "rollCardTranslation"
+  rollCardTranslation: "rollCardTranslation",
+  advancedRollRules: "advancedRollRules"
 };
 
 function registerSettings() {
@@ -109,6 +111,16 @@ function registerSettings() {
     },
     default: "ptBR",
     requiresReload: true
+  });
+
+  game.settings.register(MODULE_ID, SETTINGS.advancedRollRules, {
+    name: "LITMVO.Settings.AdvancedRollRules.Name",
+    hint: "LITMVO.Settings.AdvancedRollRules.Hint",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true,
+    requiresReload: false
   });
 }
 
@@ -250,9 +262,10 @@ Hooks.once("init", () => {
   console.log(`${MODULE_ID} | Settings registered.`);
 });
 
-Hooks.once("ready", () => {
+Hooks.once("ready", async () => {
   if (game.system.id !== SYSTEM_ID) return;
   applyTheme();
+  await setupAdvancedRollRules();
   console.log(`${MODULE_ID} | Visual theme applied.`);
 });
 
