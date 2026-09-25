@@ -36,7 +36,37 @@
         "Hint": "Translates only rendered roll-result cards in chat. Character sheets, menus, compendiums and roll dialogs are not translated.",
         "Off": "Disabled",
         "PtBR": "Português (Brasil)"
+      },
+      "AdvancedRollRules": {
+        "Name": "Advanced Roll Rules (p. 158)",
+        "Hint": "Adds the missing p.158 roll options to the official system: Trade Power on Detailed rolls and Push Your Luck after a 10+."
       }
+    },
+    "Rules": {
+      "Trade": {
+        "Title": "Trade Power",
+        "BasePower": "Original Power: {power}",
+        "Caution": "Throw Caution to the Wind",
+        "CautionHint": "Final Power 2 or less: −1 to the roll; on a success, spend original Power +1.",
+        "CautionSummary": "−1 to the roll; on a success, spend original Power +1.",
+        "None": "—",
+        "NoneHint": "Do not trade Power.",
+        "NoneSummary": "No Power trade selected.",
+        "Hedge": "Hedge Your Risks",
+        "HedgeHint": "Final Power 2 or more: +1 to the roll; on a success, spend original Power −1.",
+        "HedgeSummary": "+1 to the roll; on a success, spend original Power −1."
+      },
+      "Push": {
+        "Title": "Push Your Luck",
+        "Button": "Push Your Luck",
+        "Confirm": "Push Your Luck",
+        "Cancel": "Cancel",
+        "ConfirmQuick": "Accept Consequences to turn this 10+ into a Great Success?",
+        "ConfirmDetailed": "Accept Consequences to gain +1 Power to spend on this Detailed result?",
+        "QuickResult": "Great Success: the Narrator grants an extra benefit, and you accept Consequences.",
+        "DetailedResult": "Push Your Luck: +1 Power to spend on effects, and you accept Consequences."
+      },
+      "Error": "Advanced roll rule failed. Check the console."
     }
   }
 }
