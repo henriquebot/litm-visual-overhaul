@@ -36,7 +36,37 @@
         "Hint": "Traduz somente os cards de resultado das rolagens exibidos no chat. Fichas, menus, compêndios e janelas de rolagem não são traduzidos.",
         "Off": "Desativado",
         "PtBR": "Português (Brasil)"
+      },
+      "AdvancedRollRules": {
+        "Name": "Regras Avançadas de Rolagem (p. 158)",
+        "Hint": "Adiciona ao sistema oficial as opções ausentes da p. 158: Trade Power em rolagens Detailed e Push Your Luck após um 10+."
       }
+    },
+    "Rules": {
+      "Trade": {
+        "Title": "Trade Power",
+        "BasePower": "Poder original: {power}",
+        "Caution": "Throw Caution to the Wind",
+        "CautionHint": "Poder final 2 ou menos: −1 na rolagem; em um sucesso, gaste Poder original +1.",
+        "CautionSummary": "−1 na rolagem; em um sucesso, gaste Poder original +1.",
+        "None": "—",
+        "NoneHint": "Não trocar Poder.",
+        "NoneSummary": "Nenhuma troca de Poder selecionada.",
+        "Hedge": "Hedge Your Risks",
+        "HedgeHint": "Poder final 2 ou mais: +1 na rolagem; em um sucesso, gaste Poder original −1.",
+        "HedgeSummary": "+1 na rolagem; em um sucesso, gaste Poder original −1."
+      },
+      "Push": {
+        "Title": "Push Your Luck",
+        "Button": "Push Your Luck",
+        "Confirm": "Push Your Luck",
+        "Cancel": "Cancelar",
+        "ConfirmQuick": "Aceitar Consequências para transformar este 10+ em um Grande Sucesso?",
+        "ConfirmDetailed": "Aceitar Consequências para ganhar +1 de Poder para gastar neste resultado Detailed?",
+        "QuickResult": "Grande Sucesso: o Narrador concede um benefício adicional, e você aceita Consequências.",
+        "DetailedResult": "Push Your Luck: +1 de Poder para gastar em efeitos, e você aceita Consequências."
+      },
+      "Error": "A regra avançada de rolagem falhou. Verifique o console."
     }
   }
 }
