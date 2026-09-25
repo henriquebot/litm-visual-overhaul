@@ -207,6 +207,42 @@ function syncCharacterEditModeClass(app, html) {
   sheet.classList.toggle("litm-vo-edit-mode", isEditMode);
 }
 
+
+async function localizeHowToPlay(app, html) {
+  if (game.system.id !== SYSTEM_ID) return;
+
+  const lang = String(game.i18n?.lang ?? "").toLowerCase();
+  if (lang !== "pt-br") return;
+
+  const rootCandidate = elementFrom(app?.element) ?? elementFrom(html);
+  if (!rootCandidate) return;
+
+  const root = rootCandidate.id === "how-to-play-app"
+    ? rootCandidate
+    : rootCandidate.closest?.("#how-to-play-app") ?? rootCandidate.querySelector?.("#how-to-play-app");
+
+  if (!root) return;
+
+  const title = root.querySelector?.(".window-title");
+  if (title) title.textContent = game.i18n.localize("LITMVO.HowToPlay.Title");
+
+  const current = root.querySelector?.(".how-to-play-dialog");
+  if (!current || current.dataset.litmVoLocalized === "pt-BR") return;
+
+  const rendered = await foundry.applications.handlebars.renderTemplate(
+    "modules/litm-visual-overhaul/templates/how-to-play-ptbr.hbs",
+    {}
+  );
+
+  const template = document.createElement("template");
+  template.innerHTML = String(rendered).trim();
+  const replacement = template.content.firstElementChild;
+  if (!replacement) return;
+
+  replacement.dataset.litmVoLocalized = "pt-BR";
+  current.replaceWith(replacement);
+}
+
 function scheduleArtworkReinforcement(app, html) {
   requestAnimationFrame(() => reinforceCharacterArtwork(app, html));
 }
@@ -283,6 +319,10 @@ Hooks.on("renderActorSheet", (app, html) => {
 Hooks.on("renderApplicationV2", (app, html) => {
   syncCharacterEditModeClass(app, html);
   scheduleArtworkReinforcement(app, html);
+
+  localizeHowToPlay(app, html).catch(error => {
+    console.error(`${MODULE_ID} | Failed to localize How to Play.`, error);
+  });
 });
 
 Hooks.on("renderChatMessageHTML", (message, element) => {
