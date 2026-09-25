@@ -67,6 +67,9 @@
         "DetailedResult": "Push Your Luck: +1 de Poder para gastar em efeitos, e você aceita Consequências."
       },
       "Error": "A regra avançada de rolagem falhou. Verifique o console."
+    },
+    "HowToPlay": {
+      "Title": "Como Jogar"
     }
   }
 }
