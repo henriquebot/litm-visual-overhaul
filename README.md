@@ -4,7 +4,7 @@ Módulo visual independente para o sistema oficial **Legend In The Mist** (`mist
 
 ## Objetivo
 
-O LiTM Visual Overhaul altera somente a apresentação visual do sistema oficial. Ele não modifica regras, atores, itens, mundos ou compêndios e pode ser ativado apenas nos mundos desejados.
+O LiTM Visual Overhaul é uma camada opcional sobre o sistema oficial. O foco continua sendo a apresentação visual; adicionalmente, pode habilitar pequenas extensões de regras que existem no livro, mas ainda não estão automatizadas pelo sistema oficial. O módulo não altera atores, itens, mundos ou compêndios e pode ser ativado apenas nos mundos desejados.
 
 ## Recursos
 
@@ -58,7 +58,7 @@ MIT. Legend In The Mist e o sistema oficial pertencem aos seus respectivos deten
 
 ## Estado do projeto
 
-Versão atual do tema: **0.2.0** — reconstrução visual da ficha de personagem com grade limpa de cards e remoção dos elementos de pergaminho no modo Sci-Fi.
+Versão atual do módulo: **0.5.2** — visual Sci-Fi opcional, tradução isolada dos cards e extensões de rolagem da p. 158.
 
 
 ## Roadmap
@@ -73,3 +73,15 @@ A partir da série 0.5.x, a regra do projeto é preservar a geometria oficial do
 O módulo pode traduzir somente os cards de resultado das rolagens no chat para Português (Brasil), sem alterar o idioma das fichas, menus, compêndios ou janelas de rolagem.
 
 A opção fica em **Configurações do Módulo → Tradução dos Cards de Resultado**.
+
+
+### Regras avançadas da página 158
+
+A opção **Regras Avançadas de Rolagem (p. 158)** adiciona, sem modificar o código do sistema oficial:
+
+- **Throw Caution to the Wind** em rolagens Detailed com Poder final 2 ou menos: −1 na rolagem e, em caso de sucesso, Poder original +1 para gastar.
+- **Hedge Your Risks** em rolagens Detailed com Poder final 2 ou mais: +1 na rolagem e, em caso de sucesso, Poder original −1 para gastar.
+- **Push Your Luck** após um 10+ Quick: aceita Consequências e transforma o resultado em **Great Success**.
+- **Push Your Luck** após um 10+ Detailed: aceita Consequências e adiciona **+1 Poder** ao painel de gasto.
+
+O estado dessas opções é salvo em flags próprias do módulo nas mensagens de chat. A extensão pode ser desligada nas configurações do módulo.
