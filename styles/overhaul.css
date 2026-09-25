@@ -1598,3 +1598,129 @@ body.litm-vo-scifi.litm-vo-dense #scene-data-app .window-content {
     transition: none !important;
   }
 }
+
+
+/* ==========================================================================
+   13. OPTIONAL RULE EXTENSIONS — CORE BOOK P. 158
+   ========================================================================== */
+
+#dice-roll-app .litm-vo-trade-power {
+  margin: 10px 0;
+  padding: 8px;
+  border: 1px solid rgb(120 120 120 / 35%);
+  border-radius: 4px;
+}
+
+#dice-roll-app .litm-vo-trade-power legend {
+  padding: 0 5px;
+  font-weight: 700;
+}
+
+#dice-roll-app .litm-vo-trade-base,
+#dice-roll-app .litm-vo-trade-summary {
+  margin: 2px 0 6px;
+  font-size: .9em;
+  opacity: .88;
+}
+
+#dice-roll-app .litm-vo-trade-options {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 42px minmax(0, 1fr);
+  gap: 4px;
+  align-items: stretch;
+}
+
+#dice-roll-app .litm-vo-trade-option {
+  display: flex;
+  min-width: 0;
+  min-height: 34px;
+  padding: 5px 6px;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: 1px solid rgb(120 120 120 / 32%);
+  border-radius: 3px;
+  cursor: pointer;
+  text-align: center;
+  line-height: 1.1;
+}
+
+#dice-roll-app .litm-vo-trade-option input {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+#dice-roll-app .litm-vo-trade-option span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+#dice-roll-app .litm-vo-trade-option.is-disabled {
+  opacity: .38;
+  cursor: not-allowed;
+}
+
+#dice-roll-app .litm-vo-trade-option:has(input:checked) {
+  border-color: var(--litm-vo-accent, #4de1ff);
+  box-shadow: inset 0 0 0 1px rgb(var(--litm-vo-accent-rgb, 77 225 255) / 22%);
+}
+
+body.litm-vo-scifi #dice-roll-app .litm-vo-trade-power {
+  color: #dcebf1;
+  background: rgb(5 15 23 / 64%);
+  border-color: rgb(var(--litm-vo-accent-rgb) / 28%);
+}
+
+body.litm-vo-scifi #dice-roll-app .litm-vo-trade-power legend {
+  color: #bff3ff;
+}
+
+body.litm-vo-scifi #dice-roll-app .litm-vo-trade-option {
+  color: #eaf8fc;
+  background: rgb(var(--litm-vo-accent-rgb) / 6%);
+  border-color: rgb(var(--litm-vo-accent-rgb) / 22%);
+}
+
+body.litm-vo-scifi #dice-roll-app .litm-vo-trade-option:has(input:checked) {
+  color: #fff;
+  background: rgb(var(--litm-vo-accent-rgb) / 13%);
+  border-color: var(--litm-vo-accent);
+  box-shadow:
+    0 0 calc(8px * var(--litm-vo-glow))
+    rgb(var(--litm-vo-accent-rgb) / 18%);
+}
+
+.chat-message .roll-card .litm-vo-push-button {
+  width: 100%;
+  margin: 8px 0 0;
+}
+
+.chat-message .roll-card .litm-vo-push-result {
+  margin: 8px 0;
+  padding: 7px 9px;
+  border-left: 3px solid #d18bff;
+  background: rgb(120 70 160 / 10%);
+  font-weight: 650;
+}
+
+body.litm-vo-scifi .chat-message .roll-card .litm-vo-push-button {
+  color: #f4e8ff;
+  background:
+    linear-gradient(
+      180deg,
+      rgb(var(--litm-vo-secondary-rgb) / 18%),
+      rgb(8 13 25 / 96%)
+    );
+  border-color: rgb(var(--litm-vo-secondary-rgb) / 52%);
+}
+
+body.litm-vo-scifi .chat-message .roll-card .litm-vo-push-result {
+  color: #f1dcff;
+  border-left-color: var(--litm-vo-secondary);
+  background:
+    linear-gradient(
+      90deg,
+      rgb(var(--litm-vo-secondary-rgb) / 13%),
+      transparent 72%
+    );
+}
