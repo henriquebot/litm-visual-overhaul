@@ -17,6 +17,7 @@ O LiTM Visual Overhaul é uma camada opcional sobre o sistema oficial. O foco co
 - Scanlines sutis opcionais.
 - Interface compacta opcional.
 - Customização de fichas, cards, tags, status, limites, botões, abas, chat, janela de rolagem e aplicativos do Mist Engine.
+- Ficha de Challenge em Sci-Fi HUD, incluindo Limits, Mighty Aspects, Special Features e Threats & Consequences.
 
 ## Instalação por manifesto
 
@@ -58,7 +59,7 @@ MIT. Legend In The Mist e o sistema oficial pertencem aos seus respectivos deten
 
 ## Estado do projeto
 
-Versão atual do módulo: **0.5.3** — visual Sci-Fi opcional, tradução isolada dos cards e extensões de rolagem da p. 158.
+Versão atual do módulo: **0.5.4** — visual Sci-Fi opcional, tradução isolada dos cards e extensões de rolagem da p. 158.
 
 
 ## Roadmap
