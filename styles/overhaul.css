@@ -2112,3 +2112,380 @@ body.litm-vo-scifi .chat-message:has(.camping-chat-entry) .message-metadata,
 body.litm-vo-scifi .chat-message:has(.camping-chat-entry) .message-timestamp {
   color: #718894 !important;
 }
+
+
+/* ==========================================================================
+   14. CHALLENGE SHEET — OFFICIAL GEOMETRY, SCI-FI SKIN
+   ========================================================================== */
+
+/* Keep the official NPC/Challenge layout; replace only the parchment skin. */
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .window-content {
+  color: var(--litm-vo-text);
+  background-image:
+    linear-gradient(
+      rgb(var(--litm-vo-accent-rgb) / 2.5%) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgb(var(--litm-vo-accent-rgb) / 2.5%) 1px,
+      transparent 1px
+    ),
+    radial-gradient(
+      circle at 72% 8%,
+      rgb(var(--litm-vo-secondary-rgb) / 7%),
+      transparent 35%
+    ),
+    linear-gradient(145deg, #08151f, #040a10 72%);
+  background-size: 28px 28px, 28px 28px, auto, auto;
+  background-repeat: repeat, repeat, no-repeat, no-repeat;
+}
+
+/* Header */
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .sheet-header {
+  color: var(--litm-vo-text);
+  padding: 7px 8px;
+  background:
+    linear-gradient(
+      100deg,
+      rgb(var(--litm-vo-accent-rgb) / 8%),
+      rgb(4 14 21 / 78%) 44%,
+      rgb(var(--litm-vo-secondary-rgb) / 5%)
+    );
+  border: 1px solid rgb(var(--litm-vo-accent-rgb) / 20%);
+  border-left: 3px solid rgb(var(--litm-vo-accent-rgb) / 58%);
+  border-radius: 3px;
+  box-shadow:
+    inset 0 0 22px rgb(var(--litm-vo-accent-rgb) / 2%),
+    0 5px 16px rgb(0 0 0 / 18%);
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .sheet-header .portrait-img {
+  background: #07131c;
+  border-color: rgb(var(--litm-vo-accent-rgb) / 48%);
+  box-shadow:
+    0 0 calc(10px * var(--litm-vo-glow))
+    rgb(var(--litm-vo-accent-rgb) / 18%);
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .sheet-header .header-fields.npc {
+  color: var(--litm-vo-text);
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc h1.npc-name {
+  color: #f0fbff;
+  text-shadow:
+    0 0 calc(10px * var(--litm-vo-glow))
+    rgb(var(--litm-vo-accent-rgb) / 30%);
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-roles {
+  color: #bdeeff;
+  text-shadow:
+    0 0 calc(7px * var(--litm-vo-glow))
+    rgb(var(--litm-vo-accent-rgb) / 24%);
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-short-description,
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-short-description :is(p, strong, em, span) {
+  color: #bfd0d8;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .difficulty-icons img {
+  opacity: .9;
+  filter:
+    brightness(1.35)
+    saturate(.7)
+    drop-shadow(
+      0 0 calc(5px * var(--litm-vo-glow))
+      rgb(var(--litm-vo-secondary-rgb) / 34%)
+    );
+}
+
+/* Details / Biography navigation */
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .tabs[data-group="npc-sheet"] {
+  color: #adc1ca;
+  background: rgb(3 12 18 / 78%);
+  border-color: rgb(var(--litm-vo-accent-rgb) / 18%);
+  box-shadow: inset 0 -1px 0 rgb(var(--litm-vo-accent-rgb) / 20%);
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .tabs[data-group="npc-sheet"] [data-tab] {
+  color: #a9bec8;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .tabs[data-group="npc-sheet"] [data-tab].active {
+  color: #f0fbff;
+  background: rgb(var(--litm-vo-accent-rgb) / 9%);
+  box-shadow: inset 0 -2px 0 var(--litm-vo-accent);
+  text-shadow:
+    0 0 calc(8px * var(--litm-vo-glow))
+    rgb(var(--litm-vo-accent-rgb) / 34%);
+}
+
+/* Section headings */
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-subtitle-container-c {
+  color: var(--litm-vo-accent);
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-subtitle-container-c::before {
+  background:
+    linear-gradient(
+      to right,
+      transparent,
+      rgb(var(--litm-vo-accent-rgb) / 42%)
+    );
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-subtitle-container-c::after {
+  background:
+    linear-gradient(
+      to left,
+      transparent,
+      rgb(var(--litm-vo-accent-rgb) / 42%)
+    );
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-subtitle-text {
+  color: #72eaff;
+  text-shadow:
+    0 0 calc(8px * var(--litm-vo-glow))
+    rgb(var(--litm-vo-accent-rgb) / 30%);
+}
+
+/* Give each rules block a subtle HUD surface while preserving the two-column
+   structure and the official flex sizing. */
+body.litm-vo-scifi .mist-engine.sheet.actor.npc :is(
+  .npc-limits-container,
+  .npc-mighty-aspects-container,
+  .npc-secret-container,
+  .npc-special-features-container,
+  .npc-threats-and-consequences-container,
+  .npc-challenges-container
+) {
+  color: #dcebf1;
+  padding: 4px 7px;
+  background:
+    linear-gradient(
+      110deg,
+      rgb(var(--litm-vo-accent-rgb) / 4%),
+      transparent 46%
+    ),
+    rgb(4 14 21 / 48%);
+  border-left: 2px solid rgb(var(--litm-vo-accent-rgb) / 25%);
+  box-shadow: inset 0 0 18px rgb(var(--litm-vo-accent-rgb) / 1.5%);
+}
+
+/* Limits */
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-limit-item {
+  color: #edf7fa;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-limit-item mark.limit {
+  color: #ffd8e3;
+  -webkit-text-fill-color: #ffd8e3;
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 14%,
+      rgb(255 84 139 / 18%) 15%,
+      rgb(255 84 139 / 18%) 92%,
+      transparent 93%
+    );
+  text-shadow: none;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-limit-item .limit-value {
+  color: #fff;
+  filter:
+    drop-shadow(
+      0 0 calc(5px * var(--litm-vo-glow))
+      rgb(255 84 139 / 34%)
+    );
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-limit-consequence {
+  color: #d9a8b9;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-limit-consequence .icon-round-arrow-up {
+  opacity: .75;
+}
+
+/* Mighty Aspects */
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-mighty-aspects-container {
+  color: #dcebf1;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-mighty-aspect-item {
+  color: #dcebf1;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-mighty-aspect-item .might-aspect-name {
+  color: #d8e8ef;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-mighty-aspect-item .might-level {
+  color: #ffe4c7;
+  background: rgb(241 126 81 / 22%);
+  border: 1px solid rgb(241 126 81 / 48%);
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-mighty-aspect-item .might-level.origin {
+  color: #c9f5df;
+  background: rgb(83 214 153 / 16%);
+  border-color: rgb(83 214 153 / 42%);
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-mighty-aspect-item .might-level.greatness {
+  color: #eed8ff;
+  background: rgb(var(--litm-vo-secondary-rgb) / 18%);
+  border-color: rgb(var(--litm-vo-secondary-rgb) / 48%);
+}
+
+/* Secrets and Special Features */
+body.litm-vo-scifi .mist-engine.sheet.actor.npc :is(
+  .npc-secret-item,
+  .npc-special-feature-item
+) {
+  color: #dcebf1;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc :is(
+  .npc-secret-name,
+  .npc-special-feature-name
+) {
+  color: #eef9fc;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc :is(
+  .npc-secret-description,
+  .npc-special-feature-description
+),
+body.litm-vo-scifi .mist-engine.sheet.actor.npc :is(
+  .npc-secret-description,
+  .npc-special-feature-description
+) :is(p, span, strong, em, li) {
+  color: #b9cbd3;
+}
+
+/* Threats & Consequences */
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-threats-and-consequences-container {
+  color: #dcebf1;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-threats-and-consequences-container .entry {
+  margin-bottom: 6px;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-threats-and-consequences-container .entry-header {
+  color: #eaf6fa;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-threats-and-consequences-container .entry-name {
+  color: #dff8ff;
+  background:
+    linear-gradient(
+      90deg,
+      rgb(var(--litm-vo-accent-rgb) / 17%),
+      rgb(5 17 25 / 88%)
+    );
+  border-left: 3px solid var(--litm-vo-accent);
+  clip-path: none;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-threats-and-consequences-container .entry-header strong,
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-threats-and-consequences-container .entry-header strong :is(p, span, em) {
+  color: #dcebf1;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-threats-and-consequences-container li.entry-item {
+  position: relative;
+  color: #c7d8df;
+  background-image: none;
+  padding-left: 1.35em;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-threats-and-consequences-container li.entry-item::before {
+  content: "◆";
+  position: absolute;
+  left: .15em;
+  top: 0;
+  color: var(--litm-vo-secondary);
+  font-size: .75em;
+  text-shadow:
+    0 0 calc(6px * var(--litm-vo-glow))
+    rgb(var(--litm-vo-secondary-rgb) / 42%);
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .hr-gray-line {
+  border-color: rgb(var(--litm-vo-accent-rgb) / 16%);
+  background: rgb(var(--litm-vo-accent-rgb) / 16%);
+  opacity: .7;
+}
+
+/* Embedded short challenges */
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .challenge-entry-container {
+  color: #dcebf1;
+  background:
+    linear-gradient(
+      110deg,
+      rgb(var(--litm-vo-secondary-rgb) / 5%),
+      transparent 46%
+    ),
+    rgb(5 15 23 / 66%);
+  border-color: rgb(var(--litm-vo-secondary-rgb) / 24%);
+}
+
+/* Challenge Tags & Status panel */
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-floating-tags-and-status-container {
+  color: #dcebf1;
+  background:
+    linear-gradient(
+      150deg,
+      rgb(var(--litm-vo-accent-rgb) / 6%),
+      transparent 45%
+    ),
+    rgb(5 15 23 / 88%);
+  border-color: rgb(var(--litm-vo-accent-rgb) / 34%);
+  box-shadow:
+    inset 0 0 22px rgb(var(--litm-vo-accent-rgb) / 3%),
+    0 6px 18px rgb(0 0 0 / 22%);
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-floating-tags-and-status-container .npc-subtitle-container-c {
+  margin: -4px 0 7px;
+  padding: 3px 6px 5px;
+  border-bottom: 1px solid rgb(var(--litm-vo-accent-rgb) / 28%);
+}
+
+/* Edit mode uses the same dark language without changing field geometry. */
+body.litm-vo-scifi .mist-engine.sheet.actor.npc fieldset {
+  color: #dcebf1;
+  background: rgb(4 14 21 / 58%);
+  border-color: rgb(var(--litm-vo-accent-rgb) / 24%);
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc fieldset legend,
+body.litm-vo-scifi .mist-engine.sheet.actor.npc section[data-group="npc-sheet"] legend,
+body.litm-vo-scifi .mist-engine.sheet.actor.npc section[data-group="npc-sheet"] .table-cell.header {
+  color: #bff3ff;
+  text-shadow: none;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .trash-icon-container,
+body.litm-vo-scifi .mist-engine.sheet.actor.npc [data-action^="delete"] {
+  color: #ff91b5;
+}
+
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .empty-message,
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .help-text,
+body.litm-vo-scifi .mist-engine.sheet.actor.npc p.help-text {
+  color: #91a9b4;
+}
+
+/* Biography */
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .npc-biography,
+body.litm-vo-scifi .mist-engine.sheet.actor.npc .tab-biography {
+  color: #dcebf1;
+}
