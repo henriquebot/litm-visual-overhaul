@@ -59,7 +59,7 @@ MIT. Legend In The Mist e o sistema oficial pertencem aos seus respectivos deten
 
 ## Estado do projeto
 
-Versão atual do módulo: **0.5.4** — visual Sci-Fi opcional, tradução isolada dos cards e extensões de rolagem da p. 158.
+Versão atual do módulo: **0.5.7** — visual Sci-Fi opcional, tradução isolada dos cards e extensões de rolagem da p. 158.
 
 
 ## Roadmap
