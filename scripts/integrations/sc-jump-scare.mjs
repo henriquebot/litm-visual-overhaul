@@ -63,3 +63,44 @@ export async function setupJumpScareGMIntegration() {
     return false;
   }
 }
+
+/**
+ * Put SC - Jump Scare's overlay above VDO.Ninja and other Foundry panels.
+ * Optional because SC - Jump Scare normally keeps the overlay below
+ * Foundry windows for usability. The original Esc-to-stop handling remains.
+ *
+ * The selector comes from SC's own public module constants. The CSS-only
+ * override affects only the overlay, never the VDO panel's z-index.
+ * It is installed on every client with both modules active.
+ */
+export async function applyJumpScareOverlayPriority() {
+  const styleId = "litm-vo-jump-scare-overlay-front";
+  document.getElementById(styleId)?.remove();
+
+  if (!game.modules.get(SCARE_MODULE)?.active ||
+      !game.settings.get(OUR_MODULE, "jumpScareOverlayOnTop")) return false;
+
+  try {
+    const { OVERLAY_CLASS } = await import(
+      "/modules/sc-jump-scare/scripts/constants/constants.js"
+    );
+    if (typeof OVERLAY_CLASS !== "string" || !OVERLAY_CLASS.trim()) {
+      console.warn(`${OUR_MODULE} | SC - Jump Scare overlay class unavailable.`);
+      return false;
+    }
+
+    // Recheck after the module import in case the setting was switched off.
+    if (!game.settings.get(OUR_MODULE, "jumpScareOverlayOnTop")) return false;
+
+    const selector = "." + CSS.escape(OVERLAY_CLASS.replace(/^\./, ""));
+    const style = document.createElement("style");
+    style.id = styleId;
+    style.textContent = `${selector} { z-index: 2147483000 !important; }`;
+    document.head.append(style);
+    console.log(`${OUR_MODULE} | Jump Scare overlay prioritized over Foundry panels.`);
+    return true;
+  } catch (error) {
+    console.error(`${OUR_MODULE} | Could not prioritize Jump Scare overlay.`, error);
+    return false;
+  }
+}
