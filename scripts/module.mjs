@@ -1,6 +1,6 @@
 import { translateRollCardMessage } from "./roll-card-ptbr.mjs";
 import { setupAdvancedRollRules } from "./advanced-roll-rules.mjs";
-import { setupJumpScareGMIntegration } from "./integrations/sc-jump-scare.mjs";
+import { setupJumpScareGMIntegration, applyJumpScareOverlayPriority } from "./integrations/sc-jump-scare.mjs";
 
 const MODULE_ID = "litm-visual-overhaul";
 const SYSTEM_ID = "mist-engine-fvtt";
@@ -15,7 +15,8 @@ const SETTINGS = {
   denseUi: "denseUi",
   rollCardTranslation: "rollCardTranslation",
   advancedRollRules: "advancedRollRules",
-  jumpScareShowGM: "jumpScareShowGM"
+  jumpScareShowGM: "jumpScareShowGM",
+  jumpScareOverlayOnTop: "jumpScareOverlayOnTop"
 };
 
 function registerSettings() {
@@ -132,6 +133,16 @@ function registerSettings() {
     type: Boolean,
     default: false,
     requiresReload: false
+  });
+  game.settings.register(MODULE_ID, SETTINGS.jumpScareOverlayOnTop, {
+    name: "LITMVO.Settings.JumpScareOverlayOnTop.Name",
+    hint: "LITMVO.Settings.JumpScareOverlayOnTop.Hint",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: false,
+    requiresReload: false,
+    onChange: () => { void applyJumpScareOverlayPriority(); }
   });
 }
 
@@ -313,6 +324,7 @@ Hooks.once("ready", async () => {
   if (game.system.id !== SYSTEM_ID) return;
   applyTheme();
   await setupJumpScareGMIntegration();
+  await applyJumpScareOverlayPriority();
   await setupAdvancedRollRules();
   console.log(`${MODULE_ID} | Visual theme applied.`);
 });
