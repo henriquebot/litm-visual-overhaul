@@ -60,7 +60,7 @@ MIT. Legend In The Mist e o sistema oficial pertencem aos seus respectivos deten
 
 ## Estado do projeto
 
-Versão atual do módulo: **0.5.8** — visual Sci-Fi opcional, tradução isolada dos cards e extensões de rolagem da p. 158.
+Versão atual do módulo: **0.5.9** — visual Sci-Fi opcional, tradução isolada dos cards e extensões de rolagem da p. 158.
 
 
 ## Roadmap
@@ -96,3 +96,10 @@ A opção **Mostrar Jump Scares também para o Mestre** pode ser ativada nas con
 Quando o **SC – Jump Scare** estiver instalado e ativo, o mestre que disparar um susto também o receberá na própria tela, inclusive usando **Trigger Now**, **macros** e **gatilhos por região**. Os destinatários originais permanecem selecionados; as preferências de opt-out e os limites de segurança do SC – Jump Scare continuam valendo. As prévias locais não são afetadas.
 
 O recurso é exclusivo dos mundos Legend In The Mist que tenham o LiTM Visual Overhaul ativo, e depende da implementação de `ScareTrigger.trigger()` presente no SC – Jump Scare **1.0.2**. Atualizações do SC – Jump Scare podem exigir revisão dessa integração.
+
+
+#### Sustos acima dos painéis (VDO.Ninja)
+
+A opção **Exibir Jump Scares acima dos painéis (VDO.Ninja)** coloca a imagem do SC – Jump Scare acima das janelas e painéis do Foundry, inclusive as câmeras do VDO.Ninja. É uma opção independente de **Mostrar Jump Scares também para o Mestre** e vem **desativada** por padrão, respeitando a ordem de camadas original do SC – Jump Scare. Ela funciona em qualquer cliente conectado ao mundo com o módulo ativo e pode ser alterada sem recarregar a página.
+
+O efeito só altera o `z-index` do overlay do SC – Jump Scare, com a classe obtida dinamicamente do próprio módulo (testada no SC – Jump Scare 1.0.2); não modifica os arquivos do SC – Jump Scare nem do VDO.Ninja. Enquanto o susto estiver em exibição, ele cobrirá painéis e janelas; a tecla **Esc** permanece disponível para encerrar o susto.
