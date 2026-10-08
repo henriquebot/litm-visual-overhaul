@@ -44,6 +44,10 @@
       "JumpScareShowGM": {
         "Name": "Show Jump Scares to the GM",
         "Hint": "When SC - Jump Scare is active, also display triggered scares to the GM who fired them. Preserves the selected players, their opt-out preferences and the module's global safety settings."
+      },
+      "JumpScareOverlayOnTop": {
+        "Name": "Show Jump Scares Above Panels (VDO.Ninja)",
+        "Hint": "Places the SC - Jump Scare image above Foundry windows, including the VDO.Ninja panel, while a scare runs. Normally the scare stays behind windows; enable only if needed. Escape still stops a scare."
       }
     },
     "Rules": {
