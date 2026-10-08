@@ -40,6 +40,10 @@
       "AdvancedRollRules": {
         "Name": "Regras Avançadas de Rolagem (p. 158)",
         "Hint": "Adiciona ao sistema oficial as opções ausentes da p. 158: Trade Power em rolagens Detailed e Push Your Luck após um 10+."
+      },
+      "JumpScareShowGM": {
+        "Name": "Mostrar Jump Scares também para o Mestre",
+        "Hint": "Com o SC - Jump Scare ativo, também exibe os sustos ao mestre que os disparou. Mantém os jogadores selecionados, suas preferências de não receber sustos e as configurações globais de segurança do módulo."
       }
     },
     "Rules": {

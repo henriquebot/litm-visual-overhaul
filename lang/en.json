@@ -40,6 +40,10 @@
       "AdvancedRollRules": {
         "Name": "Advanced Roll Rules (p. 158)",
         "Hint": "Adds the missing p.158 roll options to the official system: Trade Power on Detailed rolls and Push Your Luck after a 10+."
+      },
+      "JumpScareShowGM": {
+        "Name": "Show Jump Scares to the GM",
+        "Hint": "When SC - Jump Scare is active, also display triggered scares to the GM who fired them. Preserves the selected players, their opt-out preferences and the module's global safety settings."
       }
     },
     "Rules": {

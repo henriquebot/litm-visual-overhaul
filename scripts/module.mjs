@@ -1,5 +1,6 @@
 import { translateRollCardMessage } from "./roll-card-ptbr.mjs";
 import { setupAdvancedRollRules } from "./advanced-roll-rules.mjs";
+import { setupJumpScareGMIntegration } from "./integrations/sc-jump-scare.mjs";
 
 const MODULE_ID = "litm-visual-overhaul";
 const SYSTEM_ID = "mist-engine-fvtt";
@@ -13,7 +14,8 @@ const SETTINGS = {
   scanlines: "scanlines",
   denseUi: "denseUi",
   rollCardTranslation: "rollCardTranslation",
-  advancedRollRules: "advancedRollRules"
+  advancedRollRules: "advancedRollRules",
+  jumpScareShowGM: "jumpScareShowGM"
 };
 
 function registerSettings() {
@@ -120,6 +122,15 @@ function registerSettings() {
     config: true,
     type: Boolean,
     default: true,
+    requiresReload: false
+  });
+  game.settings.register(MODULE_ID, SETTINGS.jumpScareShowGM, {
+    name: "LITMVO.Settings.JumpScareShowGM.Name",
+    hint: "LITMVO.Settings.JumpScareShowGM.Hint",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: false,
     requiresReload: false
   });
 }
@@ -301,6 +312,7 @@ Hooks.once("init", () => {
 Hooks.once("ready", async () => {
   if (game.system.id !== SYSTEM_ID) return;
   applyTheme();
+  await setupJumpScareGMIntegration();
   await setupAdvancedRollRules();
   console.log(`${MODULE_ID} | Visual theme applied.`);
 });

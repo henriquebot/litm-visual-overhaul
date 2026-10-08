@@ -18,6 +18,7 @@ O LiTM Visual Overhaul é uma camada opcional sobre o sistema oficial. O foco co
 - Interface compacta opcional.
 - Customização de fichas, cards, tags, status, limites, botões, abas, chat, janela de rolagem e aplicativos do Mist Engine.
 - Ficha de Challenge em Sci-Fi HUD, incluindo Limits, Mighty Aspects, Special Features e Threats & Consequences.
+- Integração opcional com **SC – Jump Scare** para exibir os sustos também ao mestre.
 
 ## Instalação por manifesto
 
@@ -59,7 +60,7 @@ MIT. Legend In The Mist e o sistema oficial pertencem aos seus respectivos deten
 
 ## Estado do projeto
 
-Versão atual do módulo: **0.5.7** — visual Sci-Fi opcional, tradução isolada dos cards e extensões de rolagem da p. 158.
+Versão atual do módulo: **0.5.8** — visual Sci-Fi opcional, tradução isolada dos cards e extensões de rolagem da p. 158.
 
 
 ## Roadmap
@@ -86,3 +87,12 @@ A opção **Regras Avançadas de Rolagem (p. 158)** adiciona, sem modificar o c�
 - **Push Your Luck** após um 10+ Detailed: aceita Consequências e adiciona **+1 Poder** ao painel de gasto.
 
 O estado dessas opções é salvo em flags próprias do módulo nas mensagens de chat. A extensão pode ser desligada nas configurações do módulo.
+
+
+### Integração opcional: SC – Jump Scare
+
+A opção **Mostrar Jump Scares também para o Mestre** pode ser ativada nas configurações do LiTM Visual Overhaul. Ela vem **desativada** por padrão.
+
+Quando o **SC – Jump Scare** estiver instalado e ativo, o mestre que disparar um susto também o receberá na própria tela, inclusive usando **Trigger Now**, **macros** e **gatilhos por região**. Os destinatários originais permanecem selecionados; as preferências de opt-out e os limites de segurança do SC – Jump Scare continuam valendo. As prévias locais não são afetadas.
+
+O recurso é exclusivo dos mundos Legend In The Mist que tenham o LiTM Visual Overhaul ativo, e depende da implementação de `ScareTrigger.trigger()` presente no SC – Jump Scare **1.0.2**. Atualizações do SC – Jump Scare podem exigir revisão dessa integração.
