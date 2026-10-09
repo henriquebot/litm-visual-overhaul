@@ -1,6 +1,7 @@
 import { translateRollCardMessage } from "./roll-card-ptbr.mjs";
 import { setupAdvancedRollRules } from "./advanced-roll-rules.mjs";
-import { setupJumpScareGMIntegration, applyJumpScareOverlayPriority } from "./integrations/sc-jump-scare.mjs";
+import { setupJumpScareGMIntegration } from "./integrations/sc-jump-scare.mjs";
+import { applyJumpScareOverlayPriority } from "./integrations/sc-jump-scare-overlay.mjs";
 
 const MODULE_ID = "litm-visual-overhaul";
 const SYSTEM_ID = "mist-engine-fvtt";
@@ -16,7 +17,9 @@ const SETTINGS = {
   rollCardTranslation: "rollCardTranslation",
   advancedRollRules: "advancedRollRules",
   jumpScareShowGM: "jumpScareShowGM",
-  jumpScareOverlayOnTop: "jumpScareOverlayOnTop"
+  jumpScareOverlayOnTop: "jumpScareOverlayOnTop",
+  jumpScareRespectVdoBounds: "jumpScareRespectVdoBounds",
+  jumpScareHideTriggerToast: "jumpScareHideTriggerToast"
 };
 
 function registerSettings() {
@@ -143,6 +146,25 @@ function registerSettings() {
     default: true,
     requiresReload: false,
     onChange: () => { void applyJumpScareOverlayPriority(); }
+  });
+  game.settings.register(MODULE_ID, SETTINGS.jumpScareRespectVdoBounds, {
+    name: "LITMVO.Settings.JumpScareRespectVdoBounds.Name",
+    hint: "LITMVO.Settings.JumpScareRespectVdoBounds.Hint",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true,
+    requiresReload: false,
+    onChange: () => { void applyJumpScareOverlayPriority(); }
+  });
+  game.settings.register(MODULE_ID, SETTINGS.jumpScareHideTriggerToast, {
+    name: "LITMVO.Settings.JumpScareHideTriggerToast.Name",
+    hint: "LITMVO.Settings.JumpScareHideTriggerToast.Hint",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true,
+    requiresReload: false
   });
 }
 
