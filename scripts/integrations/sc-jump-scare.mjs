@@ -45,13 +45,17 @@ export async function setupJumpScareGMIntegration() {
 
     const originalTrigger = ScareTrigger.trigger;
     function withGM(scare, options = {}) {
-      if (!game.user?.isGM || !game.settings.get(OUR_MODULE, SETTING)) {
-        return originalTrigger.call(this, scare, options);
-      }
-
-      const recipients = chosenRecipients(scare, options);
-      const to = [...new Set([...recipients, game.user.id])];
-      return originalTrigger.call(this, scare, { ...options, to });
+      const invoke = () => {
+        if (!game.user?.isGM || !game.settings.get(OUR_MODULE, SETTING)) {
+          return originalTrigger.call(this, scare, options);
+        }
+        const recipients = chosenRecipients(scare, options);
+        const to = [...new Set([...recipients, game.user.id])];
+        return originalTrigger.call(this, scare, { ...options, to });
+      };
+      return game.settings.get(OUR_MODULE, "jumpScareHideTriggerToast")
+        ? callWithoutTriggerToast(invoke)
+        : invoke();
     }
 
     Object.defineProperty(withGM, PATCH_MARKER, { value: true });
@@ -64,43 +68,53 @@ export async function setupJumpScareGMIntegration() {
   }
 }
 
-/**
- * Put SC - Jump Scare's overlay above VDO.Ninja and other Foundry panels.
- * Optional because SC - Jump Scare normally keeps the overlay below
- * Foundry windows for usability. The original Esc-to-stop handling remains.
- *
- * The selector comes from SC's own public module constants. The CSS-only
- * override affects only the overlay, never the VDO panel's z-index.
- * It is installed on every client with both modules active.
- */
-export async function applyJumpScareOverlayPriority() {
-  const styleId = "litm-vo-jump-scare-overlay-front";
-  document.getElementById(styleId)?.remove();
 
-  if (!game.modules.get(SCARE_MODULE)?.active ||
-      !game.settings.get(OUR_MODULE, "jumpScareOverlayOnTop")) return false;
+// SC Jump Scare 1.0.2 fires a synchronous confirmation via ui.notifications.info.
+// Filter ONLY localized sent-confirmation messages during that call, leaving
+// warnings, errors, and unrelated Foundry notifications untouched.
+function triggerToastMatchers() {
+  const markers = {
+    name: "RPGUP_SCARE_NAME_37451",
+    count: "987654321",
+    optedOut: "876543210"
+  };
+  const escape = value => [...String(value)]
+    .map(c => ".*+?^$()[]{}|\\".includes(c) ? "\\" + c : c)
+    .join("");
+  return ["JUMPSCARE.Notify.fired", "JUMPSCARE.Notify.firedWithOptOut"]
+    .map(key => {
+      try {
+        const sample = game.i18n.format(key, markers);
+        if (!sample.includes(markers.name) || !sample.includes(markers.count)) return null;
+        const expression = escape(sample)
+          .replace(escape(markers.name), "[\\s\\S]+?")
+          .replace(escape(markers.count), "\\d+")
+          .replace(escape(markers.optedOut), "\\d+");
+        return new RegExp("^" + expression + "$");
+      } catch {
+        return null;
+      }
+    }).filter(Boolean);
+}
 
-  try {
-    const { OVERLAY_CLASS } = await import(
-      "/modules/sc-jump-scare/scripts/constants/constants.js"
-    );
-    if (typeof OVERLAY_CLASS !== "string" || !OVERLAY_CLASS.trim()) {
-      console.warn(`${OUR_MODULE} | SC - Jump Scare overlay class unavailable.`);
-      return false;
+function callWithoutTriggerToast(callback) {
+  const notifications = globalThis.ui?.notifications;
+  if (!notifications || typeof notifications.info !== "function") return callback();
+  const patterns = triggerToastMatchers();
+  if (!patterns.length) return callback();
+
+  const originalInfo = notifications.info;
+  const filteredInfo = function (message, ...args) {
+    if (typeof message === "string" && patterns.some(pattern => pattern.test(message))) {
+      return undefined;
     }
+    return originalInfo.call(this, message, ...args);
+  };
 
-    // Recheck after the module import in case the setting was switched off.
-    if (!game.settings.get(OUR_MODULE, "jumpScareOverlayOnTop")) return false;
-
-    const selector = "." + CSS.escape(OVERLAY_CLASS.replace(/^\./, ""));
-    const style = document.createElement("style");
-    style.id = styleId;
-    style.textContent = `${selector} { z-index: 2147483000 !important; }`;
-    document.head.append(style);
-    console.log(`${OUR_MODULE} | Jump Scare overlay prioritized over Foundry panels.`);
-    return true;
-  } catch (error) {
-    console.error(`${OUR_MODULE} | Could not prioritize Jump Scare overlay.`, error);
-    return false;
+  notifications.info = filteredInfo;
+  try {
+    return callback();
+  } finally {
+    if (notifications.info === filteredInfo) notifications.info = originalInfo;
   }
 }
