@@ -48,6 +48,14 @@
       "JumpScareOverlayOnTop": {
         "Name": "Exibir Jump Scares acima dos painéis (VDO.Ninja)",
         "Hint": "Mostra a imagem do SC - Jump Scare por cima das janelas do Foundry, inclusive do painel do VDO.Ninja, enquanto durar o susto. Ativada por padrão para mestre e jogadores, mas pode ser desativada nas configurações do mundo. Esc continua encerrando o susto."
+      },
+      "JumpScareRespectVdoBounds": {
+        "Name": "Respeitar o limite do painel RPGUP VDO.Ninja",
+        "Hint": "Faz o susto começar na área visível do jogo ao lado da janela do RPGUP VDO.Ninja. Ajusta automaticamente ao mover, redimensionar, fechar ou minimizar o painel. Ativada por padrão."
+      },
+      "JumpScareHideTriggerToast": {
+        "Name": "Ocultar avisos azuis de disparo do Jump Scare",
+        "Hint": "Oculta somente as confirmações de 'Susto disparado/enviado' do SC Jump Scare. Outros avisos do Foundry e alertas de segurança permanecem visíveis. Ativada por padrão."
       }
     },
     "Rules": {
