@@ -60,7 +60,7 @@ MIT. Legend In The Mist e o sistema oficial pertencem aos seus respectivos deten
 
 ## Estado do projeto
 
-Versão atual do módulo: **0.5.10** — visual Sci-Fi opcional, tradução isolada dos cards e extensões de rolagem da p. 158.
+Versão atual do módulo: **0.5.11** — visual Sci-Fi opcional, tradução isolada dos cards e extensões de rolagem da p. 158.
 
 
 ## Roadmap
@@ -103,3 +103,9 @@ O recurso é exclusivo dos mundos Legend In The Mist que tenham o LiTM Visual Ov
 A opção **Exibir Jump Scares acima dos painéis (VDO.Ninja)** coloca a imagem do SC – Jump Scare acima das janelas e painéis do Foundry, inclusive as câmeras do VDO.Ninja. É uma opção independente de **Mostrar Jump Scares também para o Mestre** e vem **ativada** por padrão para mestre e jogadores, evitando que as câmeras cubram o susto. Ela pode ser desativada nas configurações do mundo e funciona em qualquer cliente conectado ao mundo com o módulo ativo e pode ser alterada sem recarregar a página.
 
 O efeito só altera o `z-index` do overlay do SC – Jump Scare, com a classe obtida dinamicamente do próprio módulo (testada no SC – Jump Scare 1.0.2); não modifica os arquivos do SC – Jump Scare nem do VDO.Ninja. Enquanto o susto estiver em exibição, ele cobrirá painéis e janelas; a tecla **Esc** permanece disponível para encerrar o susto.
+
+#### Ajuste dinâmico do painel VDO.Ninja e confirmação discreta
+
+Com **Respeitar o limite do painel RPGUP VDO.Ninja** (ligada por padrão), os sustos aparecem na região do jogo imediatamente à direita do painel, sem cobrir as câmeras. O limite horizontal acompanha dinamicamente o tamanho, movimento, minimização e fechamento da janela através de observadores de DOM e layout, sem pixels fixos. Se não houver painel, a área inteira do canvas é usada.
+
+A opção **Ocultar avisos azuis de disparo do Jump Scare** (ligada por padrão) remove somente as confirmações informativas de disparo apresentadas ao mestre pelo SC – Jump Scare 1.0.2. Erros, opt-out e avisos de segurança permanecem disponíveis. A integração apenas filtra a confirmação durante o disparo, sem modificar os arquivos do módulo original.
