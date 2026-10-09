@@ -48,6 +48,14 @@
       "JumpScareOverlayOnTop": {
         "Name": "Show Jump Scares Above Panels (VDO.Ninja)",
         "Hint": "Places the SC - Jump Scare image above Foundry windows, including the VDO.Ninja panel, while a scare runs. Enabled by default for GM and players; can be disabled in world settings. Escape still stops a scare."
+      },
+      "JumpScareRespectVdoBounds": {
+        "Name": "Keep Jump Scares Outside VDO.Ninja Panel",
+        "Hint": "Starts the scare overlay in the visible game area beside RPGUP VDO.Ninja. Recalculates when the window moves, resizes, closes or minimizes. Enabled by default."
+      },
+      "JumpScareHideTriggerToast": {
+        "Name": "Hide Jump Scare Trigger Confirmation Popups",
+        "Hint": "Hides only blue 'scare sent' confirmations. Other Foundry notifications and Jump Scare safety warnings remain visible. Enabled by default."
       }
     },
     "Rules": {
